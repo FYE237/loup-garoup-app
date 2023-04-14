@@ -1,0 +1,419 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get a User by its pseudo",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "id:pseudo of the user to find"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete a user",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "id:the pseudo of the player to delete"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "summary": "get all Users",
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "New User",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "name,email,password ",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "John Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "xxx@xx.xx"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "xxxx"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update the pseudo of a User",
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "name:new value of the pseudo,prev:previous value ",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "vador"
+                },
+                "prev": {
+                  "type": "string",
+                  "example": "anakin"
+                }
+              },
+              "required": [
+                "name",
+                "prev"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Verify credentials of user using email and password and return token",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "name , password",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "John.Doe@acme.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12345"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/parties/{id}": {
+      "post": {
+        "tags": [
+          "Partie"
+        ],
+        "summary": "Add player to a Partie",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "id_partie:req.params.id ,id_role:nom-rôle,id_joueur:nom du joueur,statut:vivant/mort",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id_role": {
+                  "type": "string",
+                  "example": "loup"
+                },
+                "id_joueur": {
+                  "type": "string",
+                  "example": "fye"
+                },
+                "statut": {
+                  "type": "string",
+                  "example": "vivant"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/parties": {
+      "post": {
+        "tags": [
+          "Partie"
+        ],
+        "summary": "New Partie",
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "heure_debut,nb_participant,hote_name,duree_jour,duree_nuit,statut ",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "heure_debut": {
+                  "type": "string",
+                  "example": "15"
+                },
+                "nb_participant": {
+                  "type": "string",
+                  "example": "5"
+                },
+                "hote_name": {
+                  "type": "string",
+                  "example": "fye"
+                },
+                "duree_jour": {
+                  "type": "string",
+                  "example": "10"
+                },
+                "duree_nuit": {
+                  "type": "string",
+                  "example": "15"
+                },
+                "statut": {
+                  "type": "string",
+                  "example": "en attente"
+                },
+                "roles": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "loup"
+                      },
+                      "nombre": {
+                        "type": "string",
+                        "example": "2"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "nombre"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "heure_debut",
+                "nb_participant",
+                "hote_name",
+                "duree_jour",
+                "duree_nuit",
+                "statut",
+                "roles"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/getjwtDeleg/{id}": {
+      "get": {
+        "tags": [
+          "Token"
+        ],
+        "summary": "Get User Token",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "id:pseudo of the user to find"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/whoami": {
+      "get": {
+        "tags": [
+          "Who am I"
+        ],
+        "summary": "Get User login",
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id:pseudo of the user to find",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/checkadmin": {
+      "get": {
+        "tags": [
+          "Who am I"
+        ],
+        "summary": "Get User login",
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id:pseudo of the user to find",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
