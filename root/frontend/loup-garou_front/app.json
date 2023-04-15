@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "scheme": "acme",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "loup-garou_front",
+    "slug": "loup-garou_front"
+  }
+}
