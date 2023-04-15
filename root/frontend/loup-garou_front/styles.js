@@ -5,10 +5,16 @@ const GLOBAL_STYLES = StyleSheet.create({
     container: {
         width: "100%",
     },
-    textCenterLarge: {
+    textHeaderLarge: {
         fontFamily: FONT.ItalicFont, 
         fontSize: SIZES.headerSize,
-        color: COLORS.primary, 
+        color: COLORS.gray, 
+        textAlign: 'center'
+    },
+    textCenterLarge: {
+        fontFamily: FONT.ItalicFont, 
+        fontSize: SIZES.CenterTextSize,
+        color: COLORS.gray, 
         textAlign: 'center'
     },
 });
