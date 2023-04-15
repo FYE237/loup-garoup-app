@@ -203,6 +203,29 @@
         }
       }
     },
+    "/api/login/{id}": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Check if the pseudo that the user wants to create is already used",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "id:pseudo of the user to find"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/parties/{id}": {
       "post": {
         "tags": [
