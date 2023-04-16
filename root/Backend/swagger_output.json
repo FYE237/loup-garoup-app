@@ -180,9 +180,9 @@
             "schema": {
               "type": "object",
               "properties": {
-                "email": {
+                "name": {
                   "type": "string",
-                  "example": "John.Doe@acme.com"
+                  "example": "John Doe"
                 },
                 "password": {
                   "type": "string",
@@ -190,7 +190,7 @@
                 }
               },
               "required": [
-                "email",
+                "name",
                 "password"
               ]
             }
