@@ -5,9 +5,15 @@ const COLORS = {
     
     gray: "#2c100a",
     lightRed: "#cb4154",
+    backgroundGreen: "#006a3b",
+    backgoundYellow : "#ffd180",
+    backgroundGray : "#cfd8dc",
+    backgroundStrongGray : "#607d8b",
     greenApple : "#4CC417",
     borderColor : "#3A3B3C",
+    redWarning : "#ff3D00",
 
+    darkGrey: "#404040",
     white: "#F3F4F8",
     lightWhite: "#FAFAFC",
 };
