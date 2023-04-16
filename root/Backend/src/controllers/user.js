@@ -179,6 +179,6 @@ module.exports = {
                 return
             }
         }
-        res.status(status.FORBIDDEN).json({ status: false, message: 'Wrong email/password' })
+        res.status(status.FORBIDDEN).json({ status: false, message: 'Wrong login/password' })
     }
 }
