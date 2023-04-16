@@ -169,7 +169,7 @@ module.exports = {
         // #swagger.parameters['obj'] = { in: 'body', description: 'name , password' , schema: { $email: 'John.Doe@acme.com', $password: '12345'}}
         
         const data = JSON.parse(req.body.data)
-        if (!has(data, ['name', 'password'])) throw new CodeError('You must specify the email and password', status.BAD_REQUEST)
+        if (!has(data, ['email', 'password'])) throw new CodeError('You must specify the email and password', status.BAD_REQUEST)
         const { name, password } = data
         const user = await User.findOne({ name }).select({_id:0,__v:0,email:0})
         if (user) {
