@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { StyleSheet,ImageBackground, SafeAreaView, View, Modal, TouchableOpacity, Text, TextInput } from 'react-native';
 import {
   Pseudo,
@@ -27,6 +28,23 @@ export default function Home() {
   const createGameFunc = () => {
     router.push('/configGame');
   }
+
+  let dataq = {
+    name : "ezae",
+    email : "ezap@^gmakraz.com",
+    password : "ezaokep"
+  }
+  const queryDetails = {
+    method: "POST",
+    body : JSON.parse('data={"name":"balcla", "email":"test@mail.com", "password":"hello"}')
+  };
+  fetch("localhost:3000/api/users", queryDetails)
+	.then(res => res.json())
+	.then(res => {console.log(res); })
+	.catch(error=>{
+		console.log("error while adding tag, error details : " + error);
+	}) 
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
     <Stack.Screen
