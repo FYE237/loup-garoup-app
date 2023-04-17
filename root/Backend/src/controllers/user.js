@@ -50,6 +50,30 @@ module.exports = {
         res.json({status: true, message: 'Returning user', data});
     },
 
+    /**
+     * On vérifie si un username est 
+     * @param {*} req 
+     * @param {*} res 
+     */
+    async checkDuplicateUserById(req, res){
+        // #swagger.tags = ['Users']
+        // #swagger.summary = 'Check if the pseudo that the user wants to create is already used'
+        // #swagger.parameters['id'] = { in: 'path', description:'id:pseudo of the user to find'}
+    
+            if(!has(req.params, 'id'))
+                throw new CodeError('You must specify the name ', status.BAD_REQUEST)
+            
+            let id = req.params.id;
+    
+            //On specifie les champs qu'on ne souhaite pas récupérer par le findOne
+            let data =  await User.findOne({name:id}).select({email:1})
+     
+            if(data)
+                throw new CodeError('Duplicate user', status.NOT_FOUND)
+    
+            res.json({status: true, message: 'No User found'});
+        },
+
 
     /**
      * On récupere tous les utilisateurs
@@ -86,7 +110,8 @@ module.exports = {
         
         user.save()
         .then(() => res.json({status: true, message: 'User Added'}))
-        .catch(() => {throw  new CodeError('Add failed', status.BAD_REQUEST)})
+        //.catch(() => {throw  new CodeError('Add failed', status.BAD_REQUEST)})
+        .catch(() => res.json({status: false, message: 'Add failed'}))
 
     },
 
@@ -141,7 +166,7 @@ module.exports = {
     async login(req,res){
         // #swagger.tags = ['Users']
         // #swagger.summary = 'Verify credentials of user using email and password and return token'
-        // #swagger.parameters['obj'] = { in: 'body', description: 'name , password' , schema: { $email: 'John.Doe@acme.com', $password: '12345'}}
+        // #swagger.parameters['obj'] = { in: 'body', description: 'name , password' , schema: { $name: 'John Doe', $password: '12345'}}
         
         const data = JSON.parse(req.body.data)
         if (!has(data, ['name', 'password'])) throw new CodeError('You must specify the email and password', status.BAD_REQUEST)
@@ -154,6 +179,6 @@ module.exports = {
                 return
             }
         }
-        res.status(status.FORBIDDEN).json({ status: false, message: 'Wrong email/password' })
+        res.status(status.FORBIDDEN).json({ status: false, message: 'Wrong login/password' })
     }
 }
