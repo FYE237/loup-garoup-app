@@ -1,70 +1,72 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import LoginPage from "./LoginPage";
-import RegisterPage from "./RegisterPage";
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import LoginPage from './LoginPage'
+import RegisterPage from './RegisterPage'
+import { COLORS, FONT } from '../constants'
 
 const WelcomePage = () => {
-  const [activeTab, setActiveTab] = useState("login");
+  const [activeTab, setActiveTab] = useState('login')
 
   const renderContent = () => {
     switch (activeTab) {
-      case "login":
-        return <LoginPage />;
-      case "register":
-        return <RegisterPage />;
+      case 'login':
+        return <LoginPage />
+      case 'register':
+        return <RegisterPage />
       default:
-        return <LoginPage />;
+        return <LoginPage />
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.tabs}>
         <TouchableOpacity
-          style={[styles.tab, activeTab === "login" ? styles.activeTab : null]}
-          onPress={() => setActiveTab("login")}
+          style={[styles.tab, activeTab === 'login' ? styles.activeTab : null]}
+          onPress={() => setActiveTab('login')}
         >
           <Text style={styles.tabText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.tab,
-            activeTab === "register" ? styles.activeTab : null,
+            activeTab === 'register' ? styles.activeTab : null
           ]}
-          onPress={() => setActiveTab("register")}
+          onPress={() => setActiveTab('register')}
         >
           <Text style={styles.tabText}>Register</Text>
         </TouchableOpacity>
       </View>
       {renderContent()}
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   tabs: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#007AFF",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.greenApple
   },
   tab: {
     flex: 1,
     paddingVertical: 15,
-    alignItems: "center",
+    alignItems: 'center'
   },
   activeTab: {
     borderBottomWidth: 3,
-    borderBottomColor: "#FFFFFF",
+    borderBottomColor: COLORS.tertiary
   },
   tabText: {
-    color: "#FFFFFF",
+    color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: "bold",
-  },
-});
+    fontFamily: FONT.ItalicFont,
+    fontWeight: 'bold'
+  }
+})
 
-export default WelcomePage;
+export default WelcomePage

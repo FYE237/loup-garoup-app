@@ -1,44 +1,45 @@
-import React, { useState } from "react";
-import { View, TextInput, Text, StyleSheet, Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import CallToActionBtn from "../components/common/CallToActionBtn";
+import React, { useState } from 'react'
+import { View, TextInput, Text, StyleSheet, Alert } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { CenterButton } from '../components'
+import CallToActionBtn from '../components/common/CallToActionBtn'
 
 const LoginPage = () => {
-  const [pseudo, setPseudo] = useState("");
-  const [password, setPassword] = useState("");
+  const [pseudo, setPseudo] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleLogin = async () => {
     let data = {
       name: pseudo,
-      password: password,
-    };
+      password: password
+    }
 
     try {
       const response = await fetch(
-        "https://loup-garoup-app.onrender.com/api/login",
+        'https://loup-garoup-app.onrender.com/api/login',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            'Content-Type': 'application/x-www-form-urlencoded'
           },
-          body: `data=${JSON.stringify(data)}`,
+          body: `data=${JSON.stringify(data)}`
         }
-      );
+      )
 
       if (response.status === 200) {
-        const data = await response.json();
-        const token = data.token;
+        const data = await response.json()
+        const token = data.token
 
-        await AsyncStorage.setItem("userToken", token);
+        await AsyncStorage.setItem('userToken', token)
 
-        Alert.alert("Success", "User logged in successfully.");
+        Alert.alert('Success', 'User logged in successfully.')
       } else {
-        Alert.alert("Error", "Failed to log in user");
+        Alert.alert('Error', 'Failed to log in user')
       }
     } catch (error) {
-      Alert.alert("Error", "An error occurred while logging in the user.");
+      Alert.alert('Error', 'An error occurred while logging in the user.')
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -59,31 +60,36 @@ const LoginPage = () => {
         autoCapitalize="none"
       />
 
-      <CallToActionBtn onPress={handleLogin} title="Login" />
+      <CallToActionBtn title="Login" onPress={handleLogin} />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 20,
+    justifyContent: 'center',
+    paddingHorizontal: 20
   },
   label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5
   },
   input: {
     borderWidth: 1,
-    borderColor: "#B2B2B2",
+    borderColor: '#B2B2B2',
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    fontSize: 16,
-    marginBottom: 15,
+    fontSize: 18,
+    marginBottom: 15
   },
-});
+  button: {
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    marginVertical: 15
+  }
+})
 
-export default LoginPage;
+export default LoginPage

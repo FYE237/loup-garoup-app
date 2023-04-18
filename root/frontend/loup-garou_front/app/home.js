@@ -1,25 +1,15 @@
+import { Stack, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
+import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native'
 import {
-  StyleSheet,
-  ImageBackground,
-  SafeAreaView,
-  View,
-  Modal,
-  TouchableOpacity,
-  Text,
-  TextInput,
-} from 'react-native'
-import {
-  Pseudo,
-  Logout,
   CenterButton,
   InputModal,
-  ScreenHeader,
+  Logout,
+  Pseudo,
+  ScreenHeader
 } from '../components'
-import { useRouter, useNavigation, Stack } from 'expo-router'
-import { images, COLORS } from '../constants'
+import { COLORS, images } from '../constants'
 
 export default function Home() {
   const router = useRouter()
@@ -30,32 +20,14 @@ export default function Home() {
   const logoutFuntion = () => {
     console.log('i have been pressed')
   }
+
   const submitJoinGame = () => {
     console.log(joinGameId)
   }
+
   const createGameFunc = () => {
     router.push('/configGame')
   }
-
-  let dataq = {
-    name: 'ezae',
-    email: 'ezap@^gmakraz.com',
-    password: 'ezaokep',
-  }
-  const queryDetails = {
-    method: 'POST',
-    body: JSON.parse(
-      'data={"name":"balcla", "email":"test@mail.com", "password":"hello"}'
-    ),
-  }
-  fetch('localhost:3000/api/users', queryDetails)
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res)
-    })
-    .catch((error) => {
-      console.log('error while adding tag, error details : ' + error)
-    })
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -72,7 +44,7 @@ export default function Home() {
               }}
             />
           ),
-          headerTitle: 'Bienvenue au jeu loup garou',
+          headerTitle: 'Bienvenue dans le jeu loup garou'
         }}
       />
       <View style={styles.container}>
@@ -120,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'stretch',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   header: {
     flexDirection: 'row',
@@ -128,18 +100,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 10,
     width: '100%',
-    height: 80,
+    height: 80
   },
   pseudoBox: {
     flex: 0.65,
     height: 50,
     marginRight: 5,
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   logoutBox: {
     flex: 0.35,
     marginLeft: 5,
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   centerContainer: {
     flex: 1,
@@ -147,15 +119,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 50
   },
   button: {
     paddingVertical: 20,
     paddingHorizontal: 10,
-    marginVertical: 15,
+    marginVertical: 15
   },
   background: {
     flex: 1,
-    resizeMode: 'cover',
-  },
+    resizeMode: 'cover'
+  }
 })
