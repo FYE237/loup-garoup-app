@@ -1,13 +1,19 @@
 const SIZES = {
-  small: 11,
+  small: 14,
   medium: 15,
   large: 26,
-  headerSize: 40,
+  modalSize: 34,
+  headerSize: 37,
+  CenterTextSize: 45,
   fontSize: 16,
   iconSize: 24,
   lineHeight: 1.5,
   borderRadius : 10,
-  borderWidth: 1,
+  borderRadiusBig : 20,
+  borderWidthSmall: 1,
+  borderWidthMid : 3,
+  borderWidthBig : 5,
+
 };
 
 export {

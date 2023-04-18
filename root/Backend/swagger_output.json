@@ -180,9 +180,9 @@
             "schema": {
               "type": "object",
               "properties": {
-                "email": {
+                "name": {
                   "type": "string",
-                  "example": "John.Doe@acme.com"
+                  "example": "John Doe"
                 },
                 "password": {
                   "type": "string",
@@ -190,10 +190,33 @@
                 }
               },
               "required": [
-                "email",
+                "name",
                 "password"
               ]
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/login/{id}": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Check if the pseudo that the user wants to create is already used",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "id:pseudo of the user to find"
           }
         ],
         "responses": {

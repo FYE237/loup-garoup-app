@@ -25,5 +25,9 @@ router.put('/api/users',token.verifieTokenPresent,token.checkUser, user.updateUs
 router.post('/api/login', user.login);
 
 
+//Endpoint pour vérifier si le pseudo que l'utilisateur veut créer est déjà utilisé
+router.post('/api/login/:id',user.checkDuplicateUserById)
+
+
 
 module.exports = router;

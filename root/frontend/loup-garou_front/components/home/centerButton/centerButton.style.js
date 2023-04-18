@@ -4,10 +4,12 @@ import { COLORS, FONT, SIZES } from "../../../constants";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.greenApple,
-    borderRadius: SIZES.borderRadius, 
-    borderRightWidth: SIZES.borderWidth,
+    borderRadius: SIZES.borderRadiusBig, 
+    borderLeftWidth: SIZES.borderWidthBig,
     borderColor: COLORS.borderColor, 
+    opacity: 0.75,
+    width : 300,
+    height : 100,
   },
 });
 
