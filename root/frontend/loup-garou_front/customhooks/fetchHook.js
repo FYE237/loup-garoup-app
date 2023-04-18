@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {LINKS} from "../constants"
+import {AsyncStorage} from '@react-native-async-storage/async-storage';
+
 
 /**
  * Does a fetch request to the back to the endpoint given as function argument 
@@ -19,32 +20,23 @@ const useFetch = ( linkEndPoint, query) => {
   const [loading, setIsLoading] = useState(false);
   const [errorValue, setError] = useState(null);
 
-  const queryDetails= {
+  const queryDetails = {
     method: "GET",
-    url: LINKS.backend+linkEndPoint,
     headers: {
-    "x-access-token": "",// Async storage.getItem(token) 
-                        //this value must be taken during the login process  
-    },
+      "x-access-token": AsyncStorage.getItem("token"),  
+      },
     params: { ...query },
   };
-
-  const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.request(options);
-        //Every was done succefully and we store the data
-        setData(response.data.data);
-        setIsLoading(false);
-      } catch (error) {
-        //If an error was caught we print it  
-        //and we then set the retuned errorValue to it
-        setError(error);
-        console.log(errorValue)
-      } finally {
-        setIsLoading(false);
-      }
-  };
+  function fetchData(){
+    fetch(LINKS.backend+linkEndPoint, queryDetails)
+    .then(res => res.json())
+    .then(res => {setData(res);setIsLoading(false);})
+    .catch(error=>{
+      setError(error);
+      setIsLoading(false);
+      console.log("error while adding tag, error details : " + error);
+    }) 
+  }
 
   useEffect(() => {
     fetchData();
