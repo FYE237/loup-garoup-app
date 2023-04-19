@@ -1,5 +1,5 @@
 const LINKS = {
-    backend : "127.0.0.1:3000"
+    backend : "https://loup-garoup-app.onrender.com"
 }
 
 export {

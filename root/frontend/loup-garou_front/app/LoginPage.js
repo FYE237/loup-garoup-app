@@ -5,10 +5,12 @@ import { CenterButton } from '../components'
 import CallToActionBtn from '../components/common/CallToActionBtn'
 import { Stack, useRouter } from 'expo-router'
 import {LINKS} from "../constants"
+import { io } from "socket.io-client";
 
 const LoginPage = () => {
   const [pseudo, setPseudo] = useState('')
   const [password, setPassword] = useState('')
+  const [data, setData] = useState({});
 
   const handleLogin = async () => {
     let data = {
@@ -16,9 +18,12 @@ const LoginPage = () => {
       password: password
     }
     console.log(JSON.stringify(data));
+    console.log( LINKS.backend + '/api/login');
+    const socket = io.connect(LINKS.backend);
+
     try {
       const response = await fetch(
-        LINKS.backend + 'api/login',
+        LINKS.backend + '/api/login',
         {
           method: 'POST',
           headers: {
@@ -31,11 +36,10 @@ const LoginPage = () => {
       if (response.status === 200) {
         const data = await response.json()
         const token = data.token
-        
         await AsyncStorage.setItem('userToken', token)
         
+        router.replace("/home")
         Alert.alert('Success', 'User logged in successfully.')
-        router.replace('/home')
       } else {
         Alert.alert('Error', 'Failed to log in user')
       }
