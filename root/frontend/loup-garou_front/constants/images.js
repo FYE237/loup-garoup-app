@@ -9,7 +9,7 @@ import orange_wolf_icon from '../assets/images/orange_wolf_icon.png'
 import white_wolf_icon from '../assets/images/white_wolf_icon.png'
 import wolf_center_background from '../assets/images/wolf_center_background.png'
 import background_modal from '../assets/images/background_modal.png'
-import wolf_howling from '../assets/images/wolf_howling.png'
+// import wolf_howling from '../assets/images/wolf_howling.png'
 
 export default {
   background_camp_fire,
@@ -23,5 +23,5 @@ export default {
   white_wolf_icon,
   wolf_center_background,
   background_modal,
-  wolf_howling
+  // wolf_howling
 }

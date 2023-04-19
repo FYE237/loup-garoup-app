@@ -3,6 +3,8 @@ import { View, TextInput, Text, StyleSheet, Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { CenterButton } from '../components'
 import CallToActionBtn from '../components/common/CallToActionBtn'
+import { Stack, useRouter } from 'expo-router'
+import {LINKS} from "../constants"
 
 const LoginPage = () => {
   const [pseudo, setPseudo] = useState('')
@@ -13,10 +15,10 @@ const LoginPage = () => {
       name: pseudo,
       password: password
     }
-
+    console.log(JSON.stringify(data));
     try {
       const response = await fetch(
-        'https://loup-garoup-app.onrender.com/api/login',
+        LINKS.backend + 'api/login',
         {
           method: 'POST',
           headers: {
@@ -29,10 +31,11 @@ const LoginPage = () => {
       if (response.status === 200) {
         const data = await response.json()
         const token = data.token
-
+        
         await AsyncStorage.setItem('userToken', token)
-
+        
         Alert.alert('Success', 'User logged in successfully.')
+        router.replace('/home')
       } else {
         Alert.alert('Error', 'Failed to log in user')
       }

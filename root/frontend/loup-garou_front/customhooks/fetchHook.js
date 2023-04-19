@@ -23,12 +23,12 @@ const useFetch = ( linkEndPoint, query) => {
   const queryDetails = {
     method: "GET",
     headers: {
-      "x-access-token": AsyncStorage.getItem("token"),  
+      "x-access-token": AsyncStorage.getItem('userToken') 
       },
     params: { ...query },
   };
-  function fetchData(){
-    fetch(LINKS.backend+linkEndPoint, queryDetails)
+  async function fetchData(){
+    await fetch(LINKS.backend+linkEndPoint, queryDetails)
     .then(res => res.json())
     .then(res => {setData(res);setIsLoading(false);})
     .catch(error=>{

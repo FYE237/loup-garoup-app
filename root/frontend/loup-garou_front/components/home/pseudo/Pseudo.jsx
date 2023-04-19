@@ -8,10 +8,10 @@ import { GLOBAL_STYLES } from "../../../styles";
  * This componenet will be used to place the value of the pseudo name of the 
  * user in the top left corner
  */
-export default function Pseudo({styleArg}) { 
+export default function Pseudo({styleArg, pseudo}) { 
     return (
       <View style={[styles.container, styleArg]}>
-        <Text style = {GLOBAL_STYLES.textHeaderLarge}>Pseudo name!</Text>
+        <Text style = {GLOBAL_STYLES.textHeaderLarge}>{pseudo}</Text>
       </View>
     );
 };

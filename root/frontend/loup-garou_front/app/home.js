@@ -1,6 +1,8 @@
 import { Stack, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useFetch} from "../customhooks/fetchHook.js"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native'
 import {
   CenterButton,
@@ -9,13 +11,43 @@ import {
   Pseudo,
   ScreenHeader
 } from '../components'
-import { COLORS, images } from '../constants'
+import { COLORS, images, LINKS } from '../constants'
 
 export default function Home() {
   const router = useRouter()
   const [joinModalVisible, setJoinModalVisible] = useState(false)
   const [joinGameId, setJoinGameId] = useState(false)
-  const [createModalVisible, setCreateModalVisible] = useState(false)
+  const [pseudo, setPseudo] = useState("");
+
+  const [data, setData] = useState({});
+  const [loading, setIsLoading] = useState(false);
+  const [errorValue, setError] = useState(null);
+
+  const queryDetails = {
+    method: "GET",
+    headers: {
+      "x-access-token": AsyncStorage.getItem('userToken') 
+      },
+  };
+  async function fetchData(){
+    await fetch(LINKS.backend+"/whoami", queryDetails)
+    .then(res => res.json())
+    .then(res => {setData(res);setIsLoading(false);})
+    .catch(error=>{
+      setError(error);
+      setIsLoading(false);
+      console.log("error while executing whoami, error details : " + error);
+    }) 
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  
+  console.log(useFetch);
+  // const { data, isLoading, error} = useFetch("whoami", null);
+  console.log(data);
 
   const logoutFuntion = () => {
     console.log('i have been pressed')
@@ -28,6 +60,7 @@ export default function Home() {
   const createGameFunc = () => {
     router.push('/configGame')
   }
+  
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>

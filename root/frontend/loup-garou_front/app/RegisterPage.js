@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, TextInput, Text, StyleSheet, Alert } from "react-native";
 import CallToActionBtn from "../components/common/CallToActionBtn";
+import {LINKS} from "../constants"
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -14,9 +15,10 @@ const RegisterPage = () => {
         email: email,
         password: password,
       };
+      console.log(LINKS.backend+'/api/users')
 
       const response = await fetch(
-        "https://loup-garoup-app.onrender.com/api/users",
+        LINKS.backend+'/api/users',
         {
           method: "POST",
           headers: {
@@ -25,6 +27,7 @@ const RegisterPage = () => {
           body: `data=${JSON.stringify(data)}`,
         }
       );
+      console.log(response)
 
       if (response.status === 200) {
         Alert.alert("Success", "You have been registered");

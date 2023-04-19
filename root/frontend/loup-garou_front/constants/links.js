@@ -1,5 +1,5 @@
 const LINKS = {
-    backend : "www.localhost.com:3000"
+    backend : "127.0.0.1:3000"
 }
 
 export {
