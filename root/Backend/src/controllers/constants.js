@@ -17,7 +17,7 @@ const PLAYER_STATUS = {
 const ROLE = {
   villageois : "villageois",
   loupGarrou : "loupGarrou",
-  //this value we will be used when the game is on hold nad 
+  //this value we will be used when the game is on hold and 
   //it has not started yet but when the game starts 
   //every player will be associated a certain role
   noRole : "norole"
