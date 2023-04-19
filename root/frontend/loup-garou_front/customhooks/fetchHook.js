@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {LINKS} from "../constants"
-import {AsyncStorage} from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 /**
@@ -15,34 +15,61 @@ import {AsyncStorage} from '@react-native-async-storage/async-storage';
  * @param data hols the data that was recived that can be exploited one loading is false and no error
  * occured
  */
-const useFetch = ( linkEndPoint, query) => {
+const useFetchCustom = async ( linkEndPoint, query) => {
+  const [token, setToken] = useState({});
   const [data, setData] = useState({});
   const [loading, setIsLoading] = useState(false);
   const [errorValue, setError] = useState(null);
 
+  async function getToken(){
+    try {
+      value = await AsyncStorage.getItem('userToken').then(
+        (value) => {
+           console.log("value = ", value);
+           setToken(value)
+           return value;
+        }
+        )
+      return value;
+    } catch (error) {
+      console.log('Error: ',error);
+      return null;
+    }
+  }
+
+  async function fetchData(){
+    await getToken();
   const queryDetails = {
     method: "GET",
     headers: {
-      "x-access-token": AsyncStorage.getItem('userToken') 
-      },
+    "x-access-token": token 
+    },
     params: { ...query },
   };
-  async function fetchData(){
+    console.log("query = " + JSON.stringify(queryDetails))
+    
+    setIsLoading(true);
     await fetch(LINKS.backend+linkEndPoint, queryDetails)
     .then(res => res.json())
-    .then(res => {setData(res);setIsLoading(false);})
+    .then(res => {setIsLoading(false);setData(res);console.log(res)})
     .catch(error=>{
       setError(error);
       setIsLoading(false);
-      console.log("error while adding tag, error details : " + error);
+      console.log("error while executing whoami, error details : " + error);
     }) 
   }
+  if (data!=null){
 
+  }
   useEffect(() => {
     fetchData();
   }, []);
 
+
   return { data, loading, errorValue };
 };
 
-export default useFetch;
+
+export  {
+  useFetchCustom
+};

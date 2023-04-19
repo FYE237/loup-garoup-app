@@ -1,7 +1,7 @@
 import { Stack, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useState, useEffect } from 'react'
-import { useFetch} from "../customhooks/fetchHook.js"
+import { useFetchCustom } from "../customhooks"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native'
 import {
@@ -13,44 +13,18 @@ import {
 } from '../components'
 import { COLORS, images, LINKS } from '../constants'
 
-export default function Home() {
+export default  function Home() {
   const router = useRouter()
   const [joinModalVisible, setJoinModalVisible] = useState(false)
   const [joinGameId, setJoinGameId] = useState(false)
   const [pseudo, setPseudo] = useState("");
-
-  const [data, setData] = useState({});
-  const [loading, setIsLoading] = useState(false);
-  const [errorValue, setError] = useState(null);
-
-  const queryDetails = {
-    method: "GET",
-    headers: {
-      "x-access-token": AsyncStorage.getItem('userToken') 
-      },
-  };
-  async function fetchData(){
-    await fetch(LINKS.backend+"/whoami", queryDetails)
-    .then(res => res.json())
-    .then(res => {setData(res);setIsLoading(false);})
-    .catch(error=>{
-      setError(error);
-      setIsLoading(false);
-      console.log("error while executing whoami, error details : " + error);
-    }) 
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   
-  console.log(useFetch);
-  // const { data, isLoading, error} = useFetch("whoami", null);
-  console.log(data);
+  const {data, loading, errorValue} = useFetchCustom("/whoami")
+  console.log("data home level =" +data);
 
-  const logoutFuntion = () => {
-    console.log('i have been pressed')
+  const  logoutFuntion = async () => {
+    await AsyncStorage.removeItem('userToken')
+    router.replace("/WelcomePage")
   }
 
   const submitJoinGame = () => {
@@ -86,7 +60,7 @@ export default function Home() {
           style={styles.background}
         >
           <View style={styles.header}>
-            <Pseudo styleArg={styles.pseudoBox} />
+            <Pseudo styleArg={styles.pseudoBox} pseudo={pseudo} />
             <Logout styleArg={styles.logoutBox} logoutFuntion={logoutFuntion} />
           </View>
           <View style={styles.centerContainer}>

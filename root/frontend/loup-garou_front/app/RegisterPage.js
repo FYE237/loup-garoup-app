@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { View, TextInput, Text, StyleSheet, Alert } from "react-native";
 import CallToActionBtn from "../components/common/CallToActionBtn";
 import {LINKS} from "../constants"
+import { Stack, useRouter } from 'expo-router'
 
 const RegisterPage = () => {
+  const router = useRouter()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,10 +29,10 @@ const RegisterPage = () => {
           body: `data=${JSON.stringify(data)}`,
         }
       );
-      console.log(response)
 
       if (response.status === 200) {
         Alert.alert("Success", "You have been registered");
+        router.replace("/WelcomePage")
       } else {
         Alert.alert("Error", "Failed to register");
       }

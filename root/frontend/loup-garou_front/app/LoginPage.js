@@ -8,6 +8,7 @@ import {LINKS} from "../constants"
 import { io } from "socket.io-client";
 
 const LoginPage = () => {
+  const router = useRouter()
   const [pseudo, setPseudo] = useState('')
   const [password, setPassword] = useState('')
   const [data, setData] = useState({});
@@ -17,9 +18,6 @@ const LoginPage = () => {
       name: pseudo,
       password: password
     }
-    console.log(JSON.stringify(data));
-    console.log( LINKS.backend + '/api/login');
-    const socket = io.connect(LINKS.backend);
 
     try {
       const response = await fetch(
@@ -37,7 +35,6 @@ const LoginPage = () => {
         const data = await response.json()
         const token = data.token
         await AsyncStorage.setItem('userToken', token)
-        
         router.replace("/home")
         Alert.alert('Success', 'User logged in successfully.')
       } else {
