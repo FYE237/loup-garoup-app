@@ -70,7 +70,7 @@ module.exports = {
     // a au préalable ajouté le login dans req)
 
     const {  name } = {name : req.login}
-    const data = await User.findOne({name: name}).select({_id:0,__v:0,password:0,email:0})
+    const data = await User.findOne({name: name}).select({_id:1,__v:0,password:0,email:0})
 
     if(!data) throw new CodeError('User not found', status.NOT_FOUND)
 

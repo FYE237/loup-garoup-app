@@ -4,29 +4,42 @@ const mongoose = require("./database")
 
 /** Schema permettant de créer une table qui contient les joueurs-role-idpartie dans la base de données */
 const joueur_partie_roleSchema = mongoose.Schema({
+    //game Id
     id_partie:{
         type:Schema.Types.ObjectId,
         required:true
     },
-    id_role:{
-        // type:Schema.Types.ObjectId,
+    //Player id
+    id_joueur:{
+        type:Schema.Types.ObjectId,
+        required:true,
+    },
+    //The role of the player in this game
+    role:{
         type:String,
         required:true
     },
-    id_joueur:{
-        type:Schema.Types.ObjectId,
-        // type:String,
-        required:true,
-        // unique:true
+    //A table that contains the speacial powers 
+    //that this player has in this game
+    pouvoir_speciaux:{
+        type: [String],
+        required : true
     },
+    //A table for the identifier of the chat rooms
+    chat_id_table:{
+        type: [Number],
+        required : true
+    },
+    //Indicates if the player is alive
     statut:{
         type:String,
         required:true
+    },
+    socket_id:{
+        type : Number,
+        default : 0
     }
    
 })
-
-//userSchema.plugin(uniqueValidator)
-
 
 module.exports = mongoose.model('joueur_partie_role',joueur_partie_roleSchema)

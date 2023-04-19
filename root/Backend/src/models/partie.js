@@ -17,13 +17,8 @@ const partieSchema = mongoose.Schema({
     },
     hote_id:{
         type:Schema.Types.ObjectId,
-        // type:String,
         required:true
     },
-    // nb_loup:{
-    //     type:Number,
-    //     required:true
-    // },
     duree_jour:{
         type:Number,
         required:true
@@ -35,6 +30,14 @@ const partieSchema = mongoose.Schema({
     statut:{
         type:String,
         required:true
+    },
+    proportion_loup: {
+        type:Number,
+        required:true    
+    },
+    proba_pouvoir_speciaux: {
+        type : Number,
+        required : true 
     }
 
 }/*,opts*/);
