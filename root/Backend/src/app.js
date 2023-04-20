@@ -44,6 +44,11 @@ app.use(cors());
 app.use(helmet());
 
 
+//To delete
+// Test front-end pour les sockets
+app.use('/public',express.static("./src/public"));
+
+
 // Swagger Documentation
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('../swagger_output.json')
