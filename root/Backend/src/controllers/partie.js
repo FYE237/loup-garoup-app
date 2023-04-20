@@ -116,7 +116,7 @@ module.exports = {
                 pouvoir_speciaux : null,
                 chat_id_table : null
             })
-    
+
             joueur_partie_role.save()
             .then(() => { res.json({status:true,message:'Game was created',data:{game_id:obj._id}})})
             .catch((err) => {throw  new CodeError('Game was successfully created but the '+

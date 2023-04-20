@@ -1,10 +1,15 @@
+const FinJeuState = require('./finJeuState');
+const EnAttenteState = require('./enAttenteState');
+const JourState = require('./Jourstate');
+const NuitState = require('./NuitState');
+
 class StateContext {
   constructor(partieId) {
     this.partieId = partieId
-    this.stateEnAttente = new 
-    this.stateFinJeu = new  
-    this.stateJour = new 
-    this.stateNuit = new     
+    this.stateEnAttente = new FinJeuState(this)
+    this.stateFinJeu = new  EnAttenteState(this)
+    this.stateJour = new JourState(this)
+    this.stateNuit = new NuitState(this)
     //When the game is create it is place in the wait state
     this.state = this.stateEnAttente;
   }
@@ -36,3 +41,5 @@ class StateContext {
   }
 
 }
+
+module.exports = StateContext

@@ -1,6 +1,8 @@
-class State {
+const GameState = require("./gameState");
+
+class JourState extends GameState {
   constructor(context) {
-    this.context = context;
+    super(context)
   }
 
   /**

@@ -1,7 +1,10 @@
-class State {
+const GameState = require("./gameState");
+
+class NuitState extends GameState {
   constructor(context) {
-    this.context = context;
+    super(context)
   }
+
 
   /**
    * The list aof action that will treated : 

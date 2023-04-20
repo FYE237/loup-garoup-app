@@ -3,8 +3,9 @@ const GameState = require('./gameState');
 
 class EnAttenteState extends GameState {
   constructor(context) {
-    this.context = context;
+    super(context)
   }
+
 
   /**
    * The list aof action that will treated : 
