@@ -5,7 +5,7 @@ const Joueur_partie_role = require('../models/joueur_partie_role')
 const  User = require('../models/user')
 
 
-const {GAME_STATUS, PLAYER_STATUS, CHAT_TYPE} = require("./constants")
+const {GAME_STATUS, PLAYER_STATUS, CHAT_TYPE, ROLE} = require("./constants")
 
 const bcrypt = require('bcrypt')
 const has = require('has-keys');
@@ -107,22 +107,21 @@ module.exports = {
         partie.save()
         .then((obj) => {
             //On inscrit directement l'hote à la partie
+            console.log("game id =  ", _id);
             const joueur_partie_role = new Joueur_partie_role({
                 id_partie:obj._id,
                 //The role of the player will give to him as soon as the game starts
-                id_role: ROLE.noRole, 
+                role: ROLE.noRole, 
                 id_joueur:obj.hote_id,
                 statut: PLAYER_STATUS.vivant,
-                pouvoir_speciaux : null,
-                chat_id_table : null
             })
 
             joueur_partie_role.save()
             .then(() => { res.json({status:true,message:'Game was created',data:{game_id:obj._id}})})
             .catch((err) => {throw  new CodeError('Game was successfully created but the '+
-                                                    'player was not added to the game ', status.INTERNAL_SERVER_ERROR)})
+                                                    'player was not added to the game '+ err, status.INTERNAL_SERVER_ERROR)})
         })
-        .catch(() => {throw  new CodeError('Database error, game was not created', status.INTERNAL_SERVER_ERROR)})
+        .catch((err) => {throw  new CodeError('Database error, game was not created; error : '+ err, status.INTERNAL_SERVER_ERROR)})
     },  
     //Middleware permettant de checker si un joueur a déjà rejoint la partie. Cela évite de dupliquer les joueurs dans une même partie
     async checkIfUserPresent(req,res,next){
@@ -151,7 +150,7 @@ module.exports = {
         const partie = await  Partie.findById(req.params.id)
 
         //We check to see if the game already started
-        if (partie.status !== GAME_STATUS.enAttente){
+        if (partie.statut !== GAME_STATUS.enAttente){
             throw  new CodeError('The game has already started', status.FORBIDDEN)
         }
 
@@ -208,8 +207,8 @@ module.exports = {
     }
     */
         const tmp = JSON.parse(req.body.data)
-        if(!has(tmp , ['id_role','id_joueur','statut']))
-            throw  new CodeError('Précisez id_role,id_joueur,statut', status.BAD_REQUEST)
+        if(!has(tmp , ['id_joueur']))
+            throw  new CodeError('Précisez id_joueur', status.BAD_REQUEST)
     
         const { id_role,statut } = tmp;
         const idpartie = req.params.id;
@@ -221,11 +220,9 @@ module.exports = {
         const joueur_partie_role = new Joueur_partie_role({
             id_partie: idpartie,
             //The role of the player will give to him as soon as the game starts
-            id_role: ROLE.noRole, 
+            role: ROLE.noRole, 
             id_joueur:_id,
             statut: PLAYER_STATUS.vivant,
-            pouvoir_speciaux : null,
-            chat_id_table : null
         })
 
         joueur_partie_role.save()

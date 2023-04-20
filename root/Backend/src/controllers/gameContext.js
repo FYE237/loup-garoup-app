@@ -1,6 +1,6 @@
 const FinJeuState = require('./finJeuState');
 const EnAttenteState = require('./enAttenteState');
-const JourState = require('./Jourstate');
+const JourState = require('./JourState');
 const NuitState = require('./NuitState');
 
 class StateContext {

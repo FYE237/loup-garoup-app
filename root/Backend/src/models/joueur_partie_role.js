@@ -23,12 +23,10 @@ const joueur_partie_roleSchema = mongoose.Schema({
     //that this player has in this game
     pouvoir_speciaux:{
         type: [String],
-        required : true
     },
     //A table for the identifier of the chat rooms
     chat_id_table:{
         type: [Number],
-        required : true
     },
     //Indicates if the player is alive
     statut:{
