@@ -79,8 +79,6 @@ module.exports = {
     /*On vérifie que le token correspond à l'utilisateur qu'on veut modifier 
       ou à l'utilisateur qui veur créer la partie ou l'utilisateur qui veut rejoindre la partie.
     */
-    console.log(tmp)
-    console.log(data.name)
     if ((tmp.prev && data.name != tmp.prev)|| (tmp.hote_name && tmp.hote_name!=data.name) || (tmp.id_joueur && tmp.id_joueur != data.name))
       // Provoque une réponse en erreur avec un code de retour 403 
       throw {code: 403, message: 'Forbidden'}

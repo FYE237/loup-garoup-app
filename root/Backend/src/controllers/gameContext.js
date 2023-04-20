@@ -6,8 +6,8 @@ const NuitState = require('./NuitState');
 class StateContext {
   constructor(partieId) {
     this.partieId = partieId
-    this.stateEnAttente = new FinJeuState(this)
-    this.stateFinJeu = new  EnAttenteState(this)
+    this.stateEnAttente = new EnAttenteState(this)
+    this.stateFinJeu = new  FinJeuState(this)
     this.stateJour = new JourState(this)
     this.stateNuit = new NuitState(this)
     //When the game is create it is place in the wait state
@@ -17,7 +17,7 @@ class StateContext {
   setState(state) {
     this.state.endCode();
     this.state = state;
-    this.state.SetupCode();
+    this.state.setupCode();
   }
 
   requestLogin() {
@@ -42,4 +42,13 @@ class StateContext {
 
 }
 
-module.exports = StateContext
+/**
+ * This hashtable will be used for associating every game id to a context to 
+ */
+const partieContextHashTable = new Map();
+
+
+module.exports = {
+  StateContext,
+  partieContextHashTable
+}

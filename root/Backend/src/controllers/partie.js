@@ -6,6 +6,8 @@ const  User = require('../models/user')
 
 
 const {GAME_STATUS, PLAYER_STATUS, CHAT_TYPE, ROLE} = require("./constants")
+const { StateContext, partieContextHashTable} = require("./gameContext")
+
 
 const bcrypt = require('bcrypt')
 const has = require('has-keys');
@@ -107,7 +109,10 @@ module.exports = {
         partie.save()
         .then((obj) => {
             //On inscrit directement l'hote à la partie
-            console.log("game id =  ", _id);
+            console.log("game id =  ", _id.toString(), typeof _id.toString());
+            partieContextHashTable.set(_id.toString(),new StateContext(_id.toString()))
+            console.log(partieContextHashTable.get(_id.toString()));
+            partieContextHashTable.get(_id.toString()).state.setupCode();
             const joueur_partie_role = new Joueur_partie_role({
                 id_partie:obj._id,
                 //The role of the player will give to him as soon as the game starts

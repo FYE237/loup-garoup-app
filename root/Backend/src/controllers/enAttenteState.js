@@ -28,6 +28,10 @@ class EnAttenteState extends GameState {
 
   }
 
+  setupCode(){
+    console.log("hello i have been called");
+  }
+
 
 }
 
