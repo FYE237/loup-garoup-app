@@ -20,7 +20,7 @@ class EnAttenteState extends GameState {
           {id_joueur:player_id, id_partie : this.context.partieId},
           {socket_id : socket_id})
     addPlayerIntoContext(pseudo);
-    if (nb_actif_players == this.context.nnbParticipantSouhaite){
+    if (nb_actif_players == this.context.nbParticipantSouhaite){
       this.launchGame();
     }
   }
