@@ -2,11 +2,11 @@ const status = require('http-status');
 
 const Partie = require('../models/partie');
 const Joueur_partie_role = require('../models/joueur_partie_role')
-const  User = require('../models/user')
+const User = require('../models/user')
 
 
 const {GAME_STATUS, PLAYER_STATUS, CHAT_TYPE, ROLE} = require("./constants")
-const { StateContext, partieContextHashTable} = require("./gameContext")
+const {StateContext, partieContextHashTable} = require("./gameContext")
 
 
 const bcrypt = require('bcrypt')
@@ -26,7 +26,6 @@ async function getUser(name){
     const res =  await User.findOne({name:name}).select({_id:1,name:0,email:0,__v:0,password:0})
 
     return res
-
 }
 
 
@@ -109,10 +108,12 @@ module.exports = {
         partie.save()
         .then((obj) => {
             //On inscrit directement l'hote à la partie
-            console.log("game id =  ", _id.toString(), typeof _id.toString());
-            partieContextHashTable.set(_id.toString(),new StateContext(_id.toString()))
-            console.log(partieContextHashTable.get(_id.toString()));
-            partieContextHashTable.get(_id.toString()).state.setupCode();
+            console.log("---------Creatting game --------------");
+            console.log("New game id =  ", obj._id.toString(), typeof obj._id.toString());
+            partieContextHashTable.set(obj._id.toString(), new StateContext(obj._id.toString()))
+            console.log(partieContextHashTable.get(obj._id.toString()));
+            let partie = partieContextHashTable.get(obj._id.toString())
+            if (partie){ partie.state.setupCode();} 
             const joueur_partie_role = new Joueur_partie_role({
                 id_partie:obj._id,
                 //The role of the player will give to him as soon as the game starts
@@ -152,6 +153,7 @@ module.exports = {
     },
 
     async checkNumberOfPlayer(req,res,next){
+        console.log("type = " + typeof req.params.id) 
         const partie = await  Partie.findById(req.params.id)
 
         //We check to see if the game already started
@@ -215,7 +217,6 @@ module.exports = {
         if(!has(tmp , ['id_joueur']))
             throw  new CodeError('Précisez id_joueur', status.BAD_REQUEST)
     
-        const { id_role,statut } = tmp;
         const idpartie = req.params.id;
 
         //On retrouve l'id du joueur dont le pseudo est tmp.id_joueur

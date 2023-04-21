@@ -1,4 +1,5 @@
 // Load .env Enviroment Variables to process.env
+//This table will be used in order to player that has the socket id
 
 require('mandatoryenv').load([
     'MONGO_URL',
@@ -39,11 +40,31 @@ let client = 0 , n =0
 var nsp = io.of("/api/login")
 
 // io.use(cors(corsOptions))
+const Joueur_partie_role = require('./models/joueur_partie_role')
+const {partieContextHashTable} = require("./controllers/gameContext")
+
 
 nsp.on('connection', (socket) => {
     client++;
     console.log('New Socket connection id : ' + socket.id)
     socket.emit('newPlayerConnect',{ description: client +  'Hey, welcome!'});
+
+    socket.on("rejoindre-jeu", pseudo, id_partie => {
+        let partie = partieContextHashTable.get(id_partie);
+        if (partie){partie.requestRejoindreUnJeu(socket, pseudo, socket.id);} 
+    })
+
+    socket.on("disconnect", async () => {
+        const res = await Joueur_partie_role.findOne(
+            {socket_id : socket_id}).select({partie_id: 1, id_joueur : 1})
+        let partie = partieContextHashTable.get(res.partie_id);
+        if (partie){partie.requestDisconnect(id_joueur, socket.id);} 
+    })
+
+    socket.on("send-message-game",pseudo, id_partie, message, chat_id => {
+        let partie = partieContextHashTable.get(id_partie)
+    })
+
 
     socket.on("send-message",message => {
         console.log("send:"+message)
@@ -55,6 +76,6 @@ nsp.on('connection', (socket) => {
 
 })
 
-// module.exports = {io,server}
+module.exports = {nsp, server}
 
 

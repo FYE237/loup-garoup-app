@@ -14,7 +14,7 @@ class NuitState extends GameState {
    * Vote
    * Disconnect
    */
-  handleLogin() {
+  handleRejoindreJeu() {
   }
 
   handleMessage() {

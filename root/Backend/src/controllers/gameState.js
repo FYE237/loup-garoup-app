@@ -1,3 +1,7 @@
+
+const Partie = require('../models/partie');
+const User = require('../models/user');
+
 class GameState {
   constructor(context) {
     this.context = context;
@@ -31,7 +35,7 @@ class GameState {
 
   //This function will do some treatement at this level 
   //but it will redifined by the waiting state
-  handleDisconnect() {
+  handleDisconnect(id_joueur, socket_id) {
     return;
   }
 
@@ -49,6 +53,28 @@ class GameState {
   endCode(){
 
   }
+
+  /**
+   * Returns the id of the player that has the pseudo given
+   * as argument
+   * @param {*} pseudo pseudo of the player that looking for his id
+   */
+  async getPlayerId(pseudo){
+    const res =  await User.findOne({name:pseudo}).select({_id:1,name:0,email:0,__v:0,password:0})
+    console.log(res);
+    return res;
+  }
+
+  /**
+   * Returns the pseudo of the player that has the playerId given
+   * as argument
+   * @param {*} playerId playerId of the player that looking for his id
+   */
+    async getPlayerPseudo(playerId){
+      const res =  await User.findOne({_id:playerId}).select({name:1})
+      console.log(res);
+      return res;
+    }
 
 
 }
