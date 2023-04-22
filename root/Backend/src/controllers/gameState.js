@@ -25,8 +25,10 @@ class GameState {
     return
   }
 
-  handleVote() {
-    return;
+  handleVote(socket,id_joueur,currentPlayersVote) {
+  }
+
+  handleVote(socket,id_joueur,room,currentPlayersVote) {
   }
 
   handlePouvoir() {

@@ -18,6 +18,12 @@ class StateContext {
     //but they can make the server much faster 
     this.nb_actif_players = 0;
     this.peudoList = [];
+
+    //Map that contains the list of alive player of a particular game and the current number of votes against each player 
+    //at a particular moment
+    //The value of each vote against a player is reset to 0 at each game's state changes. exple : day -> night
+    this.currentPlayersVote = new Map()
+
   }
 
   /**
@@ -51,9 +57,15 @@ class StateContext {
     return this.state.handleRejoindreJeu(socket, pseudo, socket_id);
   }
 
-  requestVote() {
-    return this.state.handleVote();
+  requestVote(socket,id_joueur) {
+    return this.state.handleVote(socket,id_joueur,this.currentPlayersVote);
   }
+
+  requestVote(socket,id_joueur,room) {
+    return this.state.handleVote(socket,id_joueur,room,this.currentPlayersVote);
+  }
+
+  
 
   requestPouvoir() {
     return this.state.handlePouvoir();
