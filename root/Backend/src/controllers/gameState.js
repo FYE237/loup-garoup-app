@@ -61,7 +61,6 @@ class GameState {
    */
   async getPlayerId(pseudo){
     const res =  await User.findOne({name:pseudo}).select({_id:1,name:0,email:0,__v:0,password:0})
-    console.log(res);
     return res;
   }
 
@@ -72,7 +71,6 @@ class GameState {
    */
     async getPlayerPseudo(playerId){
       const res =  await User.findOne({_id:playerId}).select({name:1})
-      console.log(res);
       return res;
     }
 

@@ -6,7 +6,7 @@ const backend = `http://localhost:3000/`
 
 let socket = io("http://localhost:3000/api/parties/:id")
 
-const id = "64426685fe56ce96a99977e0"
+const id = "6443280c224effc3523f9b35"
 
 const objet = {
     'id_joueur':"samuel"
@@ -61,6 +61,7 @@ async function rejoindrePartie(){
             //On déclenche l'évenement rejoindre la partie
             socket.emit('newPlayerConnect',objet.id_joueur);
 
+            socket.emit('rejoindre-jeu',objet.id_joueur);
             //Le serveur nous repond
             socket.on("RejoindreJeu",function(data){
                 let tmp = document.querySelector("h1")
