@@ -7,7 +7,8 @@
         "setup": "npm install && npm update",
         "doc": "node src/util/swagger.js",
         "start": "node src/server.js && npm run doc",
-        "startdev": "npm run doc && nodemon src/server.js"
+        "startdev": "npm run doc && nodemon src/server.js",
+        "debugdev": "DEBUG=projetweb npm run doc && nodemon src/server.js"
     },
     "keywords": [
         "express",
@@ -19,6 +20,7 @@
         "bcrypt": "^5.1.0",
         "cookie-parser": "^1.4.4",
         "cors": "^2.8.5",
+        "debug": "^4.3.4",
         "express": "^4.17.1",
         "express-custom-error": "^1.8.4",
         "has-keys": "^0.1.0",
@@ -33,7 +35,8 @@
         "nodemon": "^2.0.22",
         "rotating-file-stream": "^1.4.6",
         "socket.io": "^4.6.1",
+        "swagger-autogen": "^2.23.1",
         "swagger-ui-express": "^4.6.2",
-        "swagger-autogen": "^2.23.1"
+        "uuid": "^9.0.0"
     }
 }

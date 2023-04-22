@@ -72,17 +72,46 @@ nsp.on('connection', (socket) => {
 
      //Ce bloc a été commenté car n'étant pas complet il fait cracher le serveur
 
-    // socket.on("rejoindre-jeu", pseudo, id_partie => {
-    //     let partie = partieContextHashTable.get(id_partie);
-    //     if (partie){partie.requestRejoindreUnJeu(socket, pseudo, socket.id);} 
-    // })
+    socket.on("rejoindre-jeu", (data, callback) => {
+        console.log("[server] Joining game" + JSON.stringify(data));
+        let pseudo  = data.pseudo; 
+        let id_partie  = data.id_partie;         
+        if (pseudo == null || id_partie == null){
+            if (typeof callback === "function") {
+                console.log("data must have pseudo, and id_partie when joining a game.")
+                callback({
+                    status: "data must have pseudo, and id_partie when joining a game."
+                  });    
+            }
+        }
+        let partie = partieContextHashTable.get(id_partie);
+        if (partie){partie.requestRejoindreUnJeu(nsp, socket, pseudo, socket.id);}
+        else{
+            if (typeof callback === "function") {
+                console.log("Game does not exist.", partieContextHashTable)
+                callback({
+                    status: "Game does not exist"
+                });
+            }
+        } 
+    })
 
-    // socket.on("disconnect", async () => {
-    //     const res = await Joueur_partie_role.findOne(
-    //         {socket_id : socket_id}).select({partie_id: 1, id_joueur : 1})
-    //     let partie = partieContextHashTable.get(res.partie_id);
-    //     if (partie){partie.requestDisconnect(id_joueur, socket.id);} 
-    // })
+    socket.on("disconnect", async () => {
+        console.log("[server] Player Disconnect " +socket.id);
+        const res = await Joueur_partie_role.findOne(
+            {socket_id : socket.id}).select({id_partie: 1, id_joueur : 1})
+        try{
+            let partie = partieContextHashTable.get(res.id_partie.toString());
+            if (partie){partie.requestDisconnect(nsp, res.id_joueur, socket.id);}
+            else{
+                throw new Error("Partie was not found");
+            }
+        }
+        catch(err){
+            console.log("socket has not been saved correctly or the player is not in a game"+ 
+                        " error = " + err);
+        }
+    })
 
     // socket.on("send-message-game",pseudo, id_partie, message, chat_id => {
     //     let partie = partieContextHashTable.get(id_partie)

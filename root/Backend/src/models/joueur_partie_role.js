@@ -34,7 +34,7 @@ const joueur_partie_roleSchema = mongoose.Schema({
         required:true
     },
     socket_id:{
-        type : Number,
+        type : String,
         default : 0
     }
    

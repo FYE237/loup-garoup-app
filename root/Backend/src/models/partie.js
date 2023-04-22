@@ -38,6 +38,10 @@ const partieSchema = mongoose.Schema({
     proba_pouvoir_speciaux: {
         type : Number,
         required : true 
+    },
+    room_id:{
+        type : String,
+        required : true 
     }
 
 }/*,opts*/);

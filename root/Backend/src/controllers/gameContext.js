@@ -17,7 +17,7 @@ class StateContext {
     //These values are not necessary 
     //but they can make the server much faster 
     this.nb_actif_players = 0;
-    this.peudoList = [];
+    this.pseudoList = [];
 
     //Map that contains the list of alive player of a particular game and the current number of votes against each player 
     //at a particular moment
@@ -35,11 +35,11 @@ class StateContext {
     let partie = await this.getPartieData();
     this.durepartieeJour = partie.duree_jour; 
     this.dureeNuit = partie.duree_nuit;
-    this.proportionLoup = partie.proportionLoup; 
+    this.proportionLoup = partie.proportion_loup; 
     this.probaPouvoirSpeciaux = partie.proba_pouvoir_speciaux;
     this.nbParticipantSouhaite = partie.nb_participant;
     this.heureDebut = partie.heure_debut;
-    console.log(this.heureDebut);
+    this.roomId = partie.room_id;
   }
 
   async getPartieData(){
@@ -53,8 +53,8 @@ class StateContext {
     this.state.setupCode();
   }
 
-  requestRejoindreUnJeu(socket, pseudo, socket_id) {
-    return this.state.handleRejoindreJeu(socket, pseudo, socket_id);
+  requestRejoindreUnJeu(nsp, socket, pseudo, socket_id) {
+    return this.state.handleRejoindreJeu(nsp, socket, pseudo, socket_id);
   }
 
   requestVote(socket,id_joueur) {
@@ -71,8 +71,8 @@ class StateContext {
     return this.state.handlePouvoir();
   }
 
-  requestDisconnect(id_joueur, socket_id){ 
-    return this.state.handleDisconnect(id_joueur, socket_id);
+  requestDisconnect(nsp, id_joueur, socket_id){ 
+    return this.state.handleDisconnect(nsp, id_joueur, socket_id);
   }
 
   requestMessage(pseudo, chatid, messsage) {
