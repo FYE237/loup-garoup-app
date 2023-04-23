@@ -7,14 +7,10 @@ class JourState extends GameState {
 
   /**
    * The list aof action that will treated : 
-   * Login
    * Chat message
    * Pouvoir special
    * Vote
-   * Disconnect
    */
-  handleMessage() {
-  }
 
   /**
    * We update the number of vote on a player

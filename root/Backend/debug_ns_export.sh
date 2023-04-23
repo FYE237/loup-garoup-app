@@ -1,0 +1,1 @@
+export DEBUG=Partie,EnAttenteState,Server,GameState

@@ -22,8 +22,17 @@ class StateContext {
     //Map that contains the list of alive player of a particular game and the current number of votes against each player 
     //at a particular moment
     //The value of each vote against a player is reset to 0 at each game's state changes. exple : day -> night
-    this.currentPlayersVote = new Map()
+    this.currentPlayersVote = new Map();
 
+    //We declare the values that will added later on : 
+    this.durepartieeJour = null; 
+    this.dureeNuit = null;
+    this.proportionLoup = null; 
+    this.probaPouvoirSpeciaux = null;
+    this.nbParticipantSouhaite = null;
+    this.heureDebut = null;
+    this.roomId = null;
+    this.roomLoupId = null;
   }
 
   /**
@@ -40,6 +49,7 @@ class StateContext {
     this.nbParticipantSouhaite = partie.nb_participant;
     this.heureDebut = partie.heure_debut;
     this.roomId = partie.room_id;
+    this.roomLoupId = partie.room_loup_id;
   }
 
   async getPartieData(){
@@ -75,8 +85,8 @@ class StateContext {
     return this.state.handleDisconnect(nsp, id_joueur, socket_id);
   }
 
-  requestMessage(pseudo, chatid, messsage) {
-    return this.state.handleVote();
+  requestMessage(nsp, socket, message, roomId, pseudo) {
+    return this.state.handleMessage(nsp, socket, message, roomId, pseudo);
   }
 
 

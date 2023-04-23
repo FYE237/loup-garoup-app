@@ -42,6 +42,10 @@ const partieSchema = mongoose.Schema({
     room_id:{
         type : String,
         required : true 
+    },
+    room_loup_id:{
+        type : String,
+        required : true 
     }
 
 }/*,opts*/);

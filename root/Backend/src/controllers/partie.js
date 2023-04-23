@@ -3,10 +3,10 @@ const status = require('http-status');
 const Partie = require('../models/partie');
 const Joueur_partie_role = require('../models/joueur_partie_role')
 const User = require('../models/user')
-const debug = require('debug')('projetweb');
+const debug = require('debug')('Partie');
 
 const {GAME_STATUS, PLAYER_STATUS, CHAT_TYPE, ROLE} = require("./constants")
-const {StateContext, partieContextHashTable} = require("./gameContext")
+const { StateContext, partieContextHashTable} = require("./gameContext")
 const { v4: uuidv4 } = require('uuid');
 
 const bcrypt = require('bcrypt')
@@ -89,7 +89,7 @@ module.exports = {
              duree_nuit, proportion_loup, proba_pouvoir_speciaux} = tmp;
         //On retrouve l'id associé au pseudo dans le body à hote_name
         const {_id} = await User.findOne({name:hote_name}).select({_id:1,name:0,email:0,__v:0,password:0})
- 
+        console.log("hote id = "+_id);  
         //We create the game instance
         const partie = new Partie({
             heure_debut:heure_debut,
@@ -100,14 +100,15 @@ module.exports = {
             statut: GAME_STATUS.enAttente,
             proportion_loup: proportion_loup,
             proba_pouvoir_speciaux : proba_pouvoir_speciaux,
-            room_id : uuidv4()
+            room_id : uuidv4(),
+            room_loup_id : uuidv4()
         })
 
         //On crée la partie
         partie.save()
         .then((obj) => {
             //On inscrit directement l'hote à la partie
-            debug("---------Creatting game --------------");
+            debug("---------Creating game --------------");
             debug("New game id =  ", obj._id.toString(), typeof obj._id.toString());
             partieContextHashTable.set(obj._id.toString(), new StateContext(obj._id.toString()))
             debug(partieContextHashTable.get(obj._id.toString()));

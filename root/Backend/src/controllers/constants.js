@@ -11,7 +11,8 @@ const GAME_STATUS = {
 
 const PLAYER_STATUS = {
   vivant : "vivant",
-  mort : "mort"
+  mort : "mort",
+  deconnecte : "deconnecte" //déconnecté
 }
 
 const ROLE = {
@@ -20,13 +21,13 @@ const ROLE = {
   //this value we will be used when the game is on hold and 
   //it has not started yet but when the game starts 
   //every player will be associated a certain role
-  noRole : "norole"
+  noRole : "noRole"
 }
 
 const CHAT_TYPE = {
-  general : "general_chat",
-  loup : "loup_chat",
-  customChat : "customChat"
+  general_chat : "general_chat",
+  loup_chat : "loup_chat",
+  custom_chat : "customChat"
 }
 
 

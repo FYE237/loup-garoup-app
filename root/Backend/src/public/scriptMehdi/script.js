@@ -5,6 +5,7 @@ const backend = `http://localhost:3000/`
 
 let socket = io("http://localhost:3000/api/parties/:id")
 let id = "644328c78277f46926882a6f";
+let chatid = null;
 const objet = {
     'id_joueur':"samuel"
 }
@@ -36,6 +37,16 @@ async function miseEnplace(event){
         // Call the createGame() function
         await rejoindrePartie();
     });
+
+    const sendMessageButton = document.getElementById('envoyer-message-button');
+    sendMessageButton.addEventListener('click', async (event) => {
+        event.preventDefault(); // prevent page reload
+        // Call the createGame() function
+        await sendMessage();
+    });
+
+    
+
     
 
     // document.querySelector("input[value='Envoyer']").addEventListener("click",EnvoyerMessage,false)
@@ -53,6 +64,29 @@ async function miseEnplace(event){
 //     console.log("M2 : " + message)
 // })
 
+async function sendMessage(){
+    
+    const myInput = document.getElementById('myInputGame');
+    const inputValue = myInput.value;
+
+    const messageBox = document.getElementById('message-text');
+    const message = messageBox.value;
+    
+    const roomBox = document.getElementById('room-text');
+    const roomValue = roomBox.value;
+    
+
+
+    socket.emit('send-message-game', message, roomValue, getValueTickBox(), inputValue);
+    
+    socket.on("new-message", (data) => {
+        // Handle the data received from the server
+        console.log('Received a message:', data);
+    });          
+
+
+}
+
 
 async function rejoindrePartie(){
         
@@ -66,7 +100,7 @@ async function rejoindrePartie(){
     //             body : "data="+JSON.stringify(objet)
                 
     // })
-    const myInput = document.getElementById('myInput');
+    const myInput = document.getElementById('myInputGame');
     const inputValue = myInput.value;
 
     const myInputName = document.getElementById('myInputUsername');
@@ -84,8 +118,15 @@ async function rejoindrePartie(){
     socket.on('status-game', (data, statusfunc) => {
         // Handle the data received from the server
         console.log('Received game status update:', data);
+        socket.emit('send-message-game', "enakzjelazk,", data.room, getValueTickBox(), inputValue);
+
         });            
-    // console.log("Hello") ; 
+    socket.on('new-message', function(data) {
+        console.log('Received new message:', data);
+        // do something with the data
+        });
+        
+        // console.log("Hello") ; 
 
     //On déclenche l'évenement rejoindre la partie
     // socket.emit('newPlayerConnect',objet.id_joueur);

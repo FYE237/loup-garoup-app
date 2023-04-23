@@ -1,5 +1,6 @@
 // Load .env Enviroment Variables to process.env
 //This table will be used in order to player that has the socket id
+const debug = require('debug')('Server');
 
 require('mandatoryenv').load([
     'MONGO_URL',
@@ -58,11 +59,10 @@ nsp.on('connection', (socket) => {
      socket.on('newPlayerConnect',(data) => 
          { 
             //  description: client +  'Hey, welcome!'
-             console.log( data + "connecté")
+            debug( data + "connecté")
 
             //. On répond au joueur 
             nsp.to(socket.id).emit("RejoindreJeu",{description:"Bienvenue "+data})
-
             //On peut mettre ici une méthode POST pour ajouter la socket du joueur-partie
             //dans la base de données
          }
@@ -73,12 +73,12 @@ nsp.on('connection', (socket) => {
      //Ce bloc a été commenté car n'étant pas complet il fait cracher le serveur
 
     socket.on("rejoindre-jeu", (data, callback) => {
-        console.log("[server] Joining game" + JSON.stringify(data));
+        debug("[server] Joining game" + JSON.stringify(data));
         let pseudo  = data.pseudo; 
         let id_partie  = data.id_partie;         
         if (pseudo == null || id_partie == null){
+            debug("data must have pseudo, and id_partie when joining a game.")
             if (typeof callback === "function") {
-                console.log("data must have pseudo, and id_partie when joining a game.")
                 callback({
                     status: "data must have pseudo, and id_partie when joining a game."
                   });    
@@ -87,8 +87,8 @@ nsp.on('connection', (socket) => {
         let partie = partieContextHashTable.get(id_partie);
         if (partie){partie.requestRejoindreUnJeu(nsp, socket, pseudo, socket.id);}
         else{
+            debug("Game does not exist.", partieContextHashTable)
             if (typeof callback === "function") {
-                console.log("Game does not exist.", partieContextHashTable)
                 callback({
                     status: "Game does not exist"
                 });
@@ -97,7 +97,7 @@ nsp.on('connection', (socket) => {
     })
 
     socket.on("disconnect", async () => {
-        console.log("[server] Player Disconnect " +socket.id);
+        debug("[server] Player Disconnect " +socket.id);
         const res = await Joueur_partie_role.findOne(
             {socket_id : socket.id}).select({id_partie: 1, id_joueur : 1})
         try{
@@ -108,23 +108,28 @@ nsp.on('connection', (socket) => {
             }
         }
         catch(err){
-            console.log("socket has not been saved correctly or the player is not in a game"+ 
+            debug("socket has not been saved correctly or the player is not in a game"+ 
                         " error = " + err);
         }
     })
 
-    // socket.on("send-message-game",pseudo, id_partie, message, chat_id => {
-    //     let partie = partieContextHashTable.get(id_partie)
-    // })
-
-
-    socket.on("send-message",message => {
-        console.log("send:"+message)
-        //On peut ajouter ici une vérification pour checker si le joueur
-        //est réellement dans la partie etc...
-        socket.broadcast.emit('receive-message',message)
-        
-        // console.log("message " + client  + message)
+    socket.on("send-message-game", (message, roomId, pseudo, id_partie) => {
+        debug("Message request received");
+        if (roomId == null || message == null || pseudo == null || id_partie == null){
+            debug(roomId+message+pseudo+id_partie)
+            debug("Please provide the message, roomId, pseudo, id_partie");
+            return;
+        }
+        try{
+            let partie = partieContextHashTable.get(id_partie);
+            if (partie){partie.requestMessage(nsp, socket, message, roomId, pseudo);}
+            else{
+                throw new Error("Partie was not found while sending a message");
+            }
+        }
+        catch(err){
+            debug("Send message error = " + err);
+        }
     })
 
 
@@ -137,7 +142,7 @@ nsp.on('connection', (socket) => {
     let nbVoteJour = 0
     socket.on("vote-jour",async (id_joueur,id_partie) => {
         nbVoteJour ++
-        console.log("Vote Jour pour : " + message)
+        debug("Vote Jour pour : " + message)
         let partie = partieContextHashTable.get(id_partie);
         if(partie) 
             {
@@ -166,7 +171,7 @@ nsp.on('connection', (socket) => {
                             
                         }
 
-                        //Les loups ont pu s'entendre
+                        //Les loups message, roomIdont pu s'entendre
                         if(duplicate != true){
                             //Est ce que je dois supprimer les joueurs morts de la liste des votes des joueurs
 
@@ -176,11 +181,11 @@ nsp.on('connection', (socket) => {
                             const value = await User.findOne({name:maxKey}).select({_id:1,__v:0,password:0})
                             //On change son statut
                             await Joueur_partie_role.updateOne({id_joueur:value.id_joueur},{statut:PLAYER_STATUS.mort});
-                            socket.emit("JoueurMort",{name:maxKey})
+                            nsp.to(partie.roodId).emit("JoueurMort",{name:maxKey})
                         }
                         //Les loups n'ont pas pu s'entendre
                         else{
-                            socket.emit("NoJoueurMORT")
+                            nsp.to(partie.roodId).emit("NoJoueurMORT")
                         }
                     }
 
@@ -198,7 +203,7 @@ nsp.on('connection', (socket) => {
     let nbVoteNuit = 0
     socket.on("vote-nuit",async(id_joueur,id_partie,room)=>{
         nbVoteNuit ++
-        console.log("Vote Nuit pour : " + message)
+        debug("Vote Nuit pour : " + message)
         let partie = partieContextHashTable.get(id_partie);
         if(partie) 
             {
@@ -286,7 +291,7 @@ nsp.on('connection', (socket) => {
                     //room ici c'est le socket.id du joueur mort avec lequel la socket veut communiquer
                     socket.on("send-message-Sorciere",(message,room) => {
 
-                        console.log("send:"+message)
+                        debug("send:"+message)
 
                         //Seule le joueur discutant avec la sorciere recoit les méssages
                         socket.to(room).emit('receive-message-Sorciere',message)

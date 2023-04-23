@@ -24,10 +24,6 @@ const joueur_partie_roleSchema = mongoose.Schema({
     pouvoir_speciaux:{
         type: [String],
     },
-    //A table for the identifier of the chat rooms
-    chat_id_table:{
-        type: [Number],
-    },
     //Indicates if the player is alive
     statut:{
         type:String,
@@ -37,7 +33,6 @@ const joueur_partie_roleSchema = mongoose.Schema({
         type : String,
         default : 0
     }
-   
 })
 
 module.exports = mongoose.model('joueur_partie_role',joueur_partie_roleSchema)
