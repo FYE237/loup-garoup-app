@@ -50,7 +50,7 @@ class EnAttenteState extends GameState {
 
   //Will be called when we start the game, it will be used
   //Roles will attributed at this level
-  endCode() {
+  async endCode() {
     if (this.context != this.context.EnAttenteState) {
       return;
     }
@@ -119,7 +119,32 @@ class EnAttenteState extends GameState {
       }
     });
 
-    // Adding now the roles to the database
+    // get all the users roles from the database
+    const playerRolesList = await Joueur_partie_role.find({
+      id_partie: this.context.partieId,
+    });
+
+    // update now the roles of the users
+    // assuming that all the players in the waiting list are now in the database and ready for adding the roles
+    for (const wolves of assignedWolvesRoles) {
+      playerRolesList[wolves.indice].role = ROLE.loupGarou;
+      playerRolesList[wolves.indice].pouvoir_speciaux = wolves.role;
+      playerRolesList[wolves.indice].save((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    }
+
+    for (const human of assignedHumansRoles) {
+      playerRolesList[human.indice].role = ROLE.villageois;
+      playerRolesList[human.indice].pouvoir_speciaux = human.role;
+      playerRolesList[human.indice].save((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    }
   }
 
   startGameTimer() {
