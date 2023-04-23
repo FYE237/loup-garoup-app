@@ -3,11 +3,11 @@
  *  part of the game
  */
 const GAME_STATUS = {
-  enAttente : "enAttente",
-  jour : "jour",
-  soir : "soir",
-  finJeu : "finJeu"
-}
+  enAttente: "enAttente",
+  jour: "jour",
+  soir: "soir",
+  finJeu: "finJeu",
+};
 
 const PLAYER_STATUS = {
   vivant : "vivant",
@@ -16,10 +16,12 @@ const PLAYER_STATUS = {
 }
 
 const ROLE = {
-  villageois : "villageois",
-  loupGarrou : "loupGarrou",
-  //this value we will be used when the game is on hold and 
-  //it has not started yet but when the game starts 
+  villageois: "villageois",
+  loupGarou: "loupGarou",
+  speciauxLoup: ["voyanteLoup", "spiritismeLoup", "contamination"],
+  speciauxHumain: ["voyanteHumain", "spiritismeHumain", "insomnie"],
+  //this value we will be used when the game is on hold and
+  //it has not started yet but when the game starts
   //every player will be associated a certain role
   noRole : "noRole"
 }
@@ -30,10 +32,9 @@ const CHAT_TYPE = {
   custom_chat : "customChat"
 }
 
-
-module.exports =  {
+module.exports = {
   GAME_STATUS,
   PLAYER_STATUS,
   CHAT_TYPE,
-  ROLE
-}
+  ROLE,
+};

@@ -8,7 +8,7 @@
         "doc": "node src/util/swagger.js",
         "start": "node src/server.js && npm run doc",
         "startdev": "npm run doc && nodemon src/server.js",
-        "debugdev": "DEBUG=projetweb npm run doc && nodemon src/server.js"
+        "debugdev": "export DEBUG=Partie,EnAttenteState,Server,GameState npm run doc && nodemon src/server.js"
     },
     "keywords": [
         "express",
