@@ -3,11 +3,11 @@ const status = require('http-status');
 const Partie = require('../models/partie');
 const Joueur_partie_role = require('../models/joueur_partie_role')
 const User = require('../models/user')
-
+const debug = require('debug')('projetweb');
 
 const {GAME_STATUS, PLAYER_STATUS, CHAT_TYPE, ROLE} = require("./constants")
 const {StateContext, partieContextHashTable} = require("./gameContext")
-
+const { v4: uuidv4 } = require('uuid');
 
 const bcrypt = require('bcrypt')
 const has = require('has-keys');
@@ -50,7 +50,6 @@ module.exports = {
                 $hote_name: 'fye', 
                 $duree_jour: '10', 
                 $duree_nuit: '15', 
-                $statut: 'en attente', 
                 $proba_pouvoir_speciaux: '0.3',
                 $proportion_loup : '0.3'
             } 
@@ -81,16 +80,15 @@ module.exports = {
                     'proba_pouvoir_speciaux', 
                     'duree_jour', 
                     'duree_nuit'
-                ]))
+                ])){
             throw  new CodeError('Please provide heure_debut, nb_participant, hote_name,'+
                                  'proportion_loup, proba_pouvoir_speciaux, duree_jour, duree_nuit', status.BAD_REQUEST)
-    
+            }
+
         const {heure_debut, nb_participant, hote_name, duree_jour,
              duree_nuit, proportion_loup, proba_pouvoir_speciaux} = tmp;
-
         //On retrouve l'id associé au pseudo dans le body à hote_name
         const {_id} = await User.findOne({name:hote_name}).select({_id:1,name:0,email:0,__v:0,password:0})
-
  
         //We create the game instance
         const partie = new Partie({
@@ -101,17 +99,18 @@ module.exports = {
             duree_nuit:duree_nuit,
             statut: GAME_STATUS.enAttente,
             proportion_loup: proportion_loup,
-            proba_pouvoir_speciaux : proba_pouvoir_speciaux
+            proba_pouvoir_speciaux : proba_pouvoir_speciaux,
+            room_id : uuidv4()
         })
 
         //On crée la partie
         partie.save()
         .then((obj) => {
             //On inscrit directement l'hote à la partie
-            console.log("---------Creatting game --------------");
-            console.log("New game id =  ", obj._id.toString(), typeof obj._id.toString());
+            debug("---------Creatting game --------------");
+            debug("New game id =  ", obj._id.toString(), typeof obj._id.toString());
             partieContextHashTable.set(obj._id.toString(), new StateContext(obj._id.toString()))
-            console.log(partieContextHashTable.get(obj._id.toString()));
+            debug(partieContextHashTable.get(obj._id.toString()));
             let partie = partieContextHashTable.get(obj._id.toString())
             if (partie){ partie.state.setupCode();} 
             const joueur_partie_role = new Joueur_partie_role({
@@ -153,7 +152,7 @@ module.exports = {
     },
 
     async checkNumberOfPlayer(req,res,next){
-        console.log("type = " + typeof req.params.id) 
+        debug("type = " + typeof req.params.id) 
         const partie = await  Partie.findById(req.params.id)
 
         //We check to see if the game already started
@@ -232,7 +231,7 @@ module.exports = {
         })
 
         joueur_partie_role.save()
-        .then(() => { res.json({status:true,message:'Player added to the party'} )  })
+        .then(() => { res.json({status:true, message:'Player added to the party', data:{game_id: idpartie}} )  })
         .catch((err) => {throw  new CodeError('Player was not added to the database', status.INTERNAL_SERVER_ERROR)})
 
     }

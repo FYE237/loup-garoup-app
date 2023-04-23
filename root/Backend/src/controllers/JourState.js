@@ -16,7 +16,22 @@ class JourState extends GameState {
   handleMessage() {
   }
 
-  handleVote() {
+  /**
+   * We update the number of vote on a player
+   * @param {*} socket 
+   * @param {*} id_joueur 
+   * @param {*} currentPlayersVote 
+   */
+  handleVote(socket,id_joueur,currentPlayersVote) {
+    const val = currentPlayersVote.get(id_joueur)
+    currentPlayersVote.set(id_joueur,val+1)
+
+    //On répond au joueur que son vote a été pris en compte
+    socket.to(socket.id).emit("VoteJourEnregistré",{description:"Vote-Okay"})
+    
+    //On informe les autres participants du joueur voté : 
+    socket.emit("notif-vote",{name:id_joueur})
+    
   }
 
   handlePouvoir() {
