@@ -297,7 +297,7 @@ class EnAttenteState extends GameState {
 
   remainingTime() {
     const elapsedTime = Date.now() - this.startTime;
-    const timeLeft = this.context.tempsDebut - elapsedTime;
+    const timeLeft = this.context.tempsDebut*1000 - elapsedTime;
     return timeLeft;
   }
   /**

@@ -25,7 +25,7 @@ class StateContext {
     this.currentPlayersVote = new Map();
 
     //We declare the values that will added later on : 
-    this.durepartieeJour = null; 
+    this.dureeJour = null; 
     this.dureeNuit = null;
     this.proportionLoup = null; 
     this.probaPouvoirSpeciaux = null;
@@ -42,7 +42,7 @@ class StateContext {
  */
   async initAttributs(){
     let partie = await this.getPartieData();
-    this.durepartieeJour = partie.duree_jour; 
+    this.dureeJour = partie.duree_jour; 
     this.dureeNuit = partie.duree_nuit;
     this.proportionLoup = partie.proportion_loup; 
     this.probaPouvoirSpeciaux = partie.proba_pouvoir_speciaux;

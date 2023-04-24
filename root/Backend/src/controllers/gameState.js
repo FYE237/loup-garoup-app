@@ -229,7 +229,6 @@ class GameState {
       return res;
     }
 
-
 }
 
 module.exports = GameState;

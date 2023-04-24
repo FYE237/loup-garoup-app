@@ -26,6 +26,10 @@ const ROLE = {
   noRole : "noRole"
 }
 
+const GAME_VALUES = {
+  hour_time_s : 30, //An hour in the game is equivalent 30 seconds
+}
+
 const CHAT_TYPE = {
   general_chat : "general_chat",
   loup_chat : "loup_chat",
@@ -37,4 +41,5 @@ module.exports = {
   PLAYER_STATUS,
   CHAT_TYPE,
   ROLE,
+  GAME_VALUES
 };

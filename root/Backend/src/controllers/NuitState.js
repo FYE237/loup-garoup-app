@@ -39,7 +39,22 @@ class NuitState extends GameState {
 
   handleDisconnect() {
   }
+
+  timerCooldown(){
+    
+  }
+
+  configureTimer(){
+    this.startTime = Date.now();
+    if (!this.context.dureeNuit){
+      throw Error("Timer was not configured correctly; night time not present")
+    }
+    this.timeout = setTimeout(this.timerCooldown.bind(this), 
+                    (this.context.dureeNuit*GAME_VALUES.hour_time_s)*1000);
+  }
+
+
+
 }
 
 module.exports = NuitState;
-
