@@ -109,9 +109,8 @@ module.exports = {
         .then((obj) => {
             //On inscrit directement l'hote à la partie
             debug("---------Creating game --------------");
-            debug("New game id =  ", obj._id.toString(), typeof obj._id.toString());
+            debug("New game id =  ", obj._id.toString());
             partieContextHashTable.set(obj._id.toString(), new StateContext(obj._id.toString()))
-            debug(partieContextHashTable.get(obj._id.toString()));
             let partie = partieContextHashTable.get(obj._id.toString())
             if (partie){ partie.state.setupCode();} 
             const joueur_partie_role = new Joueur_partie_role({

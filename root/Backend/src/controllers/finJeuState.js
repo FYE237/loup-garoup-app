@@ -6,7 +6,7 @@ class FinJeuState extends GameState {
   }
 
   /**
-   * The list aof action that will treated : 
+   * The list of action that will treated : 
    * Login
    * Chat message
    * Pouvoir special

@@ -1,15 +1,14 @@
 const GameState = require("./gameState");
-const {GAME_VALUES} = require('../models/chat')
-const debug = require('debug')('jourState');
+const { GAME_STATUS, GAME_VALUES } = require("./constants");
+const debug = require('debug')('JourState');
 
 class JourState extends GameState {
   constructor(context) {
-    super(context)
-    this.timeoutState = null;
+    super(context);
   }
 
   /**
-   * The list aof action that will treated : 
+   * The list of action that will treated in this state are : 
    * Chat message
    * Pouvoir special
    * Vote
@@ -42,8 +41,12 @@ class JourState extends GameState {
    * This function will also be used to send all of the information related to the game to all of the players
    * like their role and their special powers and the chats that they are allowed to access 
    */
-  setupCode(){
-    
+  async setupCode(){
+    debug("Setting up jour state")
+    this.updateGameStatusDataBase(GAME_STATUS.jour);
+    this.sendGameStatus();
+    this.sendPlayersInformation();
+    this.configureTimer();
   }
 
   /**
@@ -55,10 +58,20 @@ class JourState extends GameState {
   endCode(){
 
   }
+
+  /**
+   * This function will see if we can continues the game and
+   * if that is the case it will change the state 
+   */
   timerCooldown(){
+    debug("Timer cooldown changing state, current state = "+this.context.GameState);
+    //Treatement ...
+    debug("All is valid, trying to go to the night state");
+    this.context.setState(this.context.stateNuit);
   }
 
-  configureTimer(){
+  configureTimer(){   
+    debug("Configuring timer for the jour state")
     this.startTime = Date.now();
     if (!this.context.dureeJour){
       throw Error("Timer was not configured correctly; day time not present")

@@ -4,6 +4,8 @@ const JourState = require('./JourState');
 const NuitState = require('./NuitState');
 
 const Partie = require('../models/partie');
+const debug = require('debug')('GameContext');
+
 
 class StateContext {
   constructor(partieId) {
@@ -18,6 +20,8 @@ class StateContext {
     //but they can make the server much faster 
     this.nb_actif_players = 0;
     this.pseudoList = [];
+    //Game socket
+    this.nsp = null;
 
     //Map that contains the list of alive player of a particular game and the current number of votes against each player 
     //at a particular moment
@@ -31,8 +35,15 @@ class StateContext {
     this.probaPouvoirSpeciaux = null;
     this.nbParticipantSouhaite = null;
     this.tempsDebut = null;
-    this.roomId = null;
+    //room id of the game used for informing all of the players 
+    //of an information that should be broadcasted to everybody 
+    this.roomId = null; 
+    //Used for loup garrou inner communication
     this.roomLoupId = null;
+    //Chat rooms
+    this.generalChatRoom = null;
+    this.loupChatRoom = null;
+    this.gameStatus = null;
   }
 
   /**
@@ -48,6 +59,7 @@ class StateContext {
     this.probaPouvoirSpeciaux = partie.proba_pouvoir_speciaux;
     this.nbParticipantSouhaite = partie.nb_participant;
     this.tempsDebut = partie.heure_debut;
+    this.gameStatus = partie.statut;
     this.roomId = partie.room_id;
     this.roomLoupId = partie.room_loup_id;
   }
@@ -57,13 +69,17 @@ class StateContext {
     return partie;
   }
 
-  setState(state) {
-    if (!this.state.endCode()){
-      debug("End code failed not changing state")
-      return;
+  async setState(state) {
+    debug("Set state called, current state = " + this.gameStatus);
+    console.log();
+    let resEndCode = await this.state.endCode();
+    if (resEndCode == 0){
+      debug("End code failed; Ending game")
+      return 0;
     }
     this.state = state;
     this.state.setupCode();
+    return 1;
   }
 
   requestRejoindreUnJeu(nsp, socket, pseudo, socket_id) {

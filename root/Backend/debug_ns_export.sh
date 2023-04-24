@@ -1,1 +1,1 @@
-export DEBUG=Partie,EnAttenteState,Server,GameState
+export DEBUG=Partie,EnAttenteState,Server,GameState,JourState,GameContext,NuitState

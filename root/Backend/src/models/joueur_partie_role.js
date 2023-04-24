@@ -22,7 +22,7 @@ const joueur_partie_roleSchema = mongoose.Schema({
     //A table that contains the speacial powers 
     //that this player has in this game
     pouvoir_speciaux:{
-        type: [String],
+        type: String,
     },
     //Indicates if the player is alive
     statut:{

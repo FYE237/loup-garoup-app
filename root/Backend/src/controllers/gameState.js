@@ -10,6 +10,9 @@ const {GAME_STATUS, CHAT_TYPE, ROLE, PLAYER_STATUS} = require("./constants")
 class GameState {
   constructor(context) {
     this.context = context;
+    //These two values are used for timers
+    this.startTime = null;
+    this.timeoutState = null;
   }
 
   /**
@@ -180,6 +183,8 @@ class GameState {
   //This function will be executed in the day and night state 
   //and it will just change the status of a player to disconnected
   async handleDisconnect(nsp, id_joueur, socket_id) {
+    //TODO decrement the active players and make the player dead instead of
+    //disconnected
     await User.updateOne({id_joueur: id_joueur},{statut : PLAYER_STATUS.deconnecte});
     //A message could be sent to inform the others that a player disconnected but this will not be necessary
     //as when the game change, a message is emitted to inform the players of the current game status
@@ -204,7 +209,95 @@ class GameState {
   endCode(){
     return;
   }
-   
+  
+  async updateGameStatusDataBase(newStatus){
+    if (!newStatus){
+      throw Error("Please set a game status")
+    }
+    await Partie.updateOne({_id: this.context.partieId}, {statut : newStatus});
+    this.context.gameStatus = newStatus;
+  }
+  
+  /**
+   * This method is used to inform all players that the currect game 
+   * status has changed
+   */
+  async sendGameStatus(){
+    const partieInfo = await Partie.findOne({_id: this.context.partieId});
+    let data = {
+      message : "Changing game status to : " + partieInfo.statut,
+      status : partieInfo.statut,
+    }
+    this.context.nsp.to(this.context.roomId).emit('status-game', data);
+  }
+
+  /**
+   * This function is sent in a custom manner to every player
+   * and with it we inform the player of all the special powers that hes has
+   * and we will also inform him of the state of the player, we just tell him 
+   * that they are alive or dead 
+   */
+  async sendPlayersInformation(){
+    //We gather all of the players of a game and we place them in a 
+    //struct
+    const playerJoueurLink = await Joueur_partie_role.find({ id_partie: this.context.partieId });
+    if (!playerJoueurLink){
+      debug("Players were not found in the database")
+      throw Error("No players found while send player information")
+    }
+    //This table will hold list that has minimal information reagrding all of the players
+    //like their current status indicating if they are alive or not and their pseudo
+    const playersData = []
+    playerJoueurLink.map(async (player) =>{
+      const {name} = await this.getPlayerPseudo(player.id_joueur);
+      playersData.push({
+        playerName : name,
+        playerStatus : player.status
+      })
+    })
+    playerJoueurLink.map(async (player) =>{
+      //Some information is redundant but it will allow for faster access time
+      //and much easier use
+      let {name} = await this.getPlayerPseudo(player.id_joueur);
+      let data = {
+        partieId : this.context.partieId,
+        partieStatus : this.context.gameStatus,
+        roomId : this.context.roomId, 
+        roomLoupId : this.context.roomLoupId,
+        nbPersonneDansLejeu : this.context.nb_actif_players,
+        playerPseudo : name,
+        playerRole : player.role,
+        playerStatut : player.statut,
+        SpecialPowers: player.pouvoir_speciaux,
+        playersData : playersData,
+      }
+      let chats = {
+        generalChat : this.context.generalChat
+      }
+      if (player.role === ROLE.loupGarrou){
+        chats.loupChat = this.context.loupChatRoom;
+      }
+      //Todo add custom chat structure if needed in this form : 
+      /*
+       * customChat : customChatId  
+       * or customChat : {
+       *      customChatID
+       *      playersInTheChat : [] //Not important but will see
+       * } 
+      */
+      data.chats = chats;
+      if (player.socket_id != 0){
+        this.context.nsp.to(player.socket_id).emit("Player-info", data);
+      }
+      else{
+        debug("Player "+name+" is registered but has not logged in")
+      }
+    })
+
+
+    
+  }
+
   //-------------
   //Useful functions
   //-------------

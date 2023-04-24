@@ -118,13 +118,17 @@ async function rejoindrePartie(){
     socket.on('status-game', (data, statusfunc) => {
         // Handle the data received from the server
         console.log('Received game status update:', data);
-        socket.emit('send-message-game', "enakzjelazk,", data.room, getValueTickBox(), inputValue);
+//        socket.emit('send-message-game', "enakzjelazk,", data.room, getValueTickBox(), inputValue);
 
         });            
     socket.on('new-message', function(data) {
         console.log('Received new message:', data);
         // do something with the data
         });
+    socket.on("Player-info", function(data) {
+        console.log('Received player info:', data);
+        // do something with the data
+    });
         
         // console.log("Hello") ; 
 
