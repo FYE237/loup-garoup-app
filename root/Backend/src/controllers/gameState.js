@@ -51,10 +51,10 @@ class GameState {
       debug("Game was not found while sending message");
       return;
     }
-    // if (resPartie.statut != GAME_STATUS.jour || resPartie.statut != GAME_STATUS.nuit){
-    //   debug("Game in not in a status that permit messages being sent");
-    //   return;
-    // }
+    if (resPartie.statut !== GAME_STATUS.jour || resPartie.statut !== GAME_STATUS.nuit){
+      debug("Game in not in a status that permit messages being sent");
+      return;
+    }
     const playerId = await this.getPlayerId(pseudo);
     if (!playerId){
       debug("Player was not found while sending message")
@@ -77,10 +77,10 @@ class GameState {
     //At this point we treat all of the cases that we have
     switch (resChat.chat_type){
       case CHAT_TYPE.general_chat:
-        // if (resPartie.statut != GAME_STATUS.jour){
-        //   debug("Game is not in the day state, message cannot be sent in the general chat");
-        //   return;
-        // }
+        if (resPartie.statut !== GAME_STATUS.jour){
+          debug("Game is not in the day state, message cannot be sent in the general chat");
+          return;
+        }
         if (playerStatus.statut !== PLAYER_STATUS.vivant){
           debug("Player is not alive, message cannot be written into thE general chat");
           return;
@@ -88,10 +88,10 @@ class GameState {
         this.saveAndEmitMessage(nsp, socket, resChat._id, message, playerId, pseudo, roomId, CHAT_TYPE.general_chat);
         break;
       case CHAT_TYPE.loup_chat:
-        // if (resPartie.statut !== GAME_STATUS.nuit){
-        //   debug("Game is not in the night state, message cannot be sent in the loup chat ");
-        //   return;
-        // }
+        if (resPartie.statut !== GAME_STATUS.nuit){
+          debug("Game is not in the night state, message cannot be sent in the loup chat ");
+          return;
+        }
         if (playerStatus.statut !== PLAYER_STATUS.vivant && playerStatus.Role !== ROLE.loupGarrou){
           debug("Player is not alive or not a loup, message cannot be written into the loup chat");
           return;
@@ -99,10 +99,10 @@ class GameState {
         this.saveAndEmitMessage(nsp, socket, resChat._id, message, playerId, pseudo, roomId, CHAT_TYPE.loup_chat);
         break;
       case CHAT_TYPE.custom_chat:
-        // if (resPartie.statut !== GAME_STATUS.nuit){
-        //   debug("Game is not in the night state, custom chats cannot be written into");
-        //   return;
-        // }  
+        if (resPartie.statut !== GAME_STATUS.nuit){
+          debug("Game is not in the night state, custom chats cannot be written into");
+          return;
+        }  
         if (!resChat.players_id.incules()){
           debug("Player is not registered in this chat");
           return; 

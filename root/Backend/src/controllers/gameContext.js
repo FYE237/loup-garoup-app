@@ -30,7 +30,7 @@ class StateContext {
     this.proportionLoup = null; 
     this.probaPouvoirSpeciaux = null;
     this.nbParticipantSouhaite = null;
-    this.heureDebut = null;
+    this.tempsDebut = null;
     this.roomId = null;
     this.roomLoupId = null;
   }
@@ -47,7 +47,7 @@ class StateContext {
     this.proportionLoup = partie.proportion_loup; 
     this.probaPouvoirSpeciaux = partie.proba_pouvoir_speciaux;
     this.nbParticipantSouhaite = partie.nb_participant;
-    this.heureDebut = partie.heure_debut;
+    this.tempsDebut = partie.heure_debut;
     this.roomId = partie.room_id;
     this.roomLoupId = partie.room_loup_id;
   }
@@ -58,7 +58,10 @@ class StateContext {
   }
 
   setState(state) {
-    this.state.endCode();
+    if (!this.state.endCode()){
+      debug("End code failed not changing state")
+      return;
+    }
     this.state = state;
     this.state.setupCode();
   }

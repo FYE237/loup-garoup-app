@@ -13,6 +13,7 @@ class EnAttenteState extends GameState {
   constructor(context) {
     super(context);
     this.nsp = null;
+    this.timeout = null;
   }
 
   /**
@@ -59,7 +60,13 @@ class EnAttenteState extends GameState {
     // this.createGamechat();
     nsp.to(this.context.roomId).emit('status-game', data);
     if (this.context.nb_actif_players == this.context.nbParticipantSouhaite){
-      this.launchGame();
+      if (this.timeout){
+        clearTimeout(this.timeout);
+        this.launchGame();
+      }
+      else{
+        throw new Error("Timer was not set up correctly or the we are not in the correct state");
+      }
     }
   }
 
@@ -150,7 +157,8 @@ class EnAttenteState extends GameState {
         playerSocket.join(loupChatRoom)
       }
       else if (player.role === ROLE.noRole){
-      //  throw new Error("A player in the game does not have a role")
+        //TODO REMOVE THE COMMENT FROM HERE
+        //  throw new Error("A player in the game does not have a role")
       }
     })
     debug("Chats rooms have been created for the game  : "+ this.context.partieId);
@@ -158,11 +166,18 @@ class EnAttenteState extends GameState {
     // return generalChatRoom; TODO: REMOVE THIS ;; Used for debugging
   }
 
-  //Will be called when we start the game, it will be used
-  //Roles will attributed at this level
+  /**
+   * Will be called when we start the game, it will be used
+   * Roles will attributed at this level
+   * @returns 0 if it failed and 1 it it was successfull
+   */
   async endCode() {
     if (this.context != this.context.EnAttenteState) {
-      return;
+      return 0;
+    }
+    if (this.nb_actif_players == 0 || this.nb_actif_players < 3) {
+      debug("Game cannot get started that are very litle players")
+      return 0;
     }
 
     // computing of the number of wolves in the game
@@ -255,6 +270,8 @@ class EnAttenteState extends GameState {
         }
       });
     }
+    this.createGamechat();
+    return 1;
   }
 
   startGameTimer() {
@@ -272,12 +289,15 @@ class EnAttenteState extends GameState {
     if (this.context != this.context.EnAttenteState) {
       return;
     }
+    //This will change the state and before it does that it will
+    //call the endcode method of the currect state class 
+    //and the setup method of the next state class
     this.context.setState(this.context.stateJour);
   }
 
   remainingTime() {
     const elapsedTime = Date.now() - this.startTime;
-    const timeLeft = this.context.heureDebut - elapsedTime;
+    const timeLeft = this.context.tempsDebut - elapsedTime;
     return timeLeft;
   }
   /**
@@ -287,7 +307,7 @@ class EnAttenteState extends GameState {
   async setupCode() {
     await this.context.initAttributs();
     this.startTime = Date.now();
-    setTimeout(this.startGameTimer.bind(this), this.context.heureDebut);
+    this.timeout = setTimeout(this.startGameTimer.bind(this), this.context.tempsDebut*1000);
   }
 }
 
