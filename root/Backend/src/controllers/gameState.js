@@ -167,10 +167,10 @@ class GameState {
         console.error(err)})
   }
 
-  handleVote(socket,id_joueur,currentPlayersVote) {
+  async handleVote(socket,id_joueur,currentPlayersVote,id_socket) {
   }
 
-  handleVote(socket,id_joueur,room,currentPlayersVote) {
+  async handleVote(socket,id_joueur,room,currentPlayersVote,id_socket) {
   }
 
   handlePouvoir() {
