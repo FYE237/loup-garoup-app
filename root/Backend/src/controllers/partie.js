@@ -87,9 +87,9 @@ module.exports = {
 
         const {heure_debut, nb_participant, hote_name, duree_jour,
              duree_nuit, proportion_loup, proba_pouvoir_speciaux} = tmp;
+        debug("heure debut = " + heure_debut)
         //On retrouve l'id associé au pseudo dans le body à hote_name
         const {_id} = await User.findOne({name:hote_name}).select({_id:1,name:0,email:0,__v:0,password:0})
-        console.log("hote id = "+_id);  
         //We create the game instance
         const partie = new Partie({
             heure_debut:heure_debut,

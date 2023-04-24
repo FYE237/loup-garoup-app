@@ -74,15 +74,17 @@ nsp.on('connection', (socket) => {
 
     socket.on("rejoindre-jeu", (data, callback) => {
         debug("[server] Joining game" + JSON.stringify(data));
-        let pseudo  = data.pseudo; 
+        let pseudo  = data.pseudo;
+        console.log(data.pseudo); 
         let id_partie  = data.id_partie;         
-        if (pseudo == null || id_partie == null){
+        if (!pseudo ||!id_partie){
             debug("data must have pseudo, and id_partie when joining a game.")
             if (typeof callback === "function") {
                 callback({
                     status: "data must have pseudo, and id_partie when joining a game."
                   });    
             }
+            return;
         }
         let partie = partieContextHashTable.get(id_partie);
         if (partie){partie.requestRejoindreUnJeu(nsp, socket, pseudo, socket.id);}
@@ -139,55 +141,13 @@ nsp.on('connection', (socket) => {
          * L'id du joueur pour qui on vote
          * 
          */
-    let nbVoteJour = 0
     socket.on("vote-jour",async (id_joueur,id_partie) => {
-        nbVoteJour ++
         debug("Vote Jour pour : " + message)
         let partie = partieContextHashTable.get(id_partie);
         if(partie) 
             {
-                //Passer en paramètres : le socket du joueur,id_partie, id_joueur,
-                partie.requestVote(socket,id_joueur) 
-                        
-                //On check pour savoir si tous les joueurs vivants ont voté
-                if(  nbVoteJour === partie.nb_actif_players)
-                    {
-                        //On remet le nombre de votes à 0
-                        nbVoteJour = 0
-
-                        //variable who check if there is many person with the same number of votes
-                        let duplicate;
-
-                        //On recupere l'id du joueur avec le plus de vote contre lui
-                        let maxKey = "";
-                        let maxValue = 0;
-                        for (let [key, value] of partie.currentPlayersVote) {
-                            if (value > maxValue) {
-                                maxValue = value;
-                                maxKey = key;
-                                duplicate = false
-                            }
-                            else if(value === maxValue) duplicate = true
-                            
-                        }
-
-                        //Les loups message, roomIdont pu s'entendre
-                        if(duplicate != true){
-                            //Est ce que je dois supprimer les joueurs morts de la liste des votes des joueurs
-
-
-                            //On change le statut du joueur avec le plus de vote contre lui
-                            //On récupère son id_joueur
-                            const value = await User.findOne({name:maxKey}).select({_id:1,__v:0,password:0})
-                            //On change son statut
-                            await Joueur_partie_role.updateOne({id_joueur:value.id_joueur},{statut:PLAYER_STATUS.mort});
-                            nsp.to(partie.roodId).emit("JoueurMort",{name:maxKey})
-                        }
-                        //Les loups n'ont pas pu s'entendre
-                        else{
-                            nsp.to(partie.roodId).emit("NoJoueurMORT")
-                        }
-                    }
+                //Passer en paramètres : le socket du joueur, de la partie, id_joueur,
+                partie.requestVote(nsp,id_joueur,socket.id) 
 
             }
     })
@@ -200,60 +160,13 @@ nsp.on('connection', (socket) => {
          * room : id de la room des loup-garous
          * 
          */
-    let nbVoteNuit = 0
     socket.on("vote-nuit",async(id_joueur,id_partie,room)=>{
-        nbVoteNuit ++
         debug("Vote Nuit pour : " + message)
         let partie = partieContextHashTable.get(id_partie);
         if(partie) 
             {
-                //Passer en paramètres : le socket du joueur,id_partie, id_joueur,
-                partie.requestVote(socket,id_joueur,room) 
-                        
-                //On check pour savoir si tous les joueurs vivants ont voté
-                if(  nbVoteNuit === partie.nb_actif_players)
-                    {
-                        //On remet le nombre de votes à 0
-                        nbVoteNuit = 0
-
-                        //variable who check if there is many person with the same number of votes
-                        let duplicate;
-
-                        //On recupere l'id du joueur avec le plus de votes contre lui
-                        let maxKey = "";
-                        let maxValue = -1;
-                        for (let [key, value] of partie.currentPlayersVote) {
-                            if (value > maxValue) {
-                                maxValue = value;
-                                maxKey = key;
-                                duplicate = false
-                            }
-                            else if(value === maxValue) duplicate = true
-                        }
-
-                        //Les loups ont pu s'entendre
-                        if(duplicate != true){
-                            //Est ce que je dois supprimer les joueurs morts de la liste des votes des joueurs
-
-
-                            //On change le statut du joueur avec le plus de vote contre lui
-                            //On récupère son id_joueur
-                            const value = await User.findOne({name:maxKey}).select({_id:1,__v:0,password:0})
-                            //On change son statut
-                            await Joueur_partie_role.updateOne({id_joueur:value.id_joueur,id_partie:id_partie},{statut:PLAYER_STATUS.mort});
-
-                            //On change le state pour indiquer quel joueur a été tué pendant la nuit.
-                            partie.state.deadPlayer=maxKey;
-                            
-                            // On indique aux loups que leur choix a été pris en compte
-                            socket.to(room).emit("JoueurMortByLoup",{name:maxKey})
-                        }
-                        //Les loups n'ont pas pu s'entendre pour tuer quelqu'un
-                        else {
-                             // On indique aux loups que leur choix a été pris en compte
-                             socket.to(room).emit("NoJoueurMortByLoup")
-                        }
-                    }
+                //Passer en paramètres : le socket de la partie,du joueur,id_joueur,room des loups
+                partie.requestVote(nsp,id_joueur,room,socket.id) 
 
             }
     })

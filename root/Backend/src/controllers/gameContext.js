@@ -23,6 +23,14 @@ class StateContext {
     //Game socket
     this.nsp = null;
 
+    /**
+     * Increment this value :
+     *  each time a new player joins,
+     *  Each time a playe leaves a game
+     * When a player is killed at the end of votes
+     * */ 
+    this.nbAlivePlayer = 0;
+
     //Map that contains the list of alive player of a particular game and the current number of votes against each player 
     //at a particular moment
     //The value of each vote against a player is reset to 0 at each game's state changes. exple : day -> night
@@ -62,6 +70,7 @@ class StateContext {
     this.gameStatus = partie.statut;
     this.roomId = partie.room_id;
     this.roomLoupId = partie.room_loup_id;
+    this.nbAlivePlayer = 0;
   }
 
   async getPartieData(){
@@ -86,12 +95,17 @@ class StateContext {
     return this.state.handleRejoindreJeu(nsp, socket, pseudo, socket_id);
   }
 
-  requestVote(socket,id_joueur) {
-    return this.state.handleVote(socket,id_joueur,this.currentPlayersVote);
+  //id_socket est la socket du joueur
+  //Vote de jour
+  //socket = nsp
+  requestVote(socket,id_joueur,id_socket) {
+    return this.state.handleVote(socket,id_joueur,this.currentPlayersVote,id_socket);
   }
 
-  requestVote(socket,id_joueur,room) {
-    return this.state.handleVote(socket,id_joueur,room,this.currentPlayersVote);
+  //Vote de nuit
+  //socket = nsp
+  requestVote(socket,id_joueur,room,id_socket) {
+    return this.state.handleVote(socket,id_joueur,room,this.currentPlayersVote,id_socket);
   }
 
   

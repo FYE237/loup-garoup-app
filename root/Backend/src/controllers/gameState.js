@@ -170,10 +170,10 @@ class GameState {
         console.error(err)})
   }
 
-  handleVote(socket,id_joueur,currentPlayersVote) {
+  async handleVote(socket,id_joueur,currentPlayersVote,id_socket) {
   }
 
-  handleVote(socket,id_joueur,room,currentPlayersVote) {
+  async handleVote(socket,id_joueur,room,currentPlayersVote,id_socket) {
   }
 
   handlePouvoir() {
@@ -184,8 +184,9 @@ class GameState {
   //and it will just change the status of a player to disconnected
   async handleDisconnect(nsp, id_joueur, socket_id) {
     //TODO decrement the active players and make the player dead instead of
+    this.context.nbAlivePlayer--;
     //disconnected
-    await User.updateOne({id_joueur: id_joueur},{statut : PLAYER_STATUS.deconnecte});
+    await User.updateOne({id_joueur: id_joueur},{statut : PLAYER_STATUS.mort});
     //A message could be sent to inform the others that a player disconnected but this will not be necessary
     //as when the game change, a message is emitted to inform the players of the current game status
     return;

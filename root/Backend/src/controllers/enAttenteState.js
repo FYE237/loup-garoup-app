@@ -45,6 +45,7 @@ class EnAttenteState extends GameState {
     }
     if (!this.addPlayerIntoContext(pseudo)){
       //Player is in the game already
+      debug("Player is in the game "+pseudo);
       return;
     }
     //We connect the player to the game room  one we have verified
@@ -75,6 +76,7 @@ class EnAttenteState extends GameState {
     //Players can only be added if the game is in the wait state
     if (!this.context.pseudoList.includes(pseudo)) {
       this.context.nb_actif_players++;
+      this.context.nbAlivePlayer++;
       this.context.pseudoList.push(pseudo)
       return true;
     }
@@ -83,6 +85,7 @@ class EnAttenteState extends GameState {
 
   removePlayerFromContext(pseudo) {
     this.context.nb_actif_players--;
+    this.context.nbAlivePlayer--;
     this.context.pseudoList = this.context.pseudoList.filter(
       (value) => value !== pseudo
     );
