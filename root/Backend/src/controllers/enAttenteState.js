@@ -172,6 +172,11 @@ class EnAttenteState extends GameState {
     debug("Chats rooms have been created for the game  : "+ this.context.partieId);
     debug("general chat room id  = " + generalChatRoom)
     debug("loup chat room id  = " + loupChatRoom)
+    /**
+     * ADD A FUNCTION THAT ADD THE PLAYERS WITH THE INSOMIE POWER TO THE LOUP GARROU
+     * ROOM BUT ADD RESTRICTIONS SO THEY ARE NOT ABLE TO SEND MESSAGES AND CANNOT VIEW THE NAMES OF 
+     * THE PEOPLE THAT SEND THE MESSAGES IN THE CHAT ROOM
+     */
     // return generalChatRoom; TODO: REMOVE THIS ;; Used for debugging
   }
 

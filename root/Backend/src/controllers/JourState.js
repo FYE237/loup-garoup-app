@@ -97,7 +97,49 @@ class JourState extends GameState {
     }
   }
 
-  handlePouvoir() {
+  async handleSpiritisme(nsp, socket, pseudoJoueur, pseudoCible){
+    debug("Handle pouvoir spiritisme called");
+    //On retoruve l'_id de la sorciere
+    const joueurPowerId = await this.getPlayerId(pseudoJoueur);
+    //On retrouve l'_id du joueur mort
+    const cibleId = await this.getPlayerId(pseudoCible);
+    if (!joueurPowerId || !cibleId){
+      debug("One or all of the specified players do not exist, please restate the verify pseudo values")
+      throw new Error("One or all of the specified players do not exist, please restate the verify pseudo values")
+    }
+    
+    //On retrouve le socket.id du joueur mort dans la partie
+    const joueur = await joueur_partie_role.findOne({id_joueur:value._id,id_partie:this.context.id_partie})
+    //On retrouve le socket.id de la sorciere dans la partie
+    const sorciere = await joueur_partie_role.findOne({id_joueur:value_sorciere._id,id_partie:this.context.id_partie})
+
+    
+    /** 
+     * TODO VERIFY THAT BOTH PLAYERS ARE FIT THIS POWER
+     * Create a chat room and add both players in it 
+     * create a new table in joueur partie link that had a list of all custom chat toom that 
+     * this player can access
+     * Reset this list going from night to day
+     * Join both sockets to the chat messages
+     * Add the created chat to the list of chats that will be sent when we send player info
+     * Test this functionallity
+    */
+
+    //On informe  le joueur qu'on souhaite lui parler et on lui communique le socket.id de la sorciere
+    socket.to(joueur.socket_id).emit("RequestDiscussionSorciere",{emetteur:id_joueur,socket_id_sorciere:sorciere.socket_id})
+    //On envoie le socket.id de l'autre joueur à la sorciere 
+    socket.to(sorciere.socket_id).emit("SendPlayerSocketIdToSorciere",{socket_id_joueur:joueur.socket_id})
+
+    //On ecoute les méssages sortant de la sorciere  
+    //room ici c'est le socket.id du joueur mort avec lequel la socket veut communiquer
+    socket.on("send-message-Sorciere",(message,room) => {
+
+        debug("send:"+message)
+
+        //Seule le joueur discutant avec la sorciere recoit les méssages
+        socket.to(room).emit('receive-message-Sorciere',message)
+        
+    })
   }
 
   /**

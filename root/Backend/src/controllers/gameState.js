@@ -225,7 +225,7 @@ class GameState {
     return;
   }
 
-  handlePouvoir() {
+  handleSpiritisme() {
     return;
   }
 

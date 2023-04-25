@@ -1,7 +1,6 @@
 const status = require('http-status');
 
 const User = require('../models/user');
-
 const bcrypt = require('bcrypt')
 const has = require('has-keys');
 const jws = require('jws')
@@ -110,8 +109,11 @@ module.exports = {
         
         user.save()
         .then(() => res.json({status: true, message: 'User Added'}))
-        //.catch(() => {throw  new CodeError('Add failed', status.BAD_REQUEST)})
-        .catch(() => res.json({status: false, message: 'Add failed'}))
+        ///.catch(() => {throw  new CodeError('Add failed', status.BAD_REQUEST)})
+        .catch(() => {
+          //TODO FIX THIS !!!!!!! RETURNS CODE 200 !!!!
+          res.status = status.INTERNAL_SERVER_ERROR;
+          res.json({status: false, message: 'Add failed'})})
 
     },
 

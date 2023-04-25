@@ -143,7 +143,7 @@ nsp.on('connection', (socket) => {
     socket.on("vote-jour",async (pseudoVoteur, candidantVote, id_partie) => {
         debug("Vote Jour pour : " + message)
         if (!pseudoVoteur || !candidantVote || !id_partie ){
-            debug("pseudoVoteur = "+pseudoVoteur+"candidantVote = "+candidantVote+"id_partie = ")
+            debug("pseudoVoteur = "+pseudoVoteur+"candidantVote = "+candidantVote+"id_partie = "+id_partie)
             debug("Please provide the player who made the vote, the player from whom you wish"+ 
                             "to vote for and the game id ");
             return;
@@ -167,57 +167,49 @@ nsp.on('connection', (socket) => {
          * L'id du joueur pour qui on vote
          * room : id de la room des loup-garous
          */
-    socket.on("vote-nuit",async(pseudoVoteur, candidantVote, id_partie,room)=>{
-        debug("Vote Nuit pour : " + message)
+    socket.on("vote-nuit",async(pseudoVoteur, candidantVote, id_partie)=>{
+      debug("Vote Nuit par : " + pseudoVoteur)
+      if (!pseudoVoteur || !candidantVote || !id_partie ){
+        debug("pseudoVoteur = "+pseudoVoteur+"candidantVote = "+candidantVote+"id_partie = "+id_partie)
+        debug("Please provide the player who made the vote, the player from whom you wish"+ 
+        "to vote for and the game id ");
+        return;
+      }
+      try{
         let partie = partieContextHashTable.get(id_partie);
-        if(partie) 
-            {
-                //Passer en paramètres : le socket de la partie,du joueur,id_joueur,room des loups
-                partie.requestVote(nsp, id_joueur,room,socket.id) 
-            }
-    })
+        if(partie){ 
+            partie.requestVote(pseudoVoteur, candidantVote, id_partie, socket) 
+        }
+    }   
+    catch(err){
+        debug("Vote nuit went wrong = " + err);
+    }
+   })
 
-    //Pouvoir de la sorcière : 
-    /**
-     * L'id de la sorciere
-     * L'id de la partie
-     * l'id du joueur mort avec lequel on veut discuter
+    //Pouvoir spiritisme: 
+    /** 
+     * This special power can be done during the day 
+     * and it will add new chat that the player can access and can send messages on during the night
+     * the new chat will hold only two people and can only be valid for one night 
+     * @param pseudoJoueur  L'id de la of player that used the power
+     * @param pseudoCible  L'id de la of player that the power was used on 
+     * @param id_partie L'id de la partie
      */
-    socket.on("DiscussionSorciere",async(id_joueur,id_partie,id_joueur_mort)=>{
-        let partie = partieContextHashTabentrantle.get(id_partie);
-        if(partie)
-            {
-                //On retrouve l'_id du joueur mort
-                const value = await User.findOne({name:id_joueur_mort}).select({_id:1,__v:0,password:0})
-
-                //On retoruve l'_id de la sorciere
-                const value_sorciere = await User.findOne({name:id_joueur}).select({_id:1,__v:0,password:0})
-                
-                if(value && value_sorciere){
-                    //On retrouve le socket.id du joueur mort dans la partie
-                    const joueur = await joueur_partie_role.findOne({id_joueur:value._id,id_partie:id_partie}).select({socket_id:1})
-
-                    //On retrouve le socket.id de la sorciere dans la partie
-                    const sorciere = await joueur_partie_role.findOne({id_joueur:value_sorciere._id,id_partie:id_partie}).select({socket_id:1})
-
-                    //On informe  le joueur qu'on souhaite lui parler et on lui communique le socket.id de la sorciere
-                    socket.to(joueur.socket_id).emit("RequestDiscussionSorciere",{emetteur:id_joueur,socket_id_sorciere:sorciere.socket_id})
-
-                    //On envoie le socket.id de l'autre joueur à la sorciere 
-                    socket.to(sorciere.socket_id).emit("SendPlayerSocketIdToSorciere",{socket_id_joueur:joueur.socket_id})
-
-                    //On ecoute les méssages sortant de la sorciere  
-                    //room ici c'est le socket.id du joueur mort avec lequel la socket veut communiquer
-                    socket.on("send-message-Sorciere",(message,room) => {
-
-                        debug("send:"+message)
-
-                        //Seule le joueur discutant avec la sorciere recoit les méssages
-                        socket.to(room).emit('receive-message-Sorciere',message)
-                        
-                    })
-                }
-            }
+    socket.on("Pouvoir-Spiritisme",async(pseudoJoueur, pseudoCible, id_partie)=>{
+      debug("Pouvoir-Spiritisme executée par : " + pseudoVoteur)
+      if (!pseudoJoueur || !pseudoCible || !id_partie ){
+        debug("pseudoJoueur = "+pseudoJoueur+" pseudoCible = "+pseudoCible+" id_partie = "+id_partie)
+        debug("Please provide the player who made the vote, the player from whom you wish"+ 
+        "to vote for and the game id ");
+        return;
+      }
+      try{
+        let partie = partieContextHashTable.get(id_partie);
+        if (partie){partie.requestSpiritisme(nsp, socket, pseudoJoueur, pseudoCible);}
+      }   
+      catch(err){
+          debug("Pourvoir spiritisme went wrong = " + err);
+      }
     })
 
     //Pouvoir de voyance
@@ -256,7 +248,7 @@ nsp.on('connection', (socket) => {
      * L'id de la partie
      * l'id du joueur qu'on veut contaminer
      */
-    socket.on("Request-Loup-alpha",async(id_joueur,id_partie,id_joueur_cible)=>{
+    socket.on("Request-Loup-alpha",async( id_joueur,id_partie,id_joueur_cible )=>{
         let partie = partieContextHashTabentrantle.get(id_partie);
         if(partie)
             {

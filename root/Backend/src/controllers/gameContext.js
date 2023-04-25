@@ -114,8 +114,8 @@ class StateContext {
 
   
 
-  requestPouvoir() {
-    return this.state.handlePouvoir();
+  requestSpiritisme(nsp, socket, pseudoJoueur, pseudoCible) {
+    return this.state.handleSpiritisme(nsp, socket, pseudoJoueur, pseudoCible);
   }
 
   requestDisconnect(nsp, id_joueur, socket_id){ 
