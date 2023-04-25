@@ -210,7 +210,6 @@ class GameState {
       debug("One of the players that you are trying to vote for is dead");
       return false;
     }
-    return true;
     //We check if we need to compare roles
     if (verifyRole){
       if (voteurInfo.role != verifyRole){
@@ -340,7 +339,6 @@ class GameState {
       data.chats = chats;
       if (player.socket_id != 0){
         debug("Sending Player info to  "+name);
-        this.handleVote("samuel", "mehdi", player.socket_id);
         this.context.nsp.to(player.socket_id).emit("Player-info", data);
       }
       else{
