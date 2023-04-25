@@ -1,9 +1,8 @@
 
 const Partie = require('../models/partie');
 const User = require('../models/user');
-const {Chat, Message} = require('../models/chat')
 const Joueur_partie_role = require('../models/joueur_partie_role')
-
+const {Chat, Message} = require('../models/chat')
 const debug = require('debug')('GameState');
 const {GAME_STATUS, CHAT_TYPE, ROLE, PLAYER_STATUS} = require("./constants")
 
@@ -14,6 +13,7 @@ class GameState {
     this.startTime = null;
     this.timeoutState = null;
   }
+//  # MONGO_URL = mongodb://localhost:27017/projet_web
 
   /**
    * Some of these functions will be redefined 
@@ -189,32 +189,33 @@ class GameState {
   async verifyThatVoteIsPossible(pseudoVoteur, candidantVote, verifyRole){
     if (this.lockVotes){
       debug("Vote are locked !!!!");
-      throw new Error("Vote are locked !!!!");
+      return false;
     }
     if(!this.context.pseudoList.includes(pseudoVoteur) &&
         !this.context.pseudoList.includes(candidantVote)){
           debug("One of the given players does not exists in the game");
-          throw new Error("One of the given players does not exists in the game");
+          return false;
     }
-    if (!this.context.VotersList.includes(pseudoVoteur)){
+    if (this.context.VotersList.includes(pseudoVoteur)){
       debug("This player has already voted");
-      throw new Error("This player has already voted");
+      return false;
     }
-    const voteurId = await getPlayerId(pseudoVoteur);
-    const candidatId = await getPlayerId(candidantVote);
+    const voteurId = await this.getPlayerId(pseudoVoteur);
+    const candidatId = await this.getPlayerId(candidantVote);
     const voteurInfo = await Joueur_partie_role
                             .findOne({id_partie:this.context.partieId, id_joueur:voteurId})
     const candidatInfo = await Joueur_partie_role
                       .findOne({id_partie:this.context.partieId, id_joueur:candidatId})
     if (voteurInfo.statut !==  PLAYER_STATUS.vivant || candidatInfo.statut !== PLAYER_STATUS.vivant){
       debug("One of the players that you are trying to vote for is dead");
-      throw new Error("One of the players that you are trying to vote for is dead");
+      return false;
     }
+    return true;
     //We check if we need to compare roles
     if (verifyRole){
       if (voteurInfo.role != verifyRole){
         debug("the player that made the vote does not have the required role");
-        throw new Error("the player that made the vote does not have the required role");  
+        return false;
       }
     }
     return true;
@@ -284,8 +285,8 @@ class GameState {
 
   /**
    * This function is sent in a custom manner to every player
-   * and with it we inform the player of all the special powers that hes has
-   * and we will also inform him of the state of the player, we just tell him 
+   * and with it we inform the player of all the special powers that he has
+   * and we will also inform him of the state of the of the other players by just telling him 
    * that they are alive or dead 
    */
   async sendPlayersInformation(){
@@ -339,6 +340,7 @@ class GameState {
       data.chats = chats;
       if (player.socket_id != 0){
         debug("Sending Player info to  "+name);
+        this.handleVote("samuel", "mehdi", player.socket_id);
         this.context.nsp.to(player.socket_id).emit("Player-info", data);
       }
       else{

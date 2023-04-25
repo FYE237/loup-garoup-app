@@ -152,7 +152,7 @@ nsp.on('connection', (socket) => {
             let partie = partieContextHashTable.get(id_partie);
             if(partie)
             { 
-                partie.requestVote(pseudoVoteur, candidantVote, id_partie, socket) 
+                partie.requestVote(pseudoVoteur, candidantVote, socket.id) 
             }
         }   
         catch(err){
@@ -178,7 +178,7 @@ nsp.on('connection', (socket) => {
       try{
         let partie = partieContextHashTable.get(id_partie);
         if(partie){ 
-            partie.requestVote(pseudoVoteur, candidantVote, id_partie, socket) 
+            partie.requestVote(pseudoVoteur, candidantVote, socket.id) 
         }
     }   
     catch(err){

@@ -1,8 +1,10 @@
 const GameState = require("./gameState");
 
 const debug = require('debug')('NuitState');
-const {GAME_STATUS, CHAT_TYPE, ROLE, PLAYER_STATUS, GAME_VALUES} = require("./constants")
-
+const {GAME_STATUS, CHAT_TYPE, ROLE, PLAYER_STATUS, GAME_VALUES} = require("./constants");
+const Partie = require('../models/partie');
+const User = require('../models/user');
+const Joueur_partie_role = require('../models/joueur_partie_role');
 
 class NuitState extends GameState {
   constructor(context) {
@@ -23,26 +25,30 @@ class NuitState extends GameState {
 
   async setupCode(){    
     debug("Setting up night state")
-    this.updateGameStatusDataBase(GAME_STATUS.soir);
-    this.sendGameStatus();
-    this.sendPlayersInformation();
+    await this.updateGameStatusDataBase(GAME_STATUS.soir);
+    await this.sendGameStatus();
+    await this.sendPlayersInformation();
+    //We unlock votes
+    this.lockVotes = false;
     this.configureTimer();
     //We update the values of the alive loup
     this.nbAliveLoup = await this.getCountRole(ROLE.loupGarou, PLAYER_STATUS.vivant);
   }
 
-  async handleVote(pseudoVoteur, candidantVote, socket) {
+  async handleVote(pseudoVoteur, candidantVote, socket_id) {
+    debug("Handle vote for the night state was called");
     if (!this.verifyThatVoteIsPossible(pseudoVoteur, candidantVote, ROLE.loupGarou)){
       debug("Vote is not possible");
     }
+    debug(pseudoVoteur+" can vote and is voting for " + candidantVote);
     const voteCounter = this.context.currentPlayersVote.get(candidantVote)
     this.context.currentPlayersVote.set(candidantVote, voteCounter+1)
-    this.context.VotersList.append(pseudoVoteur);
+    this.context.VotersList.push(pseudoVoteur);
 
     this.nbVoteNuit++;
 
     //On répond au joueur que son vote a été pris en compte
-    socket.emit(id_socket).emit("VoteNuitEnregistré",{description:"Vote-Okay"})
+    this.context.nsp.to(socket_id).emit("VoteNuitEnregistré",{description:"Vote-Okay"})
 
     //On informe les autres loup-garous du joueur voté : 
     this.context.nsp.to(this.context.roomLoupId).emit("notif-vote-nuit", {
@@ -54,7 +60,8 @@ class NuitState extends GameState {
     //On check pour savoir si tous les joueurs vivants ont voté
     if(this.nbVoteNuit === this.nbAliveLoup)
     {
-      this.finaliseVotingProcess();
+      clearTimeout(this.timeout);
+      await this.timerCooldown();
     }
   }
 
@@ -70,7 +77,7 @@ class NuitState extends GameState {
     //On recupere l'id du joueur avec le plus de votes contre lui
     let maxKey = "";
     let maxValue = -1;
-    for (let [key, value] of this.currentPlayersVote) {
+    for (let [key, value] of this.context.currentPlayersVote) {
         if (value > maxValue) {
             maxValue = value;
             maxKey = key;
@@ -80,6 +87,10 @@ class NuitState extends GameState {
     }
 
     this.context.currentPlayersVote = new Map();
+    if (maxValue <= 0){
+      debug("No majority was reached");
+      return;
+    }
     //Les loups ont pu s'entendre
     if(duplicate != true){
         //Remarque : On n'a pas besoin de faire ca : 
@@ -91,9 +102,10 @@ class NuitState extends GameState {
 
         //On change le statut du joueur avec le plus de vote contre lui
         //On récupère son id_joueur
-        const value = await User.findOne({name:maxKey}).select({_id:1,__v:0,password:0})
+        const playerId = await this.getPlayerId(maxKey); 
         //On change son statut
-        await Joueur_partie_role.updateOne({id_joueur:value.id_joueur,id_partie:this.context.partieId},{statut:PLAYER_STATUS.mort});
+        console.log("FINAL VAL " +playerId)
+        await Joueur_partie_role.updateOne({id_joueur:playerId,id_partie:this.context.partieId},{statut:PLAYER_STATUS.mort});
         
         //Je ne comprend pas cela 
         //On change le state pour indiquer quel joueur a été tué pendant la nuit.
@@ -107,6 +119,11 @@ class NuitState extends GameState {
         // On indique aux reste des jours la decision des loups;
         this.context.nsp.to(this.context.roomId).emit("NoJoueurMortByLoup")
     }
+  }
+
+  endCode(){
+    debug("Currently in the end of code of the night state");
+    return 1;
   }
 
   handlePouvoir() {
@@ -127,7 +144,7 @@ class NuitState extends GameState {
   configureTimer(){
     this.startTime = Date.now();
     if (!this.context.dureeNuit){
-      throw Error("Timer was not configured correctly; night time not present")
+      throw Error("Timer was not configured correctly; night length not present")
     }
     this.timeout = setTimeout(this.timerCooldown.bind(this), 
                     (this.context.dureeNuit*GAME_VALUES.hour_time_s)*1000);

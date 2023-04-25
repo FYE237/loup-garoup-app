@@ -81,14 +81,13 @@ class StateContext {
 
   async setState(state) {
     debug("Set state called, current state = " + this.gameStatus);
-    console.log();
     let resEndCode = await this.state.endCode();
     if (resEndCode == 0){
       debug("End code failed; Ending game")
       return 0;
     }
     this.state = state;
-    this.state.setupCode();
+    await this.state.setupCode();
     return 1;
   }
 
@@ -98,6 +97,9 @@ class StateContext {
 
 
 
+  requestVote(pseudoVoteur, candidantVote, socket_id) {
+    return this.state.handleVote(pseudoVoteur, candidantVote, socket_id);
+  }
 
   // //id_socket est la socket du joueur
   // //Vote de jour
