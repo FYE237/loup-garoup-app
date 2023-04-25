@@ -45,7 +45,8 @@ class EnAttenteState extends GameState {
     }
     if (!this.addPlayerIntoContext(pseudo)){
       //Player is in the game already
-      debug("Player is in the game "+pseudo);
+      debug("Player is already in the game "+pseudo);
+      debug("Player table "+this.context.pseudoList);
       return;
     }
     //We connect the player to the game room  one we have verified
@@ -67,9 +68,10 @@ class EnAttenteState extends GameState {
         this.launchGame();
       }
       else{
-        throw new Error("Timer was not set up correctly or the we are not in the correct state");
+        throw new Error("Timer was not set up correctly or  we are not in the correct state");
       }
     }
+    await this.getCountRole(ROLE.noRole);
   }
 
   addPlayerIntoContext(pseudo) {

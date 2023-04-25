@@ -35,7 +35,8 @@ class StateContext {
     //at a particular moment
     //The value of each vote against a player is reset to 0 at each game's state changes. exple : day -> night
     this.currentPlayersVote = new Map();
-
+    //Stores the players that have already voted
+    this.VotersList = []
     //We declare the values that will added later on : 
     this.dureeJour = null; 
     this.dureeNuit = null;
@@ -91,22 +92,25 @@ class StateContext {
     return 1;
   }
 
-  requestRejoindreUnJeu(nsp, socket, pseudo, socket_id) {
-    return this.state.handleRejoindreJeu(nsp, socket, pseudo, socket_id);
+  requestRejoindreUnJeu(pseudoVoteur, candidantVote, id_partie, socket) {
+    return this.state.handleRejoindreJeu(pseudoVoteur, candidantVote, id_partie, socket);
   }
 
-  //id_socket est la socket du joueur
-  //Vote de jour
-  //socket = nsp
-  requestVote(socket,id_joueur,id_socket) {
-    return this.state.handleVote(socket,id_joueur,this.currentPlayersVote,id_socket);
-  }
 
-  //Vote de nuit
-  //socket = nsp
-  requestVote(socket,id_joueur,room,id_socket) {
-    return this.state.handleVote(socket,id_joueur,room,this.currentPlayersVote,id_socket);
-  }
+
+
+  // //id_socket est la socket du joueur
+  // //Vote de jour
+  // //socket = nsp
+  // requestVote(socket,id_joueur,id_socket) {
+  //   return this.state.handleVote(socket, id_joueur, id_socket);
+  // }
+
+  // //Vote de nuit
+  // //socket = nsp
+  // requestVote(socket,id_joueur,id_socket) {
+  //   return this.state.handleVote(socket, id_joueur, id_socket);
+  // }
 
   
 

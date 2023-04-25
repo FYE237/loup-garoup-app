@@ -1,12 +1,13 @@
 const GameState = require("./gameState");
-const { GAME_STATUS, GAME_VALUES } = require("./constants");
+const { GAME_STATUS, GAME_VALUES, PLAYER_STATUS } = require("./constants");
 const debug = require('debug')('JourState');
 
 class JourState extends GameState {
   constructor(context) {
     super(context)
     //variablee where we store the number of player who has voted
-    this.nbVoteJour = 0
+    this.nbVoteJour = 0;
+    this.lockVotes = false;
   }
 
   /**
@@ -17,70 +18,83 @@ class JourState extends GameState {
    */
 
   /**
-   * We update the number of vote on a player
+   * Processes and update the vote counter related to every player and 
+   * global counter, if all of the players have voted we simply count the votes
+   * and decide if there was a majority 
+   * @param {*} pseudoVoteur 
+   * @param {*} candidantVote 
+   * @param {*} id_partie 
    * @param {*} socket 
-   * @param {*} id_joueur 
-   * @param {*} currentPlayersVote
-   * @param {*} id_socket 
-   * //id_socket is the player socket
    */
-  async handleVote(socket,id_joueur,currentPlayersVote,id_socket) {
-    const val = currentPlayersVote.get(id_joueur)
-    currentPlayersVote.set(id_joueur,val+1)
-
-    //On met à jour le nombre de vote
-    this.nbVoteJour ++
-
-    //On répond au joueur que son vote a été pris en compte
-    socket.to(id_socket).emit("VoteJourEnregistré",{description:"Vote-Okay"})
-    
-    //On informe les autres participants du joueur voté : 
-    socket.emit("notif-vote",{name:id_joueur})
-    //On check pour savoir si tous les joueurs vivants ont voté
-    if( this.nbVoteJour === this.nbAlivePlayer)
-    {
-        //On remet le nombre de votes à 0
-        this.nbVoteJour = 0
-
-        //variable who check if there is there are many players with the
-        //same number of votes
-        let duplicate;
-
-        //On recupere l'id du joueur avec le plus de vote contre lui
-        let maxKey = "";
-        let maxValue = 0;
-        for (let [key, value] of this.currentPlayersVote) {
-            if (value > maxValue) {
-                maxValue = value;
-                maxKey = key;
-                duplicate = false
-            }
-            else if(value === maxValue) duplicate = true
-            
-        }
-
-        //Les joueurs ont pu s'entendre
-        if(duplicate != true){
-            //Est ce que je dois supprimer les joueurs morts de la liste des votes des joueurs
-            this.currentPlayersVote.delete(maxKey)
-            //On decremente le nombre de joueurs vivants :
-            this.nbAlivePlayer--
-
-            //On change le statut du joueur avec le plus de vote contre lui
-            //On récupère son id_joueur
-            const value = await User.findOne({name:maxKey}).select({_id:1,__v:0,password:0})
-            //On change son statut
-            await Joueur_partie_role.updateOne({id_joueur:value.id_joueur,id_partie:this.partieId},{statut:PLAYER_STATUS.mort});
-            
-            //On signale à tous les joueurs qui est mort
-            socket.emit("JoueurMort",{name:maxKey})
-        }
-        //Les joueurs n'ont pas pu s'entendre
-        else{
-            socket.emit("NoJoueurMORT")
-        }
+  async handleVote(pseudoVoteur, candidantVote, socket) {
+    if (!this.verifyThatVoteIsPossible(pseudoVoteur, candidantVote)){
+      debug("Vote is not possible");
     }
+    const voteCounter = this.context.currentPlayersVote.get(candidantVote)
+    this.context.currentPlayersVote.set(candidantVote, voteCounter+1)
+    this.context.VotersList.append(pseudoVoteur);
+
+    //We increment the number of votes that have occured in this game 
+    this.nbVoteJour++;
+
+    //We inform the player that his vote has been registered
+    socket.emit("VoteJourEnregistré",{description:"Vote-Okay"})
     
+    //On informe les autres participants dont la personne a voté pour: 
+    this.context.nsp.to(this.context.roomId).emit("notif-vote",{
+      message : pseudoVoteur + "has voted for : " + candidantVote,
+      voteur : pseudoVoteur, 
+      candidat : candidantVote
+    })
+    //On check pour savoir si tous les joueurs vivants ont voté
+    if( this.nbVoteJour === this.context.nbAlivePlayer){
+      await this.finaliseVotingProcess();
+    }
+  }
+
+  async finaliseVotingProcess(){
+    //On remet le nombre de votes à 0
+    this.lockVotes = true;
+    this.nbVoteJour = 0;
+    this.context.VotersList = [];
+    //variable who check if there is there are many players with the
+    //same number of votes
+    let duplicate;
+
+    //On recupere l'id du joueur avec le plus de vote contre lui
+    let maxKey = "";
+    let maxValue = 0;
+    for (let [key, value] of this.context.currentPlayersVote) {
+        if (value > maxValue) {
+            maxValue = value;
+            maxKey = key;
+            duplicate = false
+        }
+        else if(value === maxValue) {duplicate = true}
+    }
+    //We reset the hash map as it is no longer needed and to 
+    //delete all of the old roles
+    this.context.currentPlayersVote = new Map();
+    //Les joueurs ont pu s'entendre
+    if(duplicate != true){
+        //Remarque : On n'a pas besoin de faire ca : 
+        //Est ce que je dois supprimer les joueurs morts de la liste des votes des joueurs
+        //this.context.currentPlayersVote.delete(maxKey)
+        
+        //On decremente le nombre de joueurs vivants :
+        this.context.nbAlivePlayer--
+        //On change le statut du joueur avec le plus de vote contre lui
+        //On récupère son id_joueur
+        const value = await User.findOne({name:maxKey}).select({_id:1,__v:0,password:0})
+        //On change son statut
+        await Joueur_partie_role.updateOne({id_joueur:value.id_joueur,id_partie: this.context.partieId},{statut:PLAYER_STATUS.mort});
+        //On signale à tous les joueurs qui est mort
+        this.context.nsp.to(this.context.roomId).emit("JoueurMort",{name:maxKey})
+    }
+    //Les joueurs n'ont pas pu s'entendre
+    else{
+        this.context.nsp.to(this.context.roomId).emit("NoJoueurMORT")
+    }
   }
 
   handlePouvoir() {
@@ -116,8 +130,12 @@ class JourState extends GameState {
    * if that is the case it will change the state 
    */
   timerCooldown(){
-    debug("Timer cooldown changing state, current state = "+this.context.gameStatus);
-    //Treatement ...
+    debug("Timer cooldown or all players voted changing state, current state = "+this.context.gameStatus);
+    if (!this.checkGameStatus()){
+      debug("Game ended, trying to go to the end state");
+      this.context.setState(this.context.stateFinJeu);
+      return;
+    }
     debug("All is valid, trying to go to the night state");
     this.context.setState(this.context.stateNuit);
   }

@@ -26,9 +26,11 @@ class GameState {
    * Disconnect
    */
   handleRejoindreJeu() {
+    debug("A player is trying to join the game but it has already started!!")
     return;
   }
 
+  
   /**
    * This function will first check the state of the game and checks if it valid or not
    * by valid i mean the game state is either day or night then it will :
@@ -170,10 +172,57 @@ class GameState {
         console.error(err)})
   }
 
-  async handleVote(socket,id_joueur,currentPlayersVote,id_socket) {
+  /**
+   * This functions verifies that the vote that we are about to process is valid 
+   * meaning that:
+   * The vote is not locked
+   * The players are in the game
+   * The voter has not already voted
+   * The two players are alive
+   * 
+   * @param {*} pseudoVoteur  the player that made the vote 
+   * @param {*} candidantVote the player that we wish to eliminate
+   * @param {*} verifyRole this functions will verify that the player that made the vote
+   * has this role
+   * @returns 
+   */
+  async verifyThatVoteIsPossible(pseudoVoteur, candidantVote, verifyRole){
+    if (this.lockVotes){
+      debug("Vote are locked !!!!");
+      throw new Error("Vote are locked !!!!");
+    }
+    if(!this.context.pseudoList.includes(pseudoVoteur) &&
+        !this.context.pseudoList.includes(candidantVote)){
+          debug("One of the given players does not exists in the game");
+          throw new Error("One of the given players does not exists in the game");
+    }
+    if (!this.context.VotersList.includes(pseudoVoteur)){
+      debug("This player has already voted");
+      throw new Error("This player has already voted");
+    }
+    const voteurId = await getPlayerId(pseudoVoteur);
+    const candidatId = await getPlayerId(candidantVote);
+    const voteurInfo = await Joueur_partie_role
+                            .findOne({id_partie:this.context.partieId, id_joueur:voteurId})
+    const candidatInfo = await Joueur_partie_role
+                      .findOne({id_partie:this.context.partieId, id_joueur:candidatId})
+    if (voteurInfo.statut !==  PLAYER_STATUS.vivant || candidatInfo.statut !== PLAYER_STATUS.vivant){
+      debug("One of the players that you are trying to vote for is dead");
+      throw new Error("One of the players that you are trying to vote for is dead");
+    }
+    //We check if we need to compare roles
+    if (verifyRole){
+      if (voteurInfo.role != verifyRole){
+        debug("the player that made the vote does not have the required role");
+        throw new Error("the player that made the vote does not have the required role");  
+      }
+    }
+    return true;
   }
 
-  async handleVote(socket,id_joueur,room,currentPlayersVote,id_socket) {
+
+  handleVote() {
+    return;
   }
 
   handlePouvoir() {
@@ -184,6 +233,7 @@ class GameState {
   //and it will just change the status of a player to disconnected
   async handleDisconnect(nsp, id_joueur, socket_id) {
     //TODO decrement the active players and make the player dead instead of
+    debug("A player has left the game that has already started !!!")
     this.context.nbAlivePlayer--;
     //disconnected
     await User.updateOne({id_joueur: id_joueur},{statut : PLAYER_STATUS.mort});
@@ -288,15 +338,27 @@ class GameState {
       */
       data.chats = chats;
       if (player.socket_id != 0){
+        debug("Sending Player info to  "+name);
         this.context.nsp.to(player.socket_id).emit("Player-info", data);
       }
       else{
         debug("Player "+name+" is registered but has not logged in")
       }
     })
+  }
 
-
-    
+  /**
+   * This functions checks that the number of wolfs that are still alive 
+   * and the villageois are superior to zero
+   * @returns true if the game can continue and false otherwise if the game cannot continue
+   */
+  async checkGameStatus(){
+    let nbAliveLoup = await this.getCountRole(ROLE.loupGarou, PLAYER_STATUS.vivant);
+    let humainAlive = await this.getCountRole(ROLE.villageois, PLAYER_STATUS.vivant);
+    if (nbAliveLoup == 0 || humainAlive == 0){
+      return false;
+    }
+    return true;
   }
 
   //-------------
@@ -318,10 +380,29 @@ class GameState {
    * as argument
    * @param {*} playerId playerId of the player that looking for his id
    */
-    async getPlayerPseudo(playerId){
+  async getPlayerPseudo(playerId){
       const res =  await User.findOne({_id:playerId}).select({name:1})
       return res;
+  }
+
+  /**
+   * Returns the number of people that have a certain role
+   * @param {*} role that we are trying to find out how many have it 
+   */
+  async getCountRole(role, statut){
+    let players = null;
+    if (statut){
+      players = await Joueur_partie_role.find({id_partie: this.context.partieId, partierole: role, statut: statut})
     }
+    else {
+      players = await Joueur_partie_role.find({id_partie: this.context.partieId})
+    }
+    if (players){
+      return players.length;
+    }
+    return -1;  
+  }
+
 
 }
 

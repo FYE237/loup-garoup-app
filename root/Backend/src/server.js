@@ -75,7 +75,6 @@ nsp.on('connection', (socket) => {
     socket.on("rejoindre-jeu", (data, callback) => {
         debug("[server] Joining game" + JSON.stringify(data));
         let pseudo  = data.pseudo;
-        console.log(data.pseudo); 
         let id_partie  = data.id_partie;         
         if (!pseudo ||!id_partie){
             debug("data must have pseudo, and id_partie when joining a game.")
@@ -117,8 +116,8 @@ nsp.on('connection', (socket) => {
 
     socket.on("send-message-game", (message, roomId, pseudo, id_partie) => {
         debug("Message request received");
-        if (roomId == null || message == null || pseudo == null || id_partie == null){
-            debug(roomId+message+pseudo+id_partie)
+        if (!roomId || !message || !pseudo || !id_partie){
+            debug("roomId = "+roomId+"message = "+message+"pseudo = "+pseudo+"id_partie = "+id_partie)
             debug("Please provide the message, roomId, pseudo, id_partie");
             return;
         }
@@ -141,15 +140,24 @@ nsp.on('connection', (socket) => {
          * L'id du joueur pour qui on vote
          * 
          */
-    socket.on("vote-jour",async (id_joueur,id_partie) => {
+    socket.on("vote-jour",async (pseudoVoteur, candidantVote, id_partie) => {
         debug("Vote Jour pour : " + message)
-        let partie = partieContextHashTable.get(id_partie);
-        if(partie) 
-            {
-                //Passer en paramètres : le socket du joueur, de la partie, id_joueur,
-                partie.requestVote(nsp,id_joueur,socket.id) 
-
+        if (!pseudoVoteur || !candidantVote || !id_partie ){
+            debug("pseudoVoteur = "+pseudoVoteur+"candidantVote = "+candidantVote+"id_partie = ")
+            debug("Please provide the player who made the vote, the player from whom you wish"+ 
+                            "to vote for and the game id ");
+            return;
+        }
+        try{
+            let partie = partieContextHashTable.get(id_partie);
+            if(partie)
+            { 
+                partie.requestVote(pseudoVoteur, candidantVote, id_partie, socket) 
             }
+        }   
+        catch(err){
+            debug("Vote jour went wrong = " + err);
+        }
     })
     
 
@@ -158,16 +166,14 @@ nsp.on('connection', (socket) => {
          * L'id du joueur qui vote
          * L'id du joueur pour qui on vote
          * room : id de la room des loup-garous
-         * 
          */
-    socket.on("vote-nuit",async(id_joueur,id_partie,room)=>{
+    socket.on("vote-nuit",async(pseudoVoteur, candidantVote, id_partie,room)=>{
         debug("Vote Nuit pour : " + message)
         let partie = partieContextHashTable.get(id_partie);
         if(partie) 
             {
                 //Passer en paramètres : le socket de la partie,du joueur,id_joueur,room des loups
-                partie.requestVote(nsp,id_joueur,room,socket.id) 
-
+                partie.requestVote(nsp, id_joueur,room,socket.id) 
             }
     })
 
