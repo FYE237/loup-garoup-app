@@ -12,8 +12,6 @@ const Joueur_partie_role = require("../models/joueur_partie_role");
 const { Chat } = require("../models/chat");
 const { v4: uuidv4 } = require("uuid");
 
-const { SPECIAL_POWERS } = require("./constants");
-
 const debug = require("debug")("EnAttenteState");
 
 class EnAttenteState extends GameState {
@@ -269,9 +267,11 @@ class EnAttenteState extends GameState {
 
     // create an array containing all the indices
     const indices = Array.from(
-      { length: this.context.nb_actif_players - 1 },
+      { length: this.context.nb_actif_players },
       (_, i) => 0 + i
     );
+
+    console.log("the indices are:", indices);
 
     // filter the ones that are wolves
     const humanList = indices.filter((ind) => !wolvesList.includes(ind));
@@ -317,6 +317,9 @@ class EnAttenteState extends GameState {
       // }
       // });
     }
+
+    console.log("wolves list", assignedWolvesRoles);
+    console.log("humans list", assignedHumansRoles);
 
     this.createGamechat();
     return 1;
