@@ -35,9 +35,22 @@ class NuitState extends GameState {
     //We update the values of the alive loup
     this.nbAliveLoup = await this.getCountRole(ROLE.loupGarou, PLAYER_STATUS.vivant);
     //Reset power used table
-    this.context.usedPower = []; 
+    this.context.usedPower = [];
+    
   }
 
+  async testMethod(){
+    const idsamuel = this.getPlayerId("samuel");
+    const playerJoueurLink = await Joueur_partie_role.findOne({
+                                id_joueur : idsamuel, 
+                                id_partie: this.context.partieId });
+    // playerJoueurLink.role = ;
+    this.handleVote("samuel", "mehdi",playerJoueurLink.socket_id);
+    // pseudoJoueur.pouvoir_speciaux = contamination
+    // pseudoCible.role = villageois
+    // this.handleContamination()
+  }
+    
   async handleVote(pseudoVoteur, candidantVote, socket_id) {
     debug("Handle vote for the night state was called");
     if (!this.verifyThatVoteIsPossible(pseudoVoteur, candidantVote, ROLE.loupGarou)){
@@ -107,7 +120,6 @@ class NuitState extends GameState {
         //On récupère son id_joueur
         const playerId = await this.getPlayerId(maxKey); 
         //On change son statut
-        console.log("FINAL VAL " +playerId)
         await Joueur_partie_role.updateOne({id_joueur:playerId,id_partie:this.context.partieId},{statut:PLAYER_STATUS.mort});
         
         //Je ne comprend pas cela 
@@ -417,7 +429,7 @@ class NuitState extends GameState {
     return true;
   }
   /**
-   * This functions is used for handling the voayance special power
+   * This functions is used for handling the contamination special power
    * this action can onlyky get applied during the night: 
    * It first verifies that both players are fit for this power
    * if that is the case it will launch 

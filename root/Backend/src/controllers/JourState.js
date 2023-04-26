@@ -65,7 +65,7 @@ class JourState extends GameState {
     this.context.VotersList = [];
     //variable who check if there is there are many players with the
     //same number of votes
-    let duplicate;
+    let duplicate = true;
 
     //On recupere l'id du joueur avec le plus de vote contre lui
     let maxKey = "";
@@ -81,10 +81,10 @@ class JourState extends GameState {
     //We reset the hash map as it is no longer needed and to 
     //delete all of the old roles
     this.context.currentPlayersVote = new Map();
-    if (maxValue <= 0){
-      debug("No majority was reached");
-      return;
-    }
+    // if (maxValue <= 0){
+    //   debug("No vote was made");
+    //   return;
+    // }
     //Les joueurs ont pu s'entendre
     if(duplicate != true){
         //Remarque : On n'a pas besoin de faire ca : 
@@ -97,9 +97,12 @@ class JourState extends GameState {
         //On récupère son id_joueur        
         const playerId = await this.getPlayerId(maxKey); 
         //On change son statut
-        await Joueur_partie_role.updateOne({id_joueur:playerId,id_partie: this.context.partieId},{statut:PLAYER_STATUS.mort});
+        await Joueur_partie_role.updateOne({id_joueur:playerId, id_partie: this.context.partieId}, {statut:PLAYER_STATUS.mort});
         //On signale à tous les joueurs qui est mort
-        this.context.nsp.to(this.context.roomId).emit("JoueurMort",{name:maxKey})
+        this.context.nsp.to(this.context.roomId).emit("JoueurMort",{
+          message : "A player was killed" + maxKey,
+          name:maxKey
+        })
     }
     //Les joueurs n'ont pas pu s'entendre
     else{
