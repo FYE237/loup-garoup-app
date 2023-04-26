@@ -129,6 +129,15 @@ async function rejoindrePartie(){
         console.log('Received player info:', data);
         // do something with the data
     });
+    socket.on('VoteNuitEnregistré', function(data) {
+        console.log("Vote Enregistré" , data)
+    });
+    socket.on('notif-vote-nuit',function(data) {
+        console.log("Notif - new Vote" , data)
+    });
+    socket.on("send-Player-Data-Voyante" , function(data) {
+        console.log("Player data : " , data)
+    });
         
         // console.log("Hello") ; 
 
@@ -168,7 +177,7 @@ async function createGame(){
    console.log("creating game");
    const data = {
     heure_debut: "15",
-    nb_participant: "5",
+    nb_participant: "2",
     hote_name: "mehdi",
     duree_jour: "10",
     duree_nuit: "15",

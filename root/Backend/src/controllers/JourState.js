@@ -36,6 +36,12 @@ class JourState extends GameState {
     }
     debug(pseudoVoteur+" can vote and is voting for  " + candidantVote);
     const voteCounter = this.context.currentPlayersVote.get(candidantVote)
+    
+    if(!voteCounter) {
+      debug("Premier vote contre : " + candidantVote)
+      voteCounter = 0
+    }
+    
     this.context.currentPlayersVote.set(candidantVote, voteCounter+1)
     this.context.VotersList.push(pseudoVoteur);
 
@@ -91,6 +97,9 @@ class JourState extends GameState {
         //Est ce que je dois supprimer les joueurs morts de la liste des votes des joueurs
         //this.context.currentPlayersVote.delete(maxKey)
         
+        debug("Update of player statut after votes")
+
+
         //On decremente le nombre de joueurs vivants :
         this.context.nbAlivePlayer--
         //On change le statut du joueur avec le plus de vote contre lui
