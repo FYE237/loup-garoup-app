@@ -351,10 +351,6 @@
                   "type": "string",
                   "example": "15"
                 },
-                "statut": {
-                  "type": "string",
-                  "example": "en attente"
-                },
                 "proba_pouvoir_speciaux": {
                   "type": "string",
                   "example": "0.3"
@@ -370,7 +366,6 @@
                 "hote_name",
                 "duree_jour",
                 "duree_nuit",
-                "statut",
                 "proba_pouvoir_speciaux",
                 "proportion_loup"
               ]
