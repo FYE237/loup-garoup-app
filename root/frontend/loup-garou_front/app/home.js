@@ -13,15 +13,36 @@ import {
 } from '../components'
 import { COLORS, images, LINKS } from '../constants'
 
-export default  function Home() {
+export default function Home() {
   const router = useRouter()
   const [joinModalVisible, setJoinModalVisible] = useState(false)
   const [joinGameId, setJoinGameId] = useState(false)
-  const [pseudo, setPseudo] = useState("");
-  
-  const {data, loading, errorValue} = useFetchCustom("/whoami")
-  console.log("data home level =" +data);
+  const [pseudo, setPseudo] = useState("pseudo");
+  let {data, loading, errorValue} = useFetchCustom("/whoami");
+  if (data && !loading){
+      setPseudo(data.data);
+  }
+  if (errorValue){
+    console.log("Found and error :" + errorValue);
+  }
+  // async function fetchPseudo(){
+  //   console.log("Doing a lookup for the pseudo");
+  //   console.log("pseudo is equal to " + pseudo);
+  //   console.log("data home level =" + JSON.stringify(data));
+    
+  //   if (data && !loading){
+  //     console.log("setting data" + JSON.stringify(data));
 
+  //     await AsyncStorage.setItem('userPseudo', pseudo)
+  //   }
+  // }
+  // fetchPseudo();
+
+  // useEffect(() => {
+  //     //This will allow us to get the user pseudo
+
+  // }, []);
+  
   const  logoutFuntion = async () => {
     await AsyncStorage.removeItem('userToken')
     router.replace("/WelcomePage")
@@ -51,7 +72,7 @@ export default  function Home() {
               }}
             />
           ),
-          headerTitle: 'Bienvenue dans le jeu loup garou'
+          headerTitle: 'Folie de Minuit'
         }}
       />
       <View style={styles.container}>

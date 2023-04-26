@@ -16,14 +16,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
  * occured
  */
 const useFetchCustom = async ( linkEndPoint, query) => {
-  const [token, setToken] = useState({});
+  const [token, setToken] = useState("");
   const [data, setData] = useState({});
   const [loading, setIsLoading] = useState(false);
   const [errorValue, setError] = useState(null);
 
+  /**
+   * This method tries to locate the token from the local storage
+   * and the it saves so that we can use it later on
+   * @returns 
+   */
   async function getToken(){
     try {
-      value = await AsyncStorage.getItem('userToken').then(
+      let value = await AsyncStorage.getItem('userToken').then(
         (value) => {
            console.log("value = ", value);
            setToken(value)
@@ -38,32 +43,32 @@ const useFetchCustom = async ( linkEndPoint, query) => {
   }
 
   async function fetchData(){
-    await getToken();
-  const queryDetails = {
-    method: "GET",
-    headers: {
-    "x-access-token": token 
-    },
-    params: { ...query },
-  };
-    console.log("query = " + JSON.stringify(queryDetails))
-    
+    let tokenVal =  await getToken()
+    const queryDetails = {
+      method: "GET",
+      headers: {
+      "x-access-token": tokenVal
+      },
+      params: { ...query },
+    };
+      console.log("query = " + JSON.stringify(queryDetails))
+      
     setIsLoading(true);
-    await fetch(LINKS.backend+linkEndPoint, queryDetails)
-    .then(res => res.json())
-    .then(res => {setIsLoading(false);setData(res);console.log(res)})
-    .catch(error=>{
-      setError(error);
-      setIsLoading(false);
-      console.log("error while executing whoami, error details : " + error);
-    }) 
-  }
-  if (data!=null){
-
+    try{
+      await fetch(LINKS.backend+linkEndPoint, queryDetails);
+      const data = await response.json();
+      console.log("Data recieved from request : "+res);
+      setData(data);
+    } catch (error) {
+        setIsLoading(false);
+        setError(error);
+    } finally {
+        setIsLoading(false);
+    }
   }
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [linkEndPoint]);
 
 
   return { data, loading, errorValue };
