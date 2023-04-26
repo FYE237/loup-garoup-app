@@ -164,16 +164,19 @@ class EnAttenteState extends GameState {
       if (player.role === ROLE.loupGarrou){
         playerSocket.join(loupChatRoom)
       }
+      if (player.statut === SPECIAL_POWERS.insomnie){
+        playerSocket.join(loupChatRoom)
+      }
       else if (player.role === ROLE.noRole){
-        //TODO REMOVE THE COMMENT FROM HERE
-        //  throw new Error("A player in the game does not have a role")
+        //TODO REMOVE THE COMMENT FROM HERE WHEN WE PASS TO PRODUCTION
+        // throw new Error("A player in the game does not have a role")
       }
     })
     debug("Chats rooms have been created for the game  : "+ this.context.partieId);
     debug("general chat room id  = " + generalChatRoom)
     debug("loup chat room id  = " + loupChatRoom)
     /**
-     * ADD A FUNCTION THAT ADD THE PLAYERS WITH THE INSOMIE POWER TO THE LOUP GARROU
+     * TODO : ADD A FUNCTION THAT ADD THE PLAYERS WITH THE INSOMIE POWER TO THE LOUP GARROU
      * ROOM BUT ADD RESTRICTIONS SO THEY ARE NOT ABLE TO SEND MESSAGES AND CANNOT VIEW THE NAMES OF 
      * THE PEOPLE THAT SEND THE MESSAGES IN THE CHAT ROOM
      */

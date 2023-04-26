@@ -20,6 +20,9 @@ class StateContext {
     //but they can make the server much faster 
     this.nb_actif_players = 0;
     this.pseudoList = [];
+    // table used to determine the players that have used their power
+    //this table is reset everytime we enter the night state 
+    this.usedPower = []; 
     //Game socket
     this.nsp = null;
 
@@ -100,24 +103,9 @@ class StateContext {
   requestVote(pseudoVoteur, candidantVote, socket_id) {
     return this.state.handleVote(pseudoVoteur, candidantVote, socket_id);
   }
-
-  // //id_socket est la socket du joueur
-  // //Vote de jour
-  // //socket = nsp
-  // requestVote(socket,id_joueur,id_socket) {
-  //   return this.state.handleVote(socket, id_joueur, id_socket);
-  // }
-
-  // //Vote de nuit
-  // //socket = nsp
-  // requestVote(socket,id_joueur,id_socket) {
-  //   return this.state.handleVote(socket, id_joueur, id_socket);
-  // }
-
   
-
-  requestSpiritisme(nsp, socket, pseudoJoueur, pseudoCible) {
-    return this.state.handleSpiritisme(nsp, socket, pseudoJoueur, pseudoCible);
+  requestSpiritisme(pseudoJoueur, pseudoCible) {
+    return this.state.handleSpiritisme(pseudoJoueur, pseudoCible);
   }
 
   requestDisconnect(nsp, id_joueur, socket_id){ 
@@ -128,6 +116,13 @@ class StateContext {
     return this.state.handleMessage(nsp, socket, message, roomId, pseudo);
   }
 
+  requestVoyance(pseudoJoueur, pseudoCible){
+    return this.state.handleVoyance(pseudoJoueur, pseudoCible);
+  }
+
+  requestContamination(pseudoJoueur, pseudoCible){
+    return this.state.handleContamination(pseudoJoueur, pseudoCible);
+  }
 
 }
 

@@ -188,96 +188,79 @@ nsp.on('connection', (socket) => {
 
     //Pouvoir spiritisme: 
     /** 
-     * This special power can be done during the day 
-     * and it will add new chat that the player can access and can send messages on during the night
-     * the new chat will hold only two people and can only be valid for one night 
-     * @param pseudoJoueur  L'id de la of player that used the power
-     * @param pseudoCible  L'id de la of player that the power was used on 
-     * @param id_partie L'id de la partie
+     * This special power can be done during the night
+     * and it will create a new chat that the targeted players can access and can send messages 
+     * on during the night. The new chat will hold only two people and will only
+     * be valid for one night but the user can recreate the chat with same user later on 
+     * @param pseudoJoueur  id of player that used the power
+     * @param pseudoCible  id of player that the power was used on 
+     * @param id_partie id of the game
      */
-    socket.on("Pouvoir-Spiritisme",async(pseudoJoueur, pseudoCible, id_partie)=>{
-      debug("Pouvoir-Spiritisme executée par : " + pseudoVoteur)
+    socket.on("Pouvoir-Spiritisme", async(pseudoJoueur, pseudoCible, id_partie)=>{
+      debug("Pouvoir-Spiritisme ran by : " + pseudoVoteur)
       if (!pseudoJoueur || !pseudoCible || !id_partie ){
         debug("pseudoJoueur = "+pseudoJoueur+" pseudoCible = "+pseudoCible+" id_partie = "+id_partie)
-        debug("Please provide the player who made the vote, the player from whom you wish"+ 
-        "to vote for and the game id ");
+        debug("Please provide the player that used the power and the player on which the power was used on" 
+                                        +"and the id the game   ");
         return;
       }
       try{
         let partie = partieContextHashTable.get(id_partie);
-        if (partie){partie.requestSpiritisme(nsp, socket, pseudoJoueur, pseudoCible);}
+        if (partie){partie.requestSpiritisme(pseudoJoueur, pseudoCible);}
       }   
       catch(err){
           debug("Pourvoir spiritisme went wrong = " + err);
       }
     })
 
-    //Pouvoir de voyance
-    /**
-     * L'id de la voyante
-     * L'id de la partie
-     * l'id du joueur dont on veut connaître le rôle
+    //Pouvoir voyance
+    /** 
+     * This special power can also be done during the night and it will allow the person 
+     * using it to see the special powers of the targeted player
+     * @param pseudoJoueur id of player that used the power
+     * @param pseudoCible id of player that the power was used on 
+     * @param id_partie id of the game
      */
-    socket.on("RequestVoyance", async(id_joueur,id_partie,id_joueur_cible)=>{
-        let partie = partieContextHashTabentrantle.get(id_partie);
-        if(partie)
-            {
-                //On retrouve l'_id du joueur cible
-                const value = await User.findOne({name:id_joueur_cible}).select({_id:1,__v:0,password:0})
-
-                //On retoruve l'_id de la voyante
-                const value_voyante = await User.findOne({name:id_joueur}).select({_id:1,__v:0,password:0})
-                
-                if(value && value_voyante){
-                    //On retrouve les datats du joueur cible dans la partie
-                    const joueur = await joueur_partie_role.findOne({id_joueur:value._id,id_partie:id_partie})
-
-                    //On retrouve le socket.id de la voyante dans la partie
-                    const voyante = await joueur_partie_role.findOne({id_joueur:value_voyante._id,id_partie:id_partie}).select({socket_id:1})
-
-
-                    //On envoie les données de la cible à la voyante
-                    socket.to(voyante.socket_id).emit("SendPlayerDataToVoyante",{data:joueur}) 
-                }  
-            }
+    socket.on("request-Voyance", async(pseudoJoueur, pseudoCible, id_partie)=>{
+        debug("Pouvoir-Voyance ran par : " + pseudoVoteur)
+        if (!pseudoJoueur || !pseudoCible || !id_partie ){
+            debug("pseudoJoueur = "+pseudoJoueur+" pseudoCible = "+pseudoCible+" id_partie = "+id_partie)
+            debug("Please provide the player that used the power and the player on which the power was used on" 
+                                            +"and the id the game   ");
+            return;
+        }
+        try{
+            let partie = partieContextHashTable.get(id_partie);
+            if (partie){partie.requestVoyance(pseudoJoueur, pseudoCible);}
+        }   
+        catch(err){
+              debug("Pouvoir voyance went wrong = " + err);
+        }
     })
 
-    //Pouvoir du loup-alpha
-    /**
-     * L'id du loup alpha
-     * L'id de la partie
-     * l'id du joueur qu'on veut contaminer
+    //Pouvoir de Contamination(loup alpha)
+    /** 
+     * This special power can only be used during the night and it allow a loup 
+     * garrou to transform a humain into a loup garrou 
+     * @param pseudoJoueur id of player that used the power
+     * @param pseudoCible id of player that the power was used on 
+     * @param id_partie id of the game
      */
-    socket.on("Request-Loup-alpha",async( id_joueur,id_partie,id_joueur_cible )=>{
-        let partie = partieContextHashTabentrantle.get(id_partie);
-        if(partie)
-            {
-                //On retrouve l'_id du joueur cible
-                const value = await User.findOne({name:id_joueur_cible}).select({_id:1,__v:0,password:0})
-
-                //On retoruve l'_id de l'alpha
-                const value_alpha = await User.findOne({name:id_joueur}).select({_id:1,__v:0,password:0})
-                
-                if(value && value_alpha){
-                    //On retrouve le socket.id du joueur cible dans la partie
-                    let joueur = await joueur_partie_role.findOne({id_joueur:value._id,id_partie:id_partie}).select({_id:0,__v:0})
-
-                    //On retrouve le socket.id de l'alpha dans la partie
-                    const alpha = await joueur_partie_role.findOne({id_joueur:value_alpha._id,id_partie:id_partie}).select({socket_id:1})
-
-                    //On change le role de la cible en loup-garou 
-                    joueur.role = ROLE.loupGarrou                   
-                    //On update le joueur en base de données.
-                    const lg = await joueur_partie_role.updateOne({id_joueur:value._id,id_partie:id_partie},{role:ROLE.loupGarrou})
-
-                    //On notifie la cible de son rôle a changé
-                    socket.to(joueur.socket_id).emit("SendPlayerNewData",{description:"Your role has changed to loup-garou",data:joueur}) 
-                    
-                    //On signale au loup alpha que le rôle du joueur a changé
-                    socket.to(alpha.socket_id).emit("PlayerDataUpdate",{description:id_joueur_cible+" role changed "}) 
-                }  
-            }
-        
+    socket.on("request-Loup-alpha",async(pseudoJoueur, pseudoCible, id_partie)=>{
+        debug("Pouvoir-loup alpha ran par : " + pseudoVoteur)
+        if (!pseudoJoueur || !pseudoCible || !id_partie ){
+            debug("pseudoJoueur = "+pseudoJoueur+" pseudoCible = "+pseudoCible+" id_partie = "+id_partie)
+            debug("Please provide the player that used the power and the player on which the power was used on" 
+                                            +"and the id the game   ");
+            return;
+        }
+        try{
+            let partie = partieContextHashTable.get(id_partie);
+            if (partie){partie.requestContamination(pseudoJoueur, pseudoCible);}
+        }   
+        catch(err){
+              debug("Pouvoir Contamination went wrong = " + err);
+        }
     })
 
 })

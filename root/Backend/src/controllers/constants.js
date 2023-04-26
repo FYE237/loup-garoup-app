@@ -15,6 +15,15 @@ const PLAYER_STATUS = {
   deconnecte : "deconnecte" //déconnecté
 }
 
+const SPECIAL_POWERS = {
+  voyanteLoup : "voyanteLoup", 
+  spiritismeLoup : "spiritismeLoup", 
+  contamination : "contamination",
+  voyanteHumain : "voyanteHumain", 
+  spiritismeHumain : "spiritismeHumain", 
+  insomnie : "insomnie",
+}
+
 const ROLE = {
   villageois: "villageois",
   loupGarou: "loupGarou",
@@ -43,5 +52,6 @@ module.exports = {
   PLAYER_STATUS,
   CHAT_TYPE,
   ROLE,
-  GAME_VALUES
+  GAME_VALUES,
+  SPECIAL_POWERS
 };

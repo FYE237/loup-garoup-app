@@ -97,6 +97,8 @@ class GameState {
           debug("Game is not in the night state, message cannot be sent in the loup chat ");
           return;
         }
+        //The following line will not allow  users that use speacial powers to send messages
+        //because they are not loup garrous
         if (playerStatus.statut !== PLAYER_STATUS.vivant && playerStatus.Role !== ROLE.loupGarrou){
           debug("Player is not alive or not a loup, message cannot be written into the loup chat");
           return;
@@ -108,7 +110,7 @@ class GameState {
           debug("Game is not in the night state, custom chats cannot be written into");
           return;
         }  
-        if (!resChat.players_id.incules()){
+        if (!resChat.players_id.includes(pseudo)){
           debug("Player is not registered in this chat");
           return; 
         }
@@ -220,15 +222,28 @@ class GameState {
     return true;
   }
 
-
   handleVote() {
+    debug("handleSpiritisme was called when we are not in the day and night state");
     return;
   }
 
   handleSpiritisme() {
+    debug("handleSpiritisme was called when we are not in the night state");
+    return;
+  }
+  
+  handleVoyance() {
+    debug("handleVoyance was called when we are not in the night state");
     return;
   }
 
+  handleContamination() {
+    debug("handleContamination was called when we are not in the night state");
+    return;
+  }
+
+  
+  
   //This function will be executed in the day and night state 
   //and it will just change the status of a player to disconnected
   async handleDisconnect(nsp, id_joueur, socket_id) {
@@ -314,7 +329,6 @@ class GameState {
         partieId : this.context.partieId,
         partieStatus : this.context.gameStatus,
         roomId : this.context.roomId, 
-        roomLoupId : this.context.roomLoupId,
         nbPersonneDansLejeu : this.context.nb_actif_players,
         playerPseudo : name,
         playerRole : player.role,
@@ -327,15 +341,8 @@ class GameState {
       }
       if (player.role === ROLE.loupGarrou){
         chats.loupChat = this.context.loupChatRoom;
+        data.roomLoupId = this.context.roomLoupId;
       }
-      //Todo add custom chat structure if needed in this form : 
-      /*
-       * customChat : customChatId  
-       * or customChat : {
-       *      customChatID
-       *      playersInTheChat : [] //Not important but will see
-       * } 
-      */
       data.chats = chats;
       if (player.socket_id != 0){
         debug("Sending Player info to  "+name);
