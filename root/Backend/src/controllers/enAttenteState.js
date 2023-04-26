@@ -1,7 +1,13 @@
 // const Joueur_partie_role = require('../models/joueur_partie_role')
 
 const GameState = require("./gameState");
-const { GAME_STATUS, CHAT_TYPE, ROLE, GAME_VALUES } = require("./constants");
+const {
+  GAME_STATUS,
+  CHAT_TYPE,
+  ROLE,
+  GAME_VALUES,
+  SPECIAL_POWERS,
+} = require("./constants");
 const Joueur_partie_role = require("../models/joueur_partie_role");
 const { Chat } = require("../models/chat");
 const { v4: uuidv4 } = require("uuid");
