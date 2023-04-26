@@ -271,8 +271,6 @@ class EnAttenteState extends GameState {
       (_, i) => 0 + i
     );
 
-    console.log("the indices are:", indices);
-
     // filter the ones that are wolves
     const humanList = indices.filter((ind) => !wolvesList.includes(ind));
 
@@ -317,9 +315,6 @@ class EnAttenteState extends GameState {
       // }
       // });
     }
-
-    console.log("wolves list", assignedWolvesRoles);
-    console.log("humans list", assignedHumansRoles);
 
     this.createGamechat();
     return 1;
