@@ -369,7 +369,10 @@ class GameState {
   async checkGameStatus(){
     let nbAliveLoup = await this.getCountRole(ROLE.loupGarou, PLAYER_STATUS.vivant);
     let humainAlive = await this.getCountRole(ROLE.villageois, PLAYER_STATUS.vivant);
-    if (nbAliveLoup == 0 || humainAlive == 0){
+    debug("Nombre de loup vivants : "+nbAliveLoup)
+    debug("Nombre de villageois vivants : "+humainAlive)
+    if (nbAliveLoup === 0 || humainAlive === 0){
+      debug("false leaving ....")
       return false;
     }
     return true;
@@ -405,8 +408,10 @@ class GameState {
    */
   async getCountRole(role, statut){
     let players = null;
+    debug("statut : "+statut+ " role : "+role)
     if (statut){
-      players = await Joueur_partie_role.find({id_partie: this.context.partieId, partierole: role, statut: statut})
+      players = await Joueur_partie_role.find({id_partie: this.context.partieId, role: role, statut: statut})
+      debug("players - role : "+ players)
     }
     else {
       players = await Joueur_partie_role.find({id_partie: this.context.partieId})
