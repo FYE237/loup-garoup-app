@@ -4,6 +4,27 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 /**
+ * This method tries to locate the token from the local storage
+ * and the it saves so that we can use it later on
+ * @returns 
+ */
+export async function getToken(){
+  try {
+    let value = await AsyncStorage.getItem('userToken').then(
+      (value) => {
+          console.log("value = ", value);
+          setToken(value)
+          return value;
+      }
+      )
+    return value;
+  } catch (error) {
+    console.log('Error: ',error);
+    return null;
+  }
+}
+
+/**
  * Does a fetch request to the back to the endpoint given as function argument 
  * and add the tha values places in query to the request parameters
  * @param {*} linkEndPoint the end point of the get request, the backend
@@ -21,26 +42,7 @@ const useFetchCustom = async ( linkEndPoint, query) => {
   const [loading, setIsLoading] = useState(false);
   const [errorValue, setError] = useState(null);
 
-  /**
-   * This method tries to locate the token from the local storage
-   * and the it saves so that we can use it later on
-   * @returns 
-   */
-  async function getToken(){
-    try {
-      let value = await AsyncStorage.getItem('userToken').then(
-        (value) => {
-           console.log("value = ", value);
-           setToken(value)
-           return value;
-        }
-        )
-      return value;
-    } catch (error) {
-      console.log('Error: ',error);
-      return null;
-    }
-  }
+
 
   async function fetchData(){
     let tokenVal =  await getToken()
@@ -49,17 +51,17 @@ const useFetchCustom = async ( linkEndPoint, query) => {
       headers: {
       "x-access-token": tokenVal
       },
-      params: { ...query },
     };
       console.log("query = " + JSON.stringify(queryDetails))
       
     setIsLoading(true);
     try{
-      await fetch(LINKS.backend+linkEndPoint, queryDetails);
+      const response = await fetch(LINKS.backend+linkEndPoint, queryDetails);
       const data = await response.json();
-      console.log("Data recieved from request : "+res);
+      console.log("Data recieved from request : "+data);
       setData(data);
     } catch (error) {
+        console.log("Fetch ran into an error : "+error);
         setIsLoading(false);
         setError(error);
     } finally {
@@ -75,6 +77,7 @@ const useFetchCustom = async ( linkEndPoint, query) => {
 };
 
 
-export  {
-  useFetchCustom
-};
+// export  {
+//   useFetchCustom,
+//   getToken
+// };

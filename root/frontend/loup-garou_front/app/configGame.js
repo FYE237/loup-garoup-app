@@ -8,7 +8,8 @@ import { StyleSheet,
          TouchableOpacity, 
          Text, 
          SafeAreaView,
-         ScrollView } from 'react-native';
+         ScrollView,
+         Alert } from 'react-native';
 
 import { Link, Stack, useNavigation} from "expo-router";
 import {
@@ -18,33 +19,105 @@ import {
   InputModal,
   ScreenHeader
 } from "../components";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { useRouter , Redirect } from "expo-router";
-import {images, COLORS} from "../constants"
+import {images, COLORS, LINKS} from "../constants"
 
 import React from 'react'
+
+async function getToken(){
+  try {
+    let value = await AsyncStorage.getItem('userToken').then(
+      (value) => {
+          console.log("value = ", value);
+          return value;
+      }
+      )
+    return value;
+  } catch (error) {
+    console.log('Error: ',error);
+    return null;
+  }
+}
+
+const getTomorrowAt8AM = () => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(8);
+  tomorrow.setMinutes(0);
+  tomorrow.setSeconds(0);
+  tomorrow.setMilliseconds(0);
+  return tomorrow;
+};
+
+const formatDateToString = (date) => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  
+  const monthString = month < 10 ? `0${month}` : `${month}`;
+  const dayString = day < 10 ? `0${day}` : `${day}`;
+  const hoursString = hours < 10 ? `0${hours}` : `${hours}`;
+  const minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`;
+  const secondsString = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
+  return `${year}-${monthString}-${dayString};${hoursString}:${minutesString}:${secondsString}`;
+};
+
+const getSecondsDifference = (dateString) => {
+  const dateParts = dateString.split(';');
+  const dateComponents = dateParts[0].split('-').map(part => parseInt(part));
+  const timeComponents = dateParts[1].split(':').map(part => parseInt(part));
+  const targetDate = new Date(dateComponents[0], dateComponents[1] - 1, dateComponents[2], timeComponents[0], timeComponents[1], timeComponents[2]);
+  const currentDate = new Date();
+  const differenceInSeconds = Math.floor((targetDate.getTime() - currentDate.getTime()) / 1000);
+  return differenceInSeconds;
+};
+
+const validateDate = (dateString) => {
+  const pattern = /^([0-9]{4})-([0-9]{2})-([0-9]{2});([0-9]{2}):([0-9]{2}):([0-9]{2})$/;
+  if (!pattern.test(dateString)) {
+    return false;
+  }
+  const dateParts = dateString.split(';');
+  const date = dateParts[0];
+  const time = dateParts[1];
+  const datePattern = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/;
+  const timePattern = /^([0-9]{2}):([0-9]{2}):([0-9]{2})$/;
+  if (!datePattern.test(date) || !timePattern.test(time)) {
+    return false;
+  }
+  const [year, month, day] = date.split('-').map((value) => parseInt(value));
+  const [hour, minute, second] = time.split(':').map((value) => parseInt(value));
+  if (getSecondsDifference(dateString)<0){return false;}
+  const dateObject = new Date(year, month - 1, day, hour, minute, second);
+  return dateObject.getFullYear() === year && dateObject.getMonth() === month - 1 && dateObject.getDate() === day &&
+    dateObject.getHours() === hour && dateObject.getMinutes() === minute && dateObject.getSeconds() === second;
+};
+
 
 export default function ConfigGame() {
   const router =  useRouter();
   const navigation = useNavigation();
-  const [nbParticipantMin, setNbParticipantMin] = useState(5);
-  const [nbParticipantMax, setNbParticipantMax] = useState(20);
+  const [nbParticipant, setNbParticipant] = useState(5);
   const [dureeJour, setDureeJour] = useState(12);
   const [dureeNuit, setDureeNuit] = useState(12);
-  const [horaireDebut, setHoraireDebut] = useState(8);
-  const [probaPouvoirrSpecial, setProbaPouvoirrSpecial] = useState(0);
+  const [dateDebut, setDateDebut] = useState(formatDateToString(getTomorrowAt8AM()));
+  const [probaPouvoirSpecial, setProbaPouvoirSpecial] = useState(0);
   const [proportionLoup, setProportionLoup] = useState(0.3);
-
   const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
 
-  const [nbParticipantMinModal, setNbParticipantMinModal] = useState(false);
-  const [nbParticipantMaxModal, setNbParticipantMaxModal] = useState(false);
+  const [nbParticipantModal, setNbParticipantModal] = useState(false);
   const [dureeJourModal, setDureeJourModal] = useState(false);
   const [dureeNuitModal, setDureeNuitModal] = useState(false);
-  const [horaireDebutModal, setHoraireDebutModal] = useState(false);
-  const [probaPouvoirrSpecialModal, setProbaPouvoirrSpecialModal] = useState(false);
+  const [dateDebutModal, setDateDebutModal] = useState(false);
+  const [probaPouvoirSpecialModal, setProbaPouvoirSpecialModal] = useState(false);
   const [proportionLoupModal, setProportionLoupModal] = useState(false);
-
+  
   const validate_value = (value ,min, max) => {
      if (!isNaN(parseFloat(value)) && isFinite(value)){
       const val = parseFloat(value);
@@ -57,8 +130,40 @@ export default function ConfigGame() {
      return false;
   } 
   
-  const submitfunc = () => {
-    console.log("i have been pressed")
+  const sendFormFunc = async () => {
+    let data = {
+        heure_debut: getSecondsDifference(dateDebut),
+        nb_participant: nbParticipant,
+        hote_name: await AsyncStorage.getItem('userPseudo'),
+        duree_jour: dureeJour,
+        duree_nuit: dureeNuit,
+        proba_pouvoir_speciaux: probaPouvoirSpecial,
+        proportion_loup: proportionLoupModal
+    }
+    try {
+        let tokenVal =  await getToken();
+        const response = await fetch(
+          LINKS.backend + '/api/parties',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              "x-access-token": tokenVal
+            },
+            body: `data=${JSON.stringify(data)}`
+          }
+        )
+        if (response.status === 200) {
+          const data = await response.json();
+          console.log(data)
+          await AsyncStorage.setItem('currentGameId', data.data.game_id);
+          Alert.alert('Sucess', 'game was created succefully')
+        } else {
+          Alert.alert('Error', 'Failed to create the game')
+        }
+      } catch (error) {
+        Alert.alert('Error', 'An occured while creating the game.')
+      }
   }
 
   return (
@@ -86,58 +191,28 @@ export default function ConfigGame() {
         <Link href="/home">Home</Link>
         <View style = {styles.centerContainer}>
           <CenterButton
-           textButton = {"min joueur ("+nbParticipantMin+")"}
-           onPressFunc = {() => setNbParticipantMinModal(true)}
+           textButton = {"joueur souhaité ("+nbParticipant+")"}
+           onPressFunc = {() => setNbParticipantModal(true)}
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
           />
           <InputModal 
-            visibleParam = {nbParticipantMinModal}
-            textInit = {"min joueur ("+nbParticipantMin+")"}
-            visibleFunc = {() => setNbParticipantMinModal(false)}
+            visibleParam = {nbParticipantModal}
+            textInit = {"joueur souhaité ("+nbParticipant+")"}
+            visibleFunc = {() => setNbParticipantModal(false)}
             submitText = {"Valider"}
-            // submitFunc = {submitfunc}
-            inputValue = {nbParticipantMin}
+            inputValue = {nbParticipant}
             submitFunc = {(text, setErrorFunc) => {
               if (validate_value(text, 3,20)){
-                if (parseInt(text)<nbParticipantMax){
-                  setNbParticipantMin(parseInt(text))
-                  setNbParticipantMinModal(false)
+                  setNbParticipant(parseInt(text))
+                  setNbParticipantModal(false)
                   return;
-                }
               }
               setErrorFunc("La valeur doit être entre 3 et 20 et inférieur au max");
             }}
             isImageBackground={false}
             title = {"Min joueurs"}
-          />
-          <CenterButton
-           textButton = {"max joueur ("+nbParticipantMax+")"}
-           onPressFunc = {() => setNbParticipantMaxModal(true)}
-           styleArg = {styles.button}
-           TextSize = {30} 
-           boxColorArg={"#78909c"}
-          />
-          <InputModal 
-            visibleParam = {nbParticipantMaxModal}
-            textInit = {"max joueur ("+nbParticipantMax+")"}
-            visibleFunc = {() => setNbParticipantMaxModal(false)}
-            submitText = {"Valider"}
-            // submitFunc = {submitfunc}
-            inputValue = {nbParticipantMax}
-            submitFunc = {(text, setErrorFunc) => {
-              if (validate_value(text, 3, 20)){
-                if (parseInt(text)>nbParticipantMin){
-                  setNbParticipantMax(parseInt(text))
-                  setNbParticipantMaxModal(false)
-                  return;
-                }
-              }
-              setErrorFunc("La valeur doit être entre 3 et 20 et inférieur au max");
-            }}
-            isImageBackground={false}
-            title = {"Max joueurs"}
           />
           <CenterButton
            textButton = {"durée jour ("+dureeJour+")"}
@@ -151,7 +226,6 @@ export default function ConfigGame() {
             textInit = {"duree jour ("+dureeJour+")"}
             visibleFunc = {() => setDureeJourModal(false)}
             submitText = {"Valider"}
-            // submitFunc = {submitfunc}
             inputValue = {dureeJour}
             submitFunc = {(text, setErrorFunc) => {
               if (validate_value(text, 1, 23)){
@@ -174,10 +248,9 @@ export default function ConfigGame() {
           />
           <InputModal 
             visibleParam = {dureeNuitModal}
-            textInit = {"max joueur ("+dureeNuit+")"}
+            textInit = {"durée nuit ("+dureeNuit+")"}
             visibleFunc = {() => setDureeNuitModal(false)}
             submitText = {"Valider"}
-            // submitFunc = {submitfunc}
             inputValue = {dureeNuit}
             submitFunc = {(text, setErrorFunc) => 
               {
@@ -194,49 +267,49 @@ export default function ConfigGame() {
             title = {"Durée nuit"}
           />
           <CenterButton
-           textButton = {"Horaire debut ("+horaireDebut+")"}
-           onPressFunc = {() => setHoraireDebutModal(true)}
+           textButton = {"date debut ("+dateDebut+")"}
+           onPressFunc = {() => setDateDebutModal(true)}
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
           />
           <InputModal 
-            visibleParam = {horaireDebutModal}
-            textInit = {"max joueur ("+horaireDebut+")"}
-            visibleFunc = {() => setHoraireDebutModal(false)}
+            visibleParam = {dateDebutModal}
+            textInit = {"dateDebut ("+dateDebut+")"}
+            visibleFunc = {() => setDateDebutModal(false)}
             submitText = {"Valider"}
-            // submitFunc = {submitfunc}
-            inputValue = {horaireDebut}
+            inputValue = {dateDebut}
             submitFunc = {(text, setErrorFunc) => {
-                if (validate_value(text, 1, 36000)){
-                        setHoraireDebut(text)
-                        setHoraireDebutModal(false)
-                        return;
-                      }
-                  setErrorFunc("La valeur doit être entre 1 et 36000");
+                if (validateDate(text)){
+                    setDateDebut(text);
+                    setDateDebutModal(false);
+                    return;
+                  }
+                  setErrorFunc("La date doit être sous le format : yyyy-mm-dd;hh:mm:ss"
+                               +" et ca doit être supérieur à la date d'aujourd'hui");
                 }
               }
             isImageBackground={false}
-            title = {"Horaire debut"}
+            title = {"Date de début"}
           />
           <CenterButton
-           textButton = {"%pouvoir spéciaux ("+probaPouvoirrSpecial+")"}
-           onPressFunc = {() => setProbaPouvoirrSpecialModal(true)}
+           textButton = {"%pouvoir spéciaux ("+probaPouvoirSpecial+")"}
+           onPressFunc = {() => setProbaPouvoirSpecialModal(true)}
            styleArg = {styles.button}
            TextSize = {27} 
            boxColorArg={"#78909c"}
           />
           <InputModal 
-            visibleParam = {probaPouvoirrSpecialModal}
-            textInit = {"probabilité ("+probaPouvoirrSpecial+")"}
-            visibleFunc = {() => setProbaPouvoirrSpecialModal(false)}
+            visibleParam = {probaPouvoirSpecialModal}
+            textInit = {"probabilité ("+probaPouvoirSpecial+")"}
+            visibleFunc = {() => setProbaPouvoirSpecialModal(false)}
             submitText = {"Valider"}
             // submitFunc = {submitfunc}
-            inputValue = {probaPouvoirrSpecial}
+            inputValue = {probaPouvoirSpecial}
             submitFunc = {(text, setErrorFunc) =>{ 
               if (validate_value(text, 0, 1)){
-                setProbaPouvoirrSpecial(parseFloat(text))
-                setProbaPouvoirrSpecialModal(false)
+                setProbaPouvoirSpecial(parseFloat(text))
+                setProbaPouvoirSpecialModal(false)
                 return;
               }
               setErrorFunc("La valeur doit être entre 0 et 1");
@@ -273,7 +346,7 @@ export default function ConfigGame() {
           />
           <CenterButton
             textButton = {"Créer un jeu"}
-            onPressFunc = {submitfunc}
+            onPressFunc = {sendFormFunc}
             styleArg = {styles.button}
             TextSize = {37}
             buttonDisabled = {createButtonDisabled}
