@@ -55,8 +55,8 @@ export default function Home() {
     router.push('/configGame')
   }
 
-  const enterIntoGame = async () => {
-    
+  const enterIntoGame = () => {
+    router.replace('/GamePage');
   }
 
   const sendFormFunc = async (gameid) => {
@@ -131,7 +131,7 @@ export default function Home() {
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: COLORS.lightRed },
-          headerShadowVisible: false,
+          headerShadowViSeaRescuesible: false,
           headerRight: () => (
             <ScreenHeader
               imageurl={images.icon_wolf_head}

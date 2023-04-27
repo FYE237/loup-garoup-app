@@ -4,4 +4,7 @@ import { FONT } from "./fonts.js";
 import { SIZES } from "./sizes.js";
 import images from "./images";
 
-export { images, COLORS, LINKS, FONT, SIZES };
+import{ GAME_STATUS, PLAYER_STATUS, CHAT_TYPE, ROLE, SPECIAL_POWERS} from "./gameConstants.js"
+export { images, COLORS, LINKS, FONT, SIZES , 
+        GAME_STATUS, PLAYER_STATUS, CHAT_TYPE,
+         ROLE, SPECIAL_POWERS};
