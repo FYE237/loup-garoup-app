@@ -298,7 +298,12 @@ class NuitState extends GameState {
     }
     data = {
       message : "new custom chat was created by " + pseudoJoueur,
-      chatRoomId : chatRoom,
+      chats : {
+        chatcustom : {
+          chatname : "chat pouvoir spiritisme",
+          chatroom : chatRoom  
+        }
+      }
     }
     this.context.usedPower.push(pseudoJoueur);
     this.context.nsp.to(chatRoom).emit("new-custom-chat", data);
@@ -494,6 +499,7 @@ class NuitState extends GameState {
       return;
     }
     debug("All is valid, trying to go to the day state");
+    this.sleep(5)//This was added to mke the game feel smother 
     this.context.setState(this.context.stateJour);
   }
 

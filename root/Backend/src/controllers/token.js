@@ -56,7 +56,7 @@ module.exports = {
 
     if(!data) throw new CodeError('User not found', status.NOT_FOUND)
 
-    if (data.name!=req.params.id )
+    if (data.name!=req.login )
       // Provoque une réponse en erreur avec un code de retour 403 
       throw {code: 403, message: 'Forbidden'}
     // On appelle la fonction middleware suivante que si la condition est vérifiée
@@ -68,20 +68,24 @@ module.exports = {
   async checkUser(req,res,next){
      // Code vérifiant que le login est celui du bon utilisateur (présent si une fonction middleware
     // a au préalable ajouté le login dans req)
-
     const {  name } = {name : req.login}
     const data = await User.findOne({name: name}).select({_id:1,__v:0,password:0,email:0})
 
     if(!data) throw new CodeError('User not found', status.NOT_FOUND)
 
-    const tmp = JSON.parse(req.body.data)
-
+    let tmp = {};
+    try{
+      if (req.body) {tmp = JSON.parse(req.body.data)};
+    }
+    catch(err){
+      console.log("Caught an error while extracting body, err = " + err)
+    }
     /*On vérifie que le token correspond à l'utilisateur qu'on veut modifier 
       ou à l'utilisateur qui veur créer la partie ou l'utilisateur qui veut rejoindre la partie.
     */
     if ((tmp.prev && data.name != tmp.prev)|| (tmp.hote_name && tmp.hote_name!=data.name) || (tmp.id_joueur && tmp.id_joueur != data.name))
       // Provoque une réponse en erreur avec un code de retour 403 
-      throw {code: 403, message: 'Forbidden'}
+      throw {code: 403, message: 'User name and user token do not match'}
     
     // On appelle la fonction middleware suivante que si la condition est vérifiée
     next()

@@ -125,7 +125,7 @@ async function rejoindrePartie(){
         console.log('Received new message:', data);
         // do something with the data
         });
-    socket.on("Player-info", function(data) {
+    socket.on("player-info", function(data) {
         console.log('Received player info:', data);
         // do something with the data
     });

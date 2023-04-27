@@ -318,7 +318,7 @@ class GameState {
       const {name} = await this.getPlayerPseudo(player.id_joueur);
       playersData.push({
         playerName : name,
-        playerStatus : player.status
+        playerStatus : player.statut
       })
     })
     playerJoueurLink.map(async (player) =>{
@@ -337,16 +337,23 @@ class GameState {
         playersData : playersData,
       }
       let chats = {
-        generalChat : this.context.generalChat
-      }
-      if (player.role === ROLE.loupGarrou){
-        chats.loupChat = this.context.loupChatRoom;
-        data.roomLoupId = this.context.roomLoupId;
+        generalChat : {
+          chatname : "place du village ",
+          chatroom : this.context.generalChatRoom
+        }
+        }
+      if (player.role === ROLE.loupGarrou
+        && this.context.state == this.context.stateNuit) {
+        data.roomLoupId =  this.context.roomLoupId;
+        chats.loupChat = {
+          chatname : "Chat loup garrou ",
+          chatroom :  this.context.loupChatRoom
+        }
       }
       data.chats = chats;
       if (player.socket_id != 0){
         debug("Sending Player info to  "+name);
-        this.context.nsp.to(player.socket_id).emit("Player-info", data);
+        this.context.nsp.to(player.socket_id).emit("player-info", data);
       }
       else{
         debug("Player "+name+" is registered but has not logged in")
@@ -410,6 +417,13 @@ class GameState {
     return -1;  
   }
 
+  /**
+   * Sleep method
+   */
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
 
 }
 

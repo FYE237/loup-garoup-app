@@ -45,8 +45,6 @@ var nsp = io.of("/api/parties/:id")
 
 const Joueur_partie_role = require('./models/joueur_partie_role')
 const {partieContextHashTable} = require("./controllers/gameContext")
-const User = require('./models/user');
-const joueur_partie_role = require('./models/joueur_partie_role');
 
 
 //Connexion  à la socket
@@ -141,11 +139,10 @@ nsp.on('connection', (socket) => {
          * 
          */
     socket.on("vote-jour",async (pseudoVoteur, candidantVote, id_partie) => {
-        debug("Vote Jour pour : " + message)
         if (!pseudoVoteur || !candidantVote || !id_partie ){
             debug("pseudoVoteur = "+pseudoVoteur+"candidantVote = "+candidantVote+"id_partie = "+id_partie)
             debug("Please provide the player who made the vote, the player from whom you wish"+ 
-                            "to vote for and the game id ");
+            "to vote for and the game id ");
             return;
         }
         try{

@@ -145,7 +145,7 @@ module.exports = {
         const joueur =  await Joueur_partie_role.find({id_partie:req.params.id,id_joueur:_id}).select({_id:0,id_role:0,id_partie:0,statut:0,__v:0})
 
         if(joueur.length != 0)
-            throw  new CodeError('Add failed - PLayer has already joined', status.BAD_REQUEST) 
+            throw  new CodeError('Add failed - player has already joined', status.BAD_REQUEST) 
 
         next()
 
@@ -212,27 +212,28 @@ module.exports = {
         description: 'An error occurred while processing the request.' 
     }
     */
-        const tmp = JSON.parse(req.body.data)
-        if(!has(tmp , ['id_joueur']))
-            throw  new CodeError('Précisez id_joueur', status.BAD_REQUEST)
-    
-        const idpartie = req.params.id;
+    const tmp = JSON.parse(req.body.data)
+    if(!has(tmp , ['id_joueur']))
+        throw  new CodeError('Précisez id_joueur', status.BAD_REQUEST)
 
-        //On retrouve l'id du joueur dont le pseudo est tmp.id_joueur
-        const {_id} = await User.findOne({name:tmp.id_joueur}).select({_id:1,name:0,email:0,__v:0,password:0})
+    const idpartie = req.params.id;
+
+    //On retrouve l'id du joueur dont le pseudo est tmp.id_joueur
+    const {_id} = await User.findOne({name:tmp.id_joueur}).select({_id:1,name:0,email:0,__v:0,password:0})
 
 
-        const joueur_partie_role = new Joueur_partie_role({
-            id_partie: idpartie,
-            //The role of the player will give to him as soon as the game starts
-            role: ROLE.noRole, 
-            id_joueur:_id,
-            statut: PLAYER_STATUS.vivant,
-        })
+    const joueur_partie_role = new Joueur_partie_role({
+        id_partie: idpartie,
+        //The role of the player will give to him as soon as the game starts
+        role: ROLE.noRole, 
+        id_joueur:_id,
+        statut: PLAYER_STATUS.vivant,
+    })
 
-        joueur_partie_role.save()
-        .then(() => { res.json({status:true, message:'Player added to the party', data:{game_id: idpartie}} )  })
-        .catch((err) => {throw  new CodeError('Player was not added to the database', status.INTERNAL_SERVER_ERROR)})
+    debug(tmp.id_joueur + " is trying to regster into the game ");
+    joueur_partie_role.save()
+    .then(() => { res.json({status:true, message:'Player added to the party', data:{game_id: idpartie}} )  })
+    .catch((err) => {throw  new CodeError('Player was not added to the database', status.INTERNAL_SERVER_ERROR)})
 
     }
 

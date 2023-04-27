@@ -156,6 +156,7 @@ class JourState extends GameState {
       return;
     }
     debug("All is valid, trying to go to the night state");
+    this.sleep(5)//This was added to mke the game feel smother 
     await this.context.setState(this.context.stateNuit);
   }
 
