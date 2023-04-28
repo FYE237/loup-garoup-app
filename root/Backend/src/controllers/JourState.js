@@ -114,7 +114,7 @@ class JourState extends GameState {
     }
     //Les joueurs n'ont pas pu s'entendre
     else{
-        this.context.nsp.to(this.context.roomId).emit("NoJoueurMORT", {
+        this.context.nsp.to(this.context.roomId).emit("finalVote", {
           message : "Aucun joueur a été tué",
         })
     }
@@ -173,6 +173,7 @@ class JourState extends GameState {
   async goToNight(){
     await this.context.setState(this.context.stateJour);
   }
+  
   configureTimer(){   
     debug("Configuring timer for the jour state")
     this.startTime = Date.now();
