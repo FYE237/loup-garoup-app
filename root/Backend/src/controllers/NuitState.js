@@ -127,12 +127,16 @@ class NuitState extends GameState {
         this.deadPlayer=maxKey;
         
         // On indique aux reste des jours la decision des loups;
-        this.context.nsp.to(this.context.roomId).emit("JoueurMortByLoup",{name:maxKey})
+        this.context.nsp.to(this.context.roomId).emit("notif-vote-final",{
+          message : "un joueur a été tué" + maxKey,
+        })
     }
     //Les loups n'ont pas pu s'entendre pour tuer quelqu'un
     else {
         // On indique aux reste des jours la decision des loups;
-        this.context.nsp.to(this.context.roomId).emit("NoJoueurMortByLoup")
+        this.context.nsp.to(this.context.roomId).emit("notif-vote-final", {
+          message : "Aucun joueur n'a été tué",
+        })
     }
   }
 
