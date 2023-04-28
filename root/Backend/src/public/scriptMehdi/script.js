@@ -77,13 +77,13 @@ async function sendMessage(){
     
 
 
-    socket.emit('send-message-game', message, roomValue, getValueTickBox(), inputValue);
-    
-    socket.on("new-message", (data) => {
-        // Handle the data received from the server
-        console.log('Received a message:', data);
-    });          
+    //socket.emit('send-message-game', message, roomValue, getValueTickBox(), inputValue);
 
+    socket.emit("send-message",message,roomValue)
+
+    document.getElementById('room-text').value=""
+    document.getElementById('message-text').value=""
+    
 
 }
 
@@ -139,6 +139,16 @@ async function rejoindrePartie(){
         console.log("Player data : " , data)
     });
         
+    socket.on("send-Player-Data-Contamination" , function(data) {
+        console.log("Contamination : " , data)
+    });
+    socket.on("new-custom-chat" , function(data) {
+        console.log("Spiritisme : " , data)
+    });
+    socket.on("new-message", (data) => {
+        // Handle the data received from the server
+        console.log('Received a message:', data);
+    });
         // console.log("Hello") ; 
 
     //On déclenche l'évenement rejoindre la partie
@@ -156,14 +166,21 @@ async function rejoindrePartie(){
 
    
 
-function EnvoyerMessage(event){
+/* function EnvoyerMessage(event){
     event.preventDefault()
     // console.log("Hello")
     const message1 = document.querySelector("input[id='fo']").value
     console.log(message1)
-    socket.emit("send-message",message1)
+
+    const room = document.querySelector("input[id='room-text']").value
+
+    socket.emit("send-message",message1,room)
+
+
     document.getElementById("fo").value=""
-}
+
+
+} */
 
 
 window.addEventListener("load",miseEnplace,false)
