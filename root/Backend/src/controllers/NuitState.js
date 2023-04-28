@@ -523,12 +523,12 @@ class NuitState extends GameState {
       return;
     }
     debug("All is valid, trying to go to the day state");
-<<<<<<< HEAD
-    this.sleep(5)//This was added to mke the game feel smother 
-    this.context.setState(this.context.stateJour);
-=======
+    setTimeout(this.goToDay.bind(this), 
+                    3000);  
+  }
+
+  async goToDay(){
     await this.context.setState(this.context.stateJour);
->>>>>>> origin/backend_mehdi
   }
 
   configureTimer(){

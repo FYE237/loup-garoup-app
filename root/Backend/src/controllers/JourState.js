@@ -108,14 +108,15 @@ class JourState extends GameState {
         //On change son statut
         await Joueur_partie_role.updateOne({id_joueur:playerId, id_partie: this.context.partieId}, {statut:PLAYER_STATUS.mort});
         //On signale à tous les joueurs qui est mort
-        this.context.nsp.to(this.context.roomId).emit("JoueurMort",{
-          message : "A player was killed" + maxKey,
-          name:maxKey
+        this.context.nsp.to(this.context.roomId).emit("finalVote",{
+          message : "Un joueur a été tué : " + maxKey,
         })
     }
     //Les joueurs n'ont pas pu s'entendre
     else{
-        this.context.nsp.to(this.context.roomId).emit("NoJoueurMORT")
+        this.context.nsp.to(this.context.roomId).emit("NoJoueurMORT", {
+          message : "Aucun joueur a été tué",
+        })
     }
   }
 
@@ -159,16 +160,19 @@ class JourState extends GameState {
   async timerCooldown(){
     debug("Timer cooldown or all players voted changing state, current state = "+this.context.gameStatus);
     await this.finaliseVotingProcess();
-    if (!this.checkGameStatus()){
+    if (! (await this.checkGameStatus())){
       debug("Game ended, trying to go to the end state");
-      this.context.setState(this.context.stateFinJeu);
+      await this.context.setState(this.context.stateFinJeu);
       return;
     }
     debug("All is valid, trying to go to the night state");
-    this.sleep(5)//This was added to mke the game feel smother 
-    await this.context.setState(this.context.stateNuit);
+    setTimeout(this.goToNight.bind(this), 
+                    3000);  
   }
 
+  async goToNight(){
+    await this.context.setState(this.context.stateJour);
+  }
   configureTimer(){   
     debug("Configuring timer for the jour state")
     this.startTime = Date.now();
