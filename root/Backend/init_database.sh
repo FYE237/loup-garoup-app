@@ -1,5 +1,5 @@
-backend=https://projetwebimag.osc-fr1.scalingo.io
-# backend=http://localhost:3000
+# backend=https://projetwebimags.osc-fr1.scalingo.io
+backend=http://localhost:3000
 #creation du compte avec le nom mehdi
 curl -X POST -d 'data=%7B%22name%22%3A%22mehdi%22%2C%22email%22%3A%22emailmehdi%40gmail.com%22%2C%22password%22%3A%22hello%22%7D' -H 'Content-Type: application/x-www-form-urlencoded' $backend/api/users
 echo ""
