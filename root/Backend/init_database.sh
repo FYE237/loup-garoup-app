@@ -26,3 +26,38 @@ curl -X POST \
   -d 'data={"id_joueur":"samuel"}' \
   $backend/api/parties/$game_id
 
+# #creation du compte emmanuel
+# curl -X POST -d 'data=%7B%22name%22%3A%22emmanuel%22%2C%22email%22%3A%22emailemmanuel%40gmail.com%22%2C%22password%22%3A%22hello%22%7D' -H 'Content-Type: application/x-www-form-urlencoded' $backend/api/users
+# echo ""
+# #login du compte emmanuel
+# curl -X POST -d 'data=%7B%22name%22%3A%22emmanuel%22%2C%22email%22%3A%22emailemmanuel%40gmail.com%22%2C%22password%22%3A%22hello%22%7D' -H 'Content-Type: application/x-www-form-urlencoded' $backend/api/login
+# echo ""
+# #rejoindre la partie avec l'utilisateur emmanuel
+# echo "The game ID is: $game_id"
+# curl -X POST \
+  # -H "x-access-token: eyJhbGciOiJIUzI1NiJ9.ZW1tYW51ZWw.2yBE41Aa5v7e7k5vQJEF1HUFRBujYRj8TsdsYGqGwPU" \
+  # -d 'data={"id_joueur":"emmanuel"}' \
+  # $backend/api/parties/$game_id
+# #creation du compte mouahe
+# curl -X POST -d 'data=%7B%22name%22%3A%22mouahe%22%2C%22email%22%3A%22emailmouahe%40gmail.com%22%2C%22password%22%3A%22hello%22%7D' -H 'Content-Type: application/x-www-form-urlencoded' $backend/api/users
+# echo ""
+# #login du compte mouahe
+# curl -X POST -d 'data=%7B%22name%22%3A%22mouahe%22%2C%22email%22%3A%22emailmouahe%40gmail.com%22%2C%22password%22%3A%22hello%22%7D' -H 'Content-Type: application/x-www-form-urlencoded' $backend/api/login
+# echo ""
+# #rejoindre la partie avec l'utilisateur moouahe
+# echo "The game ID is: $game_id"
+# curl -X POST \
+  # -H "x-access-token: eyJhbGciOiJIUzI1NiJ9.bW91YWhl.Yps8Wl-l7QYHI5VJH4WTyny1xMdcYpdr4ZZvpNMJYUI" \
+  # -d 'data={"id_joueur":"mouahe"}' \
+  # $backend/api/parties/$game_id
+# #creation du compte jackson
+# curl -X POST -d 'data=%7B%22name%22%3A%22jackson%22%2C%22email%22%3A%22emailjackson%40gmail.com%22%2C%22password%22%3A%22hello%22%7D' -H 'Content-Type: application/x-www-form-urlencoded' $backend/api/users
+# echo ""
+# #login du compte jackson
+# curl -X POST -d 'data=%7B%22name%22%3A%22jackson%22%2C%22email%22%3A%22emailjackson%40gmail.com%22%2C%22password%22%3A%22hello%22%7D' -H 'Content-Type: application/x-www-form-urlencoded' $backend/api/login
+# echo ""
+# echo "The game ID is: $game_id"
+# curl -X POST \
+  # -H "x-access-token: eyJhbGciOiJIUzI1NiJ9.amFja3Nvbg.NWcL1UmzNoiuhX6Q8C14OevMICbNBbbDWqVPUiEEWtQ" \
+  # -d 'data={"id_joueur":"jackson"}' \
+  # $backend/api/parties/$game_id

@@ -3,52 +3,12 @@ import { View, Text, Modal, TouchableOpacity, Button } from 'react-native';
 import io from 'socket.io-client';
 import { COLORS, images, LINKS } from '../constants'
 import {
-  Chat
+  Chat, 
+  ActionModal,
+  TabBar
 } from '../components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-
-
-const ActionModal = ({ textButton, players, handlePlayerClick }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const handleButtonClick = playerName => {
-    setModalVisible(false);
-    handlePlayerClick(playerName);
-  };
-  if (players){
-    return (
-      <View>
-        <Button title={textButton} onPress={() => setModalVisible(true)} />
-        <Modal animationType="slide" transparent={true} visible={modalVisible}>
-          <View style={{ marginTop: 100, backgroundColor: 'white', padding: 20 }}>
-            {players.map(player => (
-              <Button key={player.playerName} title={player.playerName} onPress={() => handleButtonClick(player.playerName)} />
-            ))}
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
-          </View>
-        </Modal>
-      </View>
-    );
-  }
-  
-};
-
-const TabBar = ({ activeTab, setActiveTab }) => {
-  return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-      <TouchableOpacity onPress={() => setActiveTab(1)}>
-        <Text style={{ color: activeTab === 1 ? 'red' : 'black' }}>game info </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => setActiveTab(2)}>
-        <Text style={{ color: activeTab === 2 ? 'red' : 'black' }}>chats </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => setActiveTab(3)}>
-        <Text style={{ color: activeTab === 3 ? 'red' : 'black' }}>actions</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
 
 
 export default function  JourPage ({gameStatus, socket}) {

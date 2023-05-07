@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { View, TextInput, Text, StyleSheet, Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { CenterButton } from '../components'
-import CallToActionBtn from '../components/common/CallToActionBtn'
+import {CallToActionBtn} from '../components'
 import { Stack, useRouter } from 'expo-router'
 import {LINKS} from "../constants"
 import { io } from "socket.io-client";

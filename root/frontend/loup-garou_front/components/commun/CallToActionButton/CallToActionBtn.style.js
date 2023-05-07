@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../constants';
-import { FONT } from '../../constants';
+import { COLORS } from '../../../constants';
+import { FONT } from '../../../constants';
 
 const styles = StyleSheet.create({
   buttonContainer: {

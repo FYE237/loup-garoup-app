@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, TextInput, Text, StyleSheet, Alert } from "react-native";
-import CallToActionBtn from "../components/common/CallToActionBtn";
+import {CallToActionBtn} from '../components'
 import {LINKS} from "../constants"
 import { Stack, useRouter } from 'expo-router'
 

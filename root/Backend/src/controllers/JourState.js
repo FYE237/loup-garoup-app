@@ -35,7 +35,7 @@ class JourState extends GameState {
       debug("Vote is not possible");
     }
     debug(pseudoVoteur+" can vote and is voting for  " + candidantVote);
-    const voteCounter = this.context.currentPlayersVote.get(candidantVote)
+    let voteCounter = this.context.currentPlayersVote.get(candidantVote)
     
     if(!voteCounter) {
       debug("Premier vote contre : " + candidantVote)

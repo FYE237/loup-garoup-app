@@ -6,6 +6,10 @@ const {GAME_STATUS, CHAT_TYPE, ROLE, PLAYER_STATUS,
 const Partie = require('../models/partie');
 const User = require('../models/user');
 const Joueur_partie_role = require('../models/joueur_partie_role');
+const joueur_partie_role = require("../models/joueur_partie_role");
+const { v4: uuidv4 } = require('uuid');
+const {Chat,Message} = require('../models/chat')
+
 
 class NuitState extends GameState {
   constructor(context) {
@@ -40,23 +44,61 @@ class NuitState extends GameState {
   }
 
   async testMethod(){
+    /**
+     * Jackson est mort
+     * Mouahe est un villageois qui a un pouvoir de spiritisme pour discuter avec  Jackson
+     * Emmanuel a un pouvoir de voyante
+     * Samuel est un loup qui a un pouvoir de contamination
+     * Mehdi a été contaminé par Samuel
+     */
     const idsamuel =  await this.getPlayerId("samuel");
+    const idmehdi =  await this.getPlayerId("mehdi");
+    const idemmanuel =  await this.getPlayerId("emmanuel");
+    const idmouahe =  await this.getPlayerId("mouahe");
+    const idjackson =  await this.getPlayerId("jackson");
 
+    //Samuel est un loup alpha
     const updateSamuel = await Joueur_partie_role.updateOne(
       {id_joueur:idsamuel ,
          id_partie:this.context.partieId},
-      {role:ROLE.loupGarou})
+      {role:ROLE.loupGarou,pouvoir_speciaux:SPECIAL_POWERS.contamination})
 
-      const playerJoueurLink = await Joueur_partie_role.findOne({
-        id_joueur : idsamuel, 
-        id_partie: this.context.partieId });
+      //Mehdi est un villageois
+      const updateMehdi = await Joueur_partie_role.updateOne(
+        {id_joueur: idmehdi ,
+           id_partie: this.context.partieId},
+        {role: ROLE.villageois, pouvoir_speciaux: ROLE.villageois})
 
-      await this.handleVoyance("mehdi","samuel")
+      
+      //Emmanuel est un loup alpha
+    const updateEmmanuel = await Joueur_partie_role.updateOne(
+      {id_joueur: idemmanuel ,
+         id_partie: this.context.partieId},
+      {role: ROLE.villageois, pouvoir_speciaux: SPECIAL_POWERS.voyanteHumain})
 
-      await this.handleVote("samuel", "mehdi",playerJoueurLink.socket_id);
-    // pseudoJoueur.pouvoir_speciaux = contamination
-    // pseudoCible.role = villageois
-    // this.handleContamination()
+      //Jackson est mort
+    const updateJackson = await Joueur_partie_role.updateOne(
+      {id_joueur: idjackson ,
+         id_partie: this.context.partieId},
+      {role: ROLE.villageois, pouvoir_speciaux: ROLE.villageois, statut: PLAYER_STATUS.mort})
+
+      //Mouahe fait du spiritisme
+    const updateMouahe = await Joueur_partie_role.updateOne(
+      {id_joueur: idmouahe ,
+         id_partie: this.context.partieId},
+      {role: ROLE.villageois, pouvoir_speciaux: SPECIAL_POWERS.spiritismeHumain})
+
+      //await this.handleVote("samuel", "mehdi",playerJoueurLink.socket_id);
+    
+    //Contamination :  Samuel contamine Mehdi
+     await  this.handleContamination("samuel","mehdi")
+
+    //Voyance : Emmanuel voit les attributs de Mehdi
+    await this.handleVoyance("emmanuel","mehdi")
+
+    //Spiritisme : Mouahe veut discuter avec Jackson
+    await this.handleSpiritisme("mouahe","jackson")
+
   }
     
   async handleVote(pseudoVoteur, candidantVote, socket_id) {
@@ -173,7 +215,7 @@ class NuitState extends GameState {
    */
   async createCustomchat(...usersIds){
     debug("Creating a custom chat room for the game : "+ this.context.partieId);
-    debug("The users that will added to the room are :", users);
+    debug("The users that will added to the room are :", usersIds);
     if (usersIds.length < 0 ){
       debug("users table in empty when creating users");
       return null;
@@ -196,7 +238,9 @@ class NuitState extends GameState {
     }
     //Horrible complexity .....
     playerJoueurLink.map((player) =>{
-      if (!usersIds.includes(player.id_joueur)){
+
+     //If the player isn't amongst the two players (the spiritist,the target)
+      if (!(usersIds.some(item => (item._id).toString() === (player.id_joueur).toString()))){       
         return;
       }
       debug("Player game link was found add his to the custom chat, player id = ",player.id_joueur);
@@ -205,11 +249,16 @@ class NuitState extends GameState {
         debug("Player socket was not found, id of the player = " + player.id_joueur);
         return;
       }
+      debug("++++++++ player  joins the room  ++++++")
       playerSocket.join(customChatroom);
     })
+
+
     debug("Custom chat room was created for the game  : "+ this.context.partieId);
     debug("custom chat room id  = " + customChatroom)
-    return createCustomchat;
+    //customChatroom or createCustomChatroom as seen previously
+    //return createCustomchat;
+    return customChatroom;
   }
   
   /**
@@ -271,7 +320,7 @@ class NuitState extends GameState {
       debug(pseudoJoueur + " has already used his power");
       return false;
     }
-    if (joueurData.pouvoir_speciaux === SPECIAL_POWERS.spiritismeHumain ||
+    if (joueurData.pouvoir_speciaux !== SPECIAL_POWERS.spiritismeHumain &&
         joueurData.pouvoir_speciaux !== SPECIAL_POWERS.spiritismeLoup){
       debug(pseudoJoueur + " does not possess this power");
       return false;
@@ -317,7 +366,7 @@ class NuitState extends GameState {
       debug("Cannot apply spiritisme")
       return;
     }
-    const chatRoom = await createCustomchat(joueurPowerId, cibleId);
+    const chatRoom = await this.createCustomchat(joueurPowerId, cibleId);
     if (chatRoom == null){
       debug("Custom chat room was not created leaving power");
     }
@@ -332,6 +381,19 @@ class NuitState extends GameState {
     }
     this.context.usedPower.push(pseudoJoueur);
     this.context.nsp.to(chatRoom).emit("new-custom-chat", data);
+
+    
+    this.context.nsp.on("send-message",(message,room)=>{
+      debug("message-spiritisme")
+      if(room === ""){
+        
+      }
+      else {
+        debug("room", room)
+        this.context.nsp.to(chatRoom).emit("new-message",message)
+      }
+    })
+
     debug("Chat room created with success");
   }
   
@@ -356,9 +418,10 @@ class NuitState extends GameState {
       debug(pseudoJoueur + " has already used his power");
       return false;
     }
-    if (joueurData.pouvoir_speciaux === SPECIAL_POWERS.voyanteLoup ||
+    if (joueurData.pouvoir_speciaux !== SPECIAL_POWERS.voyanteLoup &&
         joueurData.pouvoir_speciaux !== SPECIAL_POWERS.voyanteHumain){
       debug(pseudoJoueur + " does not possess this power");
+      debug(joueurData.pouvoir_speciaux , SPECIAL_POWERS.voyanteHumain , SPECIAL_POWERS.voyanteLoup)
       return false;
     }
     if (joueurData.statut !== PLAYER_STATUS.vivant){
@@ -417,7 +480,7 @@ class NuitState extends GameState {
   }
 
     /**
-   * This function checks if the we can apply the special power voyance
+   * This function checks if the we can apply the special power Contamination
    * it will first check that all entries are valid
    * then it will check that the user has not used his special powers
    * then it will verify that the player can use this power
@@ -454,6 +517,7 @@ class NuitState extends GameState {
       return false;
     }
     if (joueurData.pouvoir_speciaux !== SPECIAL_POWERS.contamination){
+      debug(joueurData.pouvoir_speciaux)
       debug(pseudoJoueur + " does not possess this power");
       return false;
     }
@@ -493,11 +557,19 @@ class NuitState extends GameState {
       debug("socket was not found, something went terribly wrong !!!, canceling action");
       return;
     }
+    // We need to update in the database directly. There we just change the object but not the database values
+    debug("Update player : " + pseudoCible + " status to loupgarou && special powers")
+    const updates = await joueur_partie_role.updateOne({id_joueur: cibleId, id_partie: this.context.partieId}, {role:ROLE.loupGarou, pouvoir_speciaux:ROLE.loupGarou})
+
     victimLink.role = ROLE.loupGarou;
     //We completly remove special powers because some powers 
     if (victimLink.pouvoir_speciaux === SPECIAL_POWERS.insomnie){
       //This speacial power can only be used by humans so we need to reset it 
       victimLink.pouvoir_speciaux = "";
+
+      // We need to update in the database directly. There we just change the object but not the database values
+      // const updates2 = await joueur_partie_role.updateOne({id_joueur: cibleId, id_partie: this.context.partieId}, {pouvoir_speciaux: ""})
+      //debug("Update player : " + pseudoCible + " special powers")
       //In this case the player is already in the loup and chat we don't need to add him
     }
     else{

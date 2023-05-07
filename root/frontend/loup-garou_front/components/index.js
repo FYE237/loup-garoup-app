@@ -5,6 +5,9 @@ import CenterButton from "./home/centerButton/centerButton";
 import InputModal from "./commun/inputmodal/inputModal";
 import ScreenHeader from "./commun/screenheader/screenheader"
 import Chat from "./commun/chat/chat"
+import CallToActionBtn from "./commun/CallToActionButton/CallToActionBtn"
+import ActionModal from "./game/ActionButton/actionModal"
+import TabBar from "./game/tabBar/tabBar"
 
 export {
   Pseudo,
@@ -12,5 +15,8 @@ export {
   CenterButton,
   InputModal,
   ScreenHeader,
-  Chat
+  Chat,
+  CallToActionBtn,
+  ActionModal,
+  TabBar
 };
