@@ -165,13 +165,13 @@ nsp.on('connection', (socket) => {
          * room : id de la room des loup-garous
          */
     socket.on("vote-nuit",async(pseudoVoteur, candidantVote, id_partie)=>{
-      debug("Vote Nuit par : " + pseudoVoteur)
       if (!pseudoVoteur || !candidantVote || !id_partie ){
-        debug("pseudoVoteur = "+pseudoVoteur+"candidantVote = "+candidantVote+"id_partie = "+id_partie)
-        debug("Please provide the player who made the vote, the player from whom you wish"+ 
-        "to vote for and the game id ");
-        return;
+          debug("pseudoVoteur = "+pseudoVoteur+"candidantVote = "+candidantVote+"id_partie = "+id_partie)
+          debug("Please provide the player who made the vote, the player from whom you wish"+ 
+          "to vote for and the game id ");
+          return;
       }
+      debug("Vote Nuit par : " + pseudoVoteur)
       try{
         let partie = partieContextHashTable.get(id_partie);
         if(partie){ 
@@ -194,13 +194,13 @@ nsp.on('connection', (socket) => {
      * @param id_partie id of the game
      */
     socket.on("Pouvoir-Spiritisme", async(pseudoJoueur, pseudoCible, id_partie)=>{
-      debug("Pouvoir-Spiritisme ran by : " + pseudoVoteur)
       if (!pseudoJoueur || !pseudoCible || !id_partie ){
-        debug("pseudoJoueur = "+pseudoJoueur+" pseudoCible = "+pseudoCible+" id_partie = "+id_partie)
-        debug("Please provide the player that used the power and the player on which the power was used on" 
-                                        +"and the id the game   ");
-        return;
+          debug("pseudoJoueur = "+pseudoJoueur+" pseudoCible = "+pseudoCible+" id_partie = "+id_partie)
+          debug("Please provide the player that used the power and the player on which the power was used on" 
+          +"and the id the game   ");
+          return;
       }
+      debug("Pouvoir-Spiritisme ran by : " + pseudoJoueur)
       try{
         let partie = partieContextHashTable.get(id_partie);
         if (partie){partie.requestSpiritisme(pseudoJoueur, pseudoCible);}
@@ -219,13 +219,13 @@ nsp.on('connection', (socket) => {
      * @param id_partie id of the game
      */
     socket.on("request-Voyance", async(pseudoJoueur, pseudoCible, id_partie)=>{
-        debug("Pouvoir-Voyance ran par : " + pseudoVoteur)
         if (!pseudoJoueur || !pseudoCible || !id_partie ){
             debug("pseudoJoueur = "+pseudoJoueur+" pseudoCible = "+pseudoCible+" id_partie = "+id_partie)
             debug("Please provide the player that used the power and the player on which the power was used on" 
-                                            +"and the id the game   ");
+            +"and the id the game   ");
             return;
         }
+        debug("Pouvoir-Voyance ran par : " + pseudoJoueur)
         try{
             let partie = partieContextHashTable.get(id_partie);
             if (partie){partie.requestVoyance(pseudoJoueur, pseudoCible);}
@@ -244,13 +244,13 @@ nsp.on('connection', (socket) => {
      * @param id_partie id of the game
      */
     socket.on("request-Loup-alpha",async(pseudoJoueur, pseudoCible, id_partie)=>{
-        debug("Pouvoir-loup alpha ran par : " + pseudoVoteur)
         if (!pseudoJoueur || !pseudoCible || !id_partie ){
             debug("pseudoJoueur = "+pseudoJoueur+" pseudoCible = "+pseudoCible+" id_partie = "+id_partie)
             debug("Please provide the player that used the power and the player on which the power was used on" 
-                                            +"and the id the game   ");
+            +"and the id the game   ");
             return;
         }
+        debug("Pouvoir-loup alpha ran par : " + pseudoJoueur)
         try{
             let partie = partieContextHashTable.get(id_partie);
             if (partie){partie.requestContamination(pseudoJoueur, pseudoCible);}

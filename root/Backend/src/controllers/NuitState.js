@@ -40,13 +40,13 @@ class NuitState extends GameState {
     this.nbAliveLoup = await this.getCountRole(ROLE.loupGarou, PLAYER_STATUS.vivant);
     //Reset power used table
     this.context.usedPower = [];
-    await this.testMethod()
+    // await this.testMethod()
   }
 
   async testMethod(){
     /**
      * Jackson est mort
-     * Mouahe est un villageois qui a un pouvoir de spiritisme pour discuter avec  Jackson
+     * Mouahe est un humain qui a un pouvoir de spiritisme pour discuter avec  Jackson
      * Emmanuel a un pouvoir de voyante
      * Samuel est un loup qui a un pouvoir de contamination
      * Mehdi a été contaminé par Samuel
@@ -63,30 +63,30 @@ class NuitState extends GameState {
          id_partie:this.context.partieId},
       {role:ROLE.loupGarou,pouvoir_speciaux:SPECIAL_POWERS.contamination})
 
-      //Mehdi est un villageois
+      //Mehdi est un humain
       const updateMehdi = await Joueur_partie_role.updateOne(
         {id_joueur: idmehdi ,
            id_partie: this.context.partieId},
-        {role: ROLE.villageois, pouvoir_speciaux: ROLE.villageois})
+        {role: ROLE.humain, pouvoir_speciaux: ROLE.humain})
 
       
       //Emmanuel est un loup alpha
     const updateEmmanuel = await Joueur_partie_role.updateOne(
       {id_joueur: idemmanuel ,
          id_partie: this.context.partieId},
-      {role: ROLE.villageois, pouvoir_speciaux: SPECIAL_POWERS.voyanteHumain})
+      {role: ROLE.humain, pouvoir_speciaux: SPECIAL_POWERS.voyanteHumain})
 
       //Jackson est mort
     const updateJackson = await Joueur_partie_role.updateOne(
       {id_joueur: idjackson ,
          id_partie: this.context.partieId},
-      {role: ROLE.villageois, pouvoir_speciaux: ROLE.villageois, statut: PLAYER_STATUS.mort})
+      {role: ROLE.humain, pouvoir_speciaux: ROLE.humain, statut: PLAYER_STATUS.mort})
 
       //Mouahe fait du spiritisme
     const updateMouahe = await Joueur_partie_role.updateOne(
       {id_joueur: idmouahe ,
          id_partie: this.context.partieId},
-      {role: ROLE.villageois, pouvoir_speciaux: SPECIAL_POWERS.spiritismeHumain})
+      {role: ROLE.humain, pouvoir_speciaux: SPECIAL_POWERS.spiritismeHumain})
 
       //await this.handleVote("samuel", "mehdi",playerJoueurLink.socket_id);
     
@@ -504,7 +504,7 @@ class NuitState extends GameState {
       debug(pseudoJoueur + " is not a loup and can not use this power");
       return false;  
     }
-    if (victimData.role !== ROLE.villageois){
+    if (victimData.role !== ROLE.humain){
       debug(victimPseudo + " is not a human and this power cannot be used on him");
       return false;  
     }

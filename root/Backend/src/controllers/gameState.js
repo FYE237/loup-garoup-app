@@ -314,14 +314,15 @@ class GameState {
     //This table will hold list that has minimal information reagrding all of the players
     //like their current status indicating if they are alive or not and their pseudo
     const playersData = []
-    playerJoueurLink.map(async (player) =>{
-      const {name} = await this.getPlayerPseudo(player.id_joueur);
+    await Promise.all(playerJoueurLink.map(async (player) => {
+      const { name } = await this.getPlayerPseudo(player.id_joueur);
       playersData.push({
-        playerName : name,
-        playerStatus : player.statut
-      })
-    })
-    playerJoueurLink.map(async (player) =>{
+        playerName: name,
+        playerStatus: player.statut,
+        playerRole: player.role
+      });
+    }));
+    await Promise.all(playerJoueurLink.map(async (player) =>{
       //Some information is redundant but it will allow for faster access time
       //and much easier use
       let {name} = await this.getPlayerPseudo(player.id_joueur);
@@ -333,7 +334,7 @@ class GameState {
         playerPseudo : name,
         playerRole : player.role,
         playerStatut : player.statut,
-        SpecialPowers: player.pouvoir_speciaux,
+        specialPowers: player.pouvoir_speciaux,
         playersData : playersData,
       }
       let chats = {
@@ -341,8 +342,8 @@ class GameState {
           chatname : "place du village ",
           chatroom : this.context.generalChatRoom
         }
-        }
-      if (player.role === ROLE.loupGarrou
+      }
+      if (player.role === ROLE.loupGarou
         && this.context.state == this.context.stateNuit) {
         data.roomLoupId =  this.context.roomLoupId;
         chats.loupChat = {
@@ -351,6 +352,7 @@ class GameState {
         }
       }
       data.chats = chats;
+      console.log(data)
       if (player.socket_id != 0){
         debug("Sending Player info to  "+name);
         this.context.nsp.to(player.socket_id).emit("player-info", data);
@@ -358,19 +360,20 @@ class GameState {
       else{
         debug("Player "+name+" is registered but has not logged in")
       }
-    })
+    }))
   }
 
   /**
    * This functions checks that the number of wolfs that are still alive 
-   * and the villageois are superior to zero
+   * and the humans are superior to zero
    * @returns true if the game can continue and false otherwise if the game cannot continue
    */
   async checkGameStatus(){
+    // return true; //TODO REMOVE THIS
     let nbAliveLoup = await this.getCountRole(ROLE.loupGarou, PLAYER_STATUS.vivant);
-    let humainAlive = await this.getCountRole(ROLE.villageois, PLAYER_STATUS.vivant);
+    let humainAlive = await this.getCountRole(ROLE.humain, PLAYER_STATUS.vivant);
     debug("Nombre de loup vivants : "+nbAliveLoup)
-    debug("Nombre de villageois vivants : "+humainAlive)
+    debug("Nombre de humain vivants : "+humainAlive)
     if (nbAliveLoup === 0 || humainAlive === 0){
       debug("false leaving ....")
       return false;

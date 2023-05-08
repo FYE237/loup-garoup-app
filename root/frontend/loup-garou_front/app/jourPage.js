@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, TouchableOpacity, Button } from 'react-native';
 import io from 'socket.io-client';
-import { COLORS, images, LINKS } from '../constants'
+import { COLORS, images, LINKS, PLAYER_STATUS, ROLE } from '../constants'
 import {
   Chat, 
   ActionModal,
@@ -21,6 +21,7 @@ export default function  JourPage ({gameStatus, socket}) {
   const [specialPower, setSpecialPower] = useState([]);
   const [activeTab, setActiveTab] = useState(1);
   const [user, setUser] = useState('');
+  const [playerStatus, setPlayerStatus] = useState("");
   const [gameId, setGameId] = useState('');  
 
   const handleVote = async (playerName) => {
@@ -77,12 +78,21 @@ export default function  JourPage ({gameStatus, socket}) {
 
 
   const actions = () => {
-    return (
-      <View >
+  if (playerStatus === PLAYER_STATUS.vivant){
+      return (
+        <View >
       <Text>List of actions</Text>
       <ActionModal textButton = {"Vote"} players={alivePlayers} handlePlayerClick={handleVote} />
       </View>
     )}
+  else{
+    return (
+      <View >
+      <Text>No actions can be applied when dead</Text>
+      </View >
+    )
+  }
+  }
 
 
   let content;
@@ -97,23 +107,24 @@ export default function  JourPage ({gameStatus, socket}) {
   useEffect(() => {
     const handlePlayerInfo = (data) => {
       setPlayerInfo(data)
-      console.log("player info " + data);
+      console.log("player info " + JSON.stringify(data));
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
       setGameRoom(data.roomId);
       setPlayerRole(data.playerRole);
-      setSpecialPower(data.SpecialPowers);
-      setUser(data.playerPseudo)
-      setGameId(data.partieId)
+      setSpecialPower(data.specialPowers);
+      setUser(data.playerPseudo);
+      setGameId(data.partieId);
+      setPlayerStatus(data.playerStatut);
       const alive = [];
       const dead = [];  
       data.playersData.forEach(player => {
-        if (player.playerStatus === 'vivant') {
+        if (player.playerStatus === PLAYER_STATUS.vivant) {
           alive.push(player);
-        } else if (player.playerStatus === 'mort') {
+        } else if (player.playerStatus === PLAYER_STATUS.mort) {
           dead.push(player);
         }
       });
-      console.log("alive " + alive);
+      console.log("alive jour " + alive);
       const updatedAlivePlayers = alive.map(player => ({
         ...player,
         votes: 0

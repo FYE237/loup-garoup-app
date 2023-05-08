@@ -25,10 +25,11 @@ const SPECIAL_POWERS = {
 }
 
 const ROLE = {
-  villageois: "villageois",
+  humain: "humain",
   loupGarou: "loupGarou",
   speciauxLoup: ["voyanteLoup", "spiritismeLoup", "contamination"],
   speciauxHumain: ["voyanteHumain", "spiritismeHumain", "insomnie"],
+  pasDePouvoir: "pasDePouvoir",
   //this value we will be used when the game is on hold and
   //it has not started yet but when the game starts
   //every player will be associated a certain role

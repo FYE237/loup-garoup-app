@@ -20,12 +20,13 @@ const SPECIAL_POWERS = {
   spiritismeLoup : "spiritismeLoup", 
   contamination : "contamination",
   voyanteHumain : "voyanteHumain", 
-  spiritismeHumain : "spiritismeHumain", 
+  spiritismeHumain : "spiritismeHumain",
+  pasDePouvoir: "pasDePouvoir", 
   insomnie : "insomnie",
 }
 
 const ROLE = {
-  villageois: "villageois",
+  humain: "humain",
   loupGarou: "loupGarou",
   speciauxLoup: ["voyanteLoup", "spiritismeLoup", "contamination"],
   speciauxHumain: ["voyanteHumain", "spiritismeHumain", "insomnie"],

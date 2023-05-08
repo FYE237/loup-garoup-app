@@ -8,6 +8,7 @@ import Chat from "./commun/chat/chat"
 import CallToActionBtn from "./commun/CallToActionButton/CallToActionBtn"
 import ActionModal from "./game/ActionButton/actionModal"
 import TabBar from "./game/tabBar/tabBar"
+import InfoModal from "./commun/infoModal/infoModal"
 
 export {
   Pseudo,
@@ -18,5 +19,6 @@ export {
   Chat,
   CallToActionBtn,
   ActionModal,
-  TabBar
+  TabBar,
+  InfoModal
 };

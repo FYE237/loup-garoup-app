@@ -224,6 +224,7 @@ class EnAttenteState extends GameState {
       return 0;
     }
     // computing of the number of wolves in the game
+    // this.context.nb_actif_players = 3; //TODO REMOVE THIS
     const wolvesNumber = Math.ceil(
       this.context.nb_actif_players * this.context.proportionLoup
     );
@@ -261,7 +262,7 @@ class EnAttenteState extends GameState {
           role: ROLE.speciauxLoup[powerInd % ROLE.speciauxLoup.length],
         };
       } else {
-        return { indice: playerIndice, role: ROLE.loupGarou };
+        return { indice: playerIndice, role: ROLE.pasDePouvoir };
       }
     });
 
@@ -283,7 +284,7 @@ class EnAttenteState extends GameState {
           role: ROLE.speciauxHumain[powerInd % ROLE.speciauxHumain.length],
         };
       } else {
-        return { indice: playerIndice, role: ROLE.villageois };
+        return { indice: playerIndice, role: ROLE.pasDePouvoir };
       }
     });
 
@@ -297,6 +298,7 @@ class EnAttenteState extends GameState {
     for (const wolves of assignedWolvesRoles) {
       playerRolesList[wolves.indice].role = ROLE.loupGarou;
       playerRolesList[wolves.indice].pouvoir_speciaux = wolves.role;
+      // playerRolesList[wolves.indice].pouvoir_speciaux = "voyanteLoup";//TODO REMOVE THIS
       playerRolesList[wolves.indice].save();
       //   (err) => {
       //   if (err) {
@@ -306,8 +308,9 @@ class EnAttenteState extends GameState {
     }
 
     for (const human of assignedHumansRoles) {
-      playerRolesList[human.indice].role = ROLE.villageois;
+      playerRolesList[human.indice].role = ROLE.humain;
       playerRolesList[human.indice].pouvoir_speciaux = human.role;
+      // playerRolesList[human.indice].pouvoir_speciaux = "voyanteHumain";//TODO REMOVE THIS
       playerRolesList[human.indice].save();
       // (err) => {
       // if (err) {

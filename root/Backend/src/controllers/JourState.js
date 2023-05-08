@@ -171,7 +171,7 @@ class JourState extends GameState {
   }
 
   async goToNight(){
-    await this.context.setState(this.context.stateJour);
+    await this.context.setState(this.context.stateNuit);
   }
   
   configureTimer(){   
