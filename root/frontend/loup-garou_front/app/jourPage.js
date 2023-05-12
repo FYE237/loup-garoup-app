@@ -107,6 +107,7 @@ export default function  JourPage ({gameStatus, socket}) {
   useEffect(() => {
     const handlePlayerInfo = (data) => {
       setPlayerInfo(data)
+      console.log("------------------------Jour-------------------------------");
       console.log("player info " + JSON.stringify(data));
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
       setGameRoom(data.roomId);

@@ -102,7 +102,7 @@ export default function Home() {
         "x-access-token": tokenVal
         },
       };
-        console.log("query = " + JSON.stringify(queryDetails))
+      // console.log("query = " + JSON.stringify(queryDetails))
         
       setIsLoading(true);
       try{
@@ -110,9 +110,10 @@ export default function Home() {
         const response = await fetch(LINKS.backend+linkEndPoint, queryDetails);
         const data = await response.json();
         console.log("Data recieved from request : "+JSON.stringify(data));
-        setPseudo(data.data)
-        if (pseudo !== "pseudo"){
-          await AsyncStorage.setItem('userPseudo', pseudo);
+        await setPseudo(data.data)
+        if (data.data){
+          console.log("setting pseudo");
+          await AsyncStorage.setItem('userPseudo', data.data);
         }
       } catch (error) {
           console.log("Fetch ran into an error : "+error);

@@ -47,7 +47,6 @@ module.exports = {
             schema: { 
                 $heure_debut: '15', 
                 $nb_participant: '5', 
-                $hote_name: 'fye', 
                 $duree_jour: '10', 
                 $duree_nuit: '15', 
                 $proba_pouvoir_speciaux: '0.3',
@@ -70,24 +69,25 @@ module.exports = {
             }
         }
         */
-
+        debug("Trying to create a new game");
         const tmp = JSON.parse(req.body.data)
         if(!has(tmp , [
                     'heure_debut',
                     'nb_participant', 
-                    'hote_name', 
                     'proportion_loup',
                     'proba_pouvoir_speciaux', 
                     'duree_jour', 
                     'duree_nuit'
                 ])){
+            debug("Game creation failed");
             throw  new CodeError('Please provide heure_debut, nb_participant, hote_name,'+
                                  'proportion_loup, proba_pouvoir_speciaux, duree_jour, duree_nuit', status.BAD_REQUEST)
             }
 
-        const {heure_debut, nb_participant, hote_name, duree_jour,
+        const {heure_debut, nb_participant, duree_jour,
              duree_nuit, proportion_loup, proba_pouvoir_speciaux} = tmp;
-        debug("heure debut = " + heure_debut)
+        debug("Starting game in = " + heure_debut)
+        let hote_name = req.login;
         //On retrouve l'id associé au pseudo dans le body à hote_name
         const {_id} = await User.findOne({name:hote_name}).select({_id:1,name:0,email:0,__v:0,password:0})
         //We create the game instance
@@ -123,25 +123,30 @@ module.exports = {
 
             joueur_partie_role.save()
             .then(() => { res.json({status:true,message:'Game was created',data:{game_id:obj._id}})})
-            .catch((err) => {throw  new CodeError('Game was successfully created but the '+
+            .catch((err) => {debug("Error while creating game");throw  new CodeError('Game was successfully created but the '+
                                                     'player was not added to the game '+ err, status.INTERNAL_SERVER_ERROR)})
         })
-        .catch((err) => {throw  new CodeError('Database error, game was not created; error : '+ err, status.INTERNAL_SERVER_ERROR)})
+        .catch((err) => {debug("Error while creating game");throw  new CodeError('Database error, game was not created; error : '+ err, status.INTERNAL_SERVER_ERROR)})
     },  
     //Middleware permettant de checker si un joueur a déjà rejoint la partie. Cela évite de dupliquer les joueurs dans une même partie
     async checkIfUserPresent(req,res,next){
-        const data_json = (JSON.parse(req.body.data))
-        if(!has(data_json , [
-            'id_joueur'
-        ])){
-            throw  new CodeError('Please provide ', status.BAD_REQUEST)
+        // const data_json = (JSON.parse(req.body.data))
+        // if(!has(data_json , [
+        //     'id_joueur'
+        // ])){
+        //     debug("User was not given");
+        //     throw  new CodeError('Please provide user id  ', status.BAD_REQUEST)
+        // }
+        // const hote_name = (JSON.parse(req.body.data)).id_joueur
+        const user_name = req.login;
+        debug("Tying to fetch user details + tmp = " + user_name);
+        //On retrouve l'id de l'user dont le pseudo est dans user_name
+        const {_id} = await User.findOne({name:user_name}).select({_id:1,name:0,email:0,__v:0,password:0})
+
+        if (_id === null){
+            throw new CodeError('Cound not find the specified user in the database', status.BAD_REQUEST) 
         }
-        const hote_name = (JSON.parse(req.body.data)).id_joueur
 
-        //On retrouve l'id de l'user dont le pseudo est dans hote_name
-        const {_id} = await User.findOne({name:hote_name}).select({_id:1,name:0,email:0,__v:0,password:0})
-
-        
         const joueur =  await Joueur_partie_role.find({id_partie:req.params.id,id_joueur:_id}).select({_id:0,id_role:0,id_partie:0,statut:0,__v:0})
 
         if(joueur.length != 0)
@@ -184,21 +189,6 @@ module.exports = {
         required: true,
         type: 'string'
     }
-    #swagger.parameters['obj'] = { 
-        in: 'body',
-        description: 'The player\'s username.',
-        required: true,
-        schema: {
-            type: 'object',
-            properties: {
-                id_joueur: {
-                    type: 'string',
-                    description: 'The username of the player to add to the game.'
-                }
-            },
-            required: ['id_joueur']
-        }
-    }
     #swagger.responses[200] = { 
         description: 'The player was added to the game successfully.' 
     }
@@ -212,14 +202,14 @@ module.exports = {
         description: 'An error occurred while processing the request.' 
     }
     */
-    const tmp = JSON.parse(req.body.data)
-    if(!has(tmp , ['id_joueur']))
-        throw  new CodeError('Précisez id_joueur', status.BAD_REQUEST)
+    // const tmp = JSON.parse(req.body.data)
+    // if(!has(tmp , ['id_joueur']))
+    //     throw  new CodeError('Précisez id_joueur', status.BAD_REQUEST)
 
     const idpartie = req.params.id;
-
+    const user_name = req.login;
     //On retrouve l'id du joueur dont le pseudo est tmp.id_joueur
-    const {_id} = await User.findOne({name:tmp.id_joueur}).select({_id:1,name:0,email:0,__v:0,password:0})
+    const {_id} = await User.findOne({name:user_name}).select({_id:1,name:0,email:0,__v:0,password:0})
 
 
     const joueur_partie_role = new Joueur_partie_role({
@@ -230,7 +220,7 @@ module.exports = {
         statut: PLAYER_STATUS.vivant,
     })
 
-    debug(tmp.id_joueur + " is trying to regster into the game ");
+    debug(user_name + " is trying to regster into the game ");
     joueur_partie_role.save()
     .then(() => { res.json({status:true, message:'Player added to the party', data:{game_id: idpartie}} )  })
     .catch((err) => {throw  new CodeError('Player was not added to the database', status.INTERNAL_SERVER_ERROR)})

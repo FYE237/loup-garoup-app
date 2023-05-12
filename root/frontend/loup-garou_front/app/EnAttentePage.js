@@ -9,6 +9,7 @@ export default function EnAttentePage ({gameStatus, socket}) {
   const [requiredPlayers, setRequiredPlayers] = useState(4);
   const [timer, setTimer] = useState(0);
   const [latestMessage, setLatestMessage] = useState("");
+  const [gameId, setGameId] = useState("");
 
   useEffect(() => {
     if (gameStatus){
@@ -16,6 +17,7 @@ export default function EnAttentePage ({gameStatus, socket}) {
       setCurrentPlayers(gameStatus.nb_players_actuel);
       setRequiredPlayers(gameStatus.nb_participant_souhaite);
       setTimer(gameStatus.temps_restant / 1000);  
+      setGameId(gameStatus.partieId);
     }
   }, []);
 
@@ -43,10 +45,11 @@ export default function EnAttentePage ({gameStatus, socket}) {
       >
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ backgroundColor: '#fff', padding: 20 }}>
-            <Text>{`Lastest message: ${latestMessage}`}</Text>
-            <Text>{`Current players: ${currentPlayers}`}</Text>
-            <Text>{`Required players: ${requiredPlayers}`}</Text>
-            <Text>{`Game starting in: ${timer}`}</Text>
+            <Text>{`identifiant du jeu: ${gameId}`}</Text>
+            <Text>{`dernier message: ${latestMessage}`}</Text>
+            <Text>{`nombre courant de joueur: ${currentPlayers}`}</Text>
+            <Text>{`nombre requit: ${requiredPlayers}`}</Text>
+            <Text>{`Le jeu va commencer dans: ${Math.floor(timer)}`}</Text>
           </View>
         </View>
       </Modal>

@@ -414,7 +414,7 @@ class GameState {
     debug("statut : "+statut+ " role : "+role)
     if (statut){
       players = await Joueur_partie_role.find({id_partie: this.context.partieId, role: role, statut: statut})
-      debug("players - role : "+ players)
+      // debug("players - role : "+ players)
     }
     else {
       players = await Joueur_partie_role.find({id_partie: this.context.partieId})

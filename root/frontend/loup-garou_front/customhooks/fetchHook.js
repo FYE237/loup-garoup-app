@@ -52,7 +52,7 @@ const useFetchCustom = async ( linkEndPoint, query) => {
       "x-access-token": tokenVal
       },
     };
-      console.log("query = " + JSON.stringify(queryDetails))
+    // console.log("query = " + JSON.stringify(queryDetails))
       
     setIsLoading(true);
     try{

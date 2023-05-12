@@ -382,18 +382,6 @@ class NuitState extends GameState {
     this.context.usedPower.push(pseudoJoueur);
     this.context.nsp.to(chatRoom).emit("new-custom-chat", data);
 
-    
-    this.context.nsp.on("send-message",(message,room)=>{
-      debug("message-spiritisme")
-      if(room === ""){
-        
-      }
-      else {
-        debug("room", room)
-        this.context.nsp.to(chatRoom).emit("new-message",message)
-      }
-    })
-
     debug("Chat room created with success");
   }
   

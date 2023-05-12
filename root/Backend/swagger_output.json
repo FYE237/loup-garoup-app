@@ -339,10 +339,6 @@
                   "type": "string",
                   "example": "5"
                 },
-                "hote_name": {
-                  "type": "string",
-                  "example": "fye"
-                },
                 "duree_jour": {
                   "type": "string",
                   "example": "10"
@@ -363,7 +359,6 @@
               "required": [
                 "heure_debut",
                 "nb_participant",
-                "hote_name",
                 "duree_jour",
                 "duree_nuit",
                 "proba_pouvoir_speciaux",

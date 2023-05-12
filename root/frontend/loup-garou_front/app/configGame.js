@@ -30,7 +30,7 @@ async function getToken(){
   try {
     let value = await AsyncStorage.getItem('userToken').then(
       (value) => {
-          console.log("value = ", value);
+          // console.log("value = ", value);
           return value;
       }
       )
@@ -40,6 +40,17 @@ async function getToken(){
     return null;
   }
 }
+
+/**
+ * This method is used for debugging
+ */
+const getDateAfterSeconds = (sec) => {
+  const now = new Date();
+  const timestamp = now.getTime() + sec*1000; // Add 45 seconds in milliseconds
+  const futureDate = new Date(timestamp);
+  return futureDate;
+};
+
 
 const getTomorrowAt8AM = () => {
   const tomorrow = new Date();
@@ -100,14 +111,15 @@ const validateDate = (dateString) => {
 };
 
 
+
 export default function ConfigGame() {
   const router =  useRouter();
   const navigation = useNavigation();
   const [nbParticipant, setNbParticipant] = useState(5);
   const [dureeJour, setDureeJour] = useState(12);
   const [dureeNuit, setDureeNuit] = useState(12);
-  const [dateDebut, setDateDebut] = useState(formatDateToString(getTomorrowAt8AM()));
-  const [probaPouvoirSpecial, setProbaPouvoirSpecial] = useState(0);
+  const [dateDebut, setDateDebut] = useState(formatDateToString(getDateAfterSeconds(30)));
+  const [probaPouvoirSpecial, setProbaPouvoirSpecial] = useState(1);
   const [proportionLoup, setProportionLoup] = useState(0.3);
   const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
 
@@ -130,6 +142,14 @@ export default function ConfigGame() {
      return false;
   } 
   
+  const enterIntoGame = () => {
+    router.replace('/GamePage');
+  }
+
+  const createGameFunc = async () =>{
+    await sendFormFunc();
+  }
+
   const sendFormFunc = async () => {
     let data = {
         heure_debut: getSecondsDifference(dateDebut),
@@ -138,7 +158,7 @@ export default function ConfigGame() {
         duree_jour: dureeJour,
         duree_nuit: dureeNuit,
         proba_pouvoir_speciaux: probaPouvoirSpecial,
-        proportion_loup: proportionLoupModal
+        proportion_loup: proportionLoup
     }
     try {
         let tokenVal =  await getToken();
@@ -157,12 +177,13 @@ export default function ConfigGame() {
           const data = await response.json();
           console.log(data)
           await AsyncStorage.setItem('currentGameId', data.data.game_id);
-          Alert.alert('Sucess', 'game was created succefully')
+          Alert.alert('Sucess', 'Le jeu a été crée avec sucess')
+          enterIntoGame();
         } else {
-          Alert.alert('Error', 'Failed to create the game')
+          Alert.alert('Error', 'Il y avait une erreur lors de la creation du jeu')
         }
       } catch (error) {
-        Alert.alert('Error', 'An occured while creating the game.')
+        Alert.alert('Error', 'Il y avait une erreur lors de la creation du jeu')
       }
   }
 
@@ -346,7 +367,7 @@ export default function ConfigGame() {
           />
           <CenterButton
             textButton = {"Créer un jeu"}
-            onPressFunc = {sendFormFunc}
+            onPressFunc = {createGameFunc}
             styleArg = {styles.button}
             TextSize = {37}
             buttonDisabled = {createButtonDisabled}

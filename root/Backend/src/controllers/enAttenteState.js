@@ -67,6 +67,7 @@ class EnAttenteState extends GameState {
     socket.join(this.context.roomId);
     let data = {
       message: pseudo + " has joined the game",
+      partieId : this.context.partieId,
       status: GAME_STATUS.enAttente,
       nb_players_actuel: this.context.nb_actif_players,
       nb_participant_souhaite: this.context.nbParticipantSouhaite,
@@ -127,6 +128,7 @@ class EnAttenteState extends GameState {
     });
     let data = {
       message: name + " has left the game",
+      partieId : this.context.partieId,
       status: GAME_STATUS.enAttente,
       nb_players_actuel: this.context.nb_actif_players,
       nb_participant_souhaite: this.context.nbParticipantSouhaite,

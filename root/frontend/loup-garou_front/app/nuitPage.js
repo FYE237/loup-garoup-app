@@ -49,6 +49,10 @@ export default function  NuitPage ({gameStatus, socket}) {
     socket.emit("Pouvoir-Spiritisme", user, playerName, gameId)
   };
   
+  const handleMessage = async (playerName, message) => {
+    socket.emit("send-message-game", message, user, playerName, gameId);
+  };
+  
   const incrementVotes = (playerName) => {
     setAliveHumans(prevPlayersData => prevPlayersData.map(player => {
       if (player.playerName === playerName) {
@@ -181,6 +185,7 @@ export default function  NuitPage ({gameStatus, socket}) {
   useEffect(() => {
     const handlePlayerInfo = (data) => {
       setPlayerInfo(data)
+      console.log("------------------------Soir-------------------------------");
       console.log("player info " + JSON.stringify(data));
       setAllChats([]);
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
@@ -191,27 +196,28 @@ export default function  NuitPage ({gameStatus, socket}) {
       setGameId(data.partieId);
       setPlayerStatus(data.playerStatut);
       const alive = [];
-      const aliveBesidesCurrent = [];
+      const aliveBesidesCurrentTmp = [];
       const aliveHuman = [];
       const aliveWolf = [];
       const dead = [];  
       data.playersData.forEach(player => {
+        // console.log(JSON.stringify(player))
         if (player.playerStatus === PLAYER_STATUS.vivant) {
           alive.push(player);
-          if (player.playerPseudo !== user){
-            aliveBesidesCurrent.push(player)
+          if (player.playerName !== data.playerPseudo){
+            aliveBesidesCurrentTmp.push(player);
           }
-          if (player.playerRole === ROLE.loupGarou){
+          if (player.playerRole === ROLE.humain){
             aliveHuman.push(player);
           }
-          else if (player.playerRole === ROLE.humain){
+          else if (player.playerRole === ROLE.loupGarou){
             aliveWolf.push(player);
           }
         } else if (player.playerStatus === PLAYER_STATUS.mort) {
           dead.push(player);
         }
       });
-      console.log("alive " + alive);
+      // console.log("alive " + JSON.stringify(alive));
       const updatedAliveHumans = aliveHuman.map(player => ({
         ...player,
         votes: 0
@@ -219,7 +225,7 @@ export default function  NuitPage ({gameStatus, socket}) {
       setAlivePlayers(alive);
       setAliveHumans(updatedAliveHumans);
       setAliveWolfs(aliveWolf);
-      setAliveBesidesCurrent(aliveBesidesCurrent)
+      setAliveBesidesCurrent(aliveBesidesCurrentTmp)
       setDeadPlayers(dead);
     }; 
 
@@ -235,7 +241,7 @@ export default function  NuitPage ({gameStatus, socket}) {
     socket.on('send-Player-Data-Voyante', function(data) {
       let pouvoirtest = "";
       if (data.ciblePowers !== ROLE.pasDePouvoir){
-        pouvoirtest = " et posséde le pouvoir suivant "+data.ciblePowers
+        pouvoirtest = " et posséde le pouvoir "+data.ciblePowers
       }else{
         pouvoirtest = " et ne posséde aucun pouvoir "
       }
@@ -244,12 +250,21 @@ export default function  NuitPage ({gameStatus, socket}) {
       setIsModalActionVisible(true);
     });
 
+    socket.on('new-custom-chat', function(data) {
+      setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
+    });
+
+    socket.on('new-message', function(data) {
+    });
+
     socket.on('player-info', handlePlayerInfo);
 
     return () => {
       socket.off('player-info',  () => {});
       socket.off('new-message',() => {});
       socket.off('notif-vote',() => {});
+      socket.off('new-message',() => {});
+      socket.off('new-custom-chat',() => {});
     };
   }, [socket]);
 
