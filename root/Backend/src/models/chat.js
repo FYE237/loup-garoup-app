@@ -19,12 +19,6 @@ const messageSchema = mongoose.Schema({
      ref: 'User',
      required: true
   },
-  //Pseudo of the player, it is a bit redondant but will allow faster 
-  //access speed
-  pseudo_joueur : {
-    type : String,
-    required : true
-  },
   //Timestamp
   createdAt: {
     type: Date,
