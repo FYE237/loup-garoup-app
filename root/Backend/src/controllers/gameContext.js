@@ -16,8 +16,10 @@ class StateContext {
     this.stateNuit = new NuitState(this)
     //When the game is create it is place in the wait state
     this.state = this.stateEnAttente;
+
     //These values are not necessary 
-    //but they can make the server much faster 
+    //but they can make the server much faster since we don't have 
+    //to fetch data from the database constantly  
     this.nb_actif_players = 0;
     this.pseudoList = [];
     this.pseudoListDisconnect = [];
