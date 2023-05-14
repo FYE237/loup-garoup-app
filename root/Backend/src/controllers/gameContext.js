@@ -42,7 +42,7 @@ class StateContext {
     //The value of each vote against a player is reset to 0 at each game's state changes. exple : day -> night
     this.currentPlayersVote = new Map();
     //Stores the players that have already voted
-    this.VotersList = []
+    this.votersList = []
     //We declare the values that will added later on : 
     this.dureeJour = null; 
     this.dureeNuit = null;

@@ -92,17 +92,13 @@
           {
             "name": "obj",
             "in": "body",
-            "description": "name,email,password ",
+            "description": "name,password ",
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
                   "type": "string",
                   "example": "John Doe"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "xxx@xx.xx"
                 },
                 "password": {
                   "type": "string",
@@ -111,7 +107,6 @@
               },
               "required": [
                 "name",
-                "email",
                 "password"
               ]
             }
@@ -170,7 +165,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "Verify credentials of user using email and password and return token",
+        "summary": "Verify credentials of user using name and password and return token",
         "description": "",
         "parameters": [
           {
@@ -359,7 +354,7 @@
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "Invalid request parameters."
+                  "example": "Invalid request parameters. A message will be sent   with the response indicating the problem"
                 }
               },
               "xml": {

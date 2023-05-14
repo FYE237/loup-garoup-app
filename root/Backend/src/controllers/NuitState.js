@@ -115,7 +115,7 @@ class NuitState extends GameState {
     }
 
     this.context.currentPlayersVote.set(candidantVote, voteCounter+1)
-    this.context.VotersList.push(pseudoVoteur);
+    this.context.votersList.push(pseudoVoteur);
 
     this.nbVoteNuit++;
 
@@ -141,7 +141,7 @@ class NuitState extends GameState {
     //On remet le nombre de votes à 0
     this.lockVotes = true;
     this.nbVoteNuit = 0
-    this.context.VotersList = [];
+    this.context.votersList = [];
 
     debug("Finalise Voting Process")
     //variable who check if there is many person with the same number of votes

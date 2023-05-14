@@ -43,7 +43,7 @@ class JourState extends GameState {
     }
     
     this.context.currentPlayersVote.set(candidantVote, voteCounter+1)
-    this.context.VotersList.push(pseudoVoteur);
+    this.context.votersList.push(pseudoVoteur);
 
     //We increment the number of votes that have occured in this game 
     this.nbVoteJour++;
@@ -68,7 +68,7 @@ class JourState extends GameState {
     //On remet le nombre de votes à 0
     this.lockVotes = true;
     this.nbVoteJour = 0;
-    this.context.VotersList = [];
+    this.context.votersList = [];
     //variable who check if there is there are many players with the
     //same number of votes
     let duplicate = true;

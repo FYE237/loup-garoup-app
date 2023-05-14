@@ -196,7 +196,7 @@ class GameState {
           debug("One of the given players does not exists in the game");
           return false;
     }
-    if (this.context.VotersList.includes(pseudoVoteur)){
+    if (this.context.votersList.includes(pseudoVoteur)){
       debug("This player has already voted");
       return false;
     }
