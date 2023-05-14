@@ -621,7 +621,7 @@
         <dia:point val="24.6874,1.52177"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="24.6874,0.909083;29.461,1.70996"/>
+        <dia:rectangle val="24.6874,0.927708;29.4424,1.67271"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2383,12 +2383,14 @@
         <dia:point val="50.1572,51.0318"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="50.1572,50.4377;53.7447,51.1827"/>
+        <dia:rectangle val="50.1386,50.4191;56.5697,52.82"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#vérification#</dia:string>
+            <dia:string>#vérification que
+le pseudo n'est pas 
+pris#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -2987,13 +2989,13 @@
         <dia:point val="18.9686,70.5934"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.9686,69.9993;29.2036,71.5443"/>
+        <dia:rectangle val="18.95,69.9807;29.4667,71.5816"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#message pour informer le joueu
-r le compte est bien créé#</dia:string>
+            <dia:string>#message pour informer le joueur
+ le compte est bien créé#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -3234,7 +3236,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="8.9841,77.6392"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="8.9091,77.5642;17.6591,79.4142"/>
+        <dia:rectangle val="8.9091,77.5642;16.1191,79.4142"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -3243,7 +3245,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="8.9841,77.6392"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="8.5999999999999996"/>
+        <dia:real val="7.0599999999999996"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.7000000000000002"/>
@@ -3251,7 +3253,7 @@ r le compte est bien créé#</dia:string>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#Rejoindre une partie#</dia:string>
+            <dia:string>#Crée une partie #</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="monospace" style="0" name="Courier"/>
@@ -3922,12 +3924,13 @@ r le compte est bien créé#</dia:string>
         <dia:point val="53.4832,92.0212"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="53.4832,91.4271;57.0707,92.1721"/>
+        <dia:rectangle val="53.4832,91.4085;67.4718,93.0094"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#vérification#</dia:string>
+            <dia:string>#vérification que les valeurs communiquées 
+sont valides#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -4245,15 +4248,16 @@ r le compte est bien créé#</dia:string>
     </dia:object>
     <dia:object type="Standard - Text" version="1" id="O98">
       <dia:attribute name="obj_pos">
-        <dia:point val="19.8956,101.822"/>
+        <dia:point val="20.9956,101.322"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.8956,101.228;34.7806,101.973"/>
+        <dia:rectangle val="20.9956,100.728;34.8481,102.273"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#renvoie une confirmation de l'ajout à la partie #</dia:string>
+            <dia:string>#renvoie une confirmation de la création de 
+l'ajout à la partie #</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -4262,7 +4266,7 @@ r le compte est bien créé#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="19.8956,101.822"/>
+            <dia:point val="20.9956,101.322"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -4281,12 +4285,12 @@ r le compte est bien créé#</dia:string>
         <dia:point val="29.2848,105.953"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="29.2848,105.359;42.6923,106.104"/>
+        <dia:rectangle val="29.2848,105.34;42.5984,106.141"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#[la partie est pleine ou a déjà commencé]#</dia:string>
+            <dia:string>#[la paramétre donnée ne sont pas valide]#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -4734,16 +4738,17 @@ r le compte est bien créé#</dia:string>
     </dia:object>
     <dia:object type="Standard - Text" version="1" id="O112">
       <dia:attribute name="obj_pos">
-        <dia:point val="20.2709,111.595"/>
+        <dia:point val="20.7709,110.995"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="20.2709,111.001;34.6109,112.546"/>
+        <dia:rectangle val="20.7709,110.382;33.637,112.783"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#un message d'erreur au Joueu
-r indiquant que la partie n'est pas disponible#</dia:string>
+            <dia:string>#un message d'erreur au Joueur
+ indiquant que la partie n'a pas été crée
+et qu'il faut resaisir les données#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -4752,7 +4757,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="20.2709,111.595"/>
+            <dia:point val="20.7709,110.995"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -5204,55 +5209,6 @@ r indiquant que la partie n'est pas disponible#</dia:string>
     </dia:object>
     <dia:object type="UML - Transition" version="2" id="O121">
       <dia:attribute name="obj_pos">
-        <dia:point val="35.0691,128.89"/>
-      </dia:attribute>
-      <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.7519,126.769;35.1191,129.39"/>
-      </dia:attribute>
-      <dia:attribute name="meta">
-        <dia:composite type="dict"/>
-      </dia:attribute>
-      <dia:attribute name="orth_points">
-        <dia:point val="35.0691,128.89"/>
-        <dia:point val="27.4355,128.89"/>
-        <dia:point val="27.4355,128.836"/>
-        <dia:point val="19.8019,128.836"/>
-      </dia:attribute>
-      <dia:attribute name="orth_orient">
-        <dia:enum val="0"/>
-        <dia:enum val="1"/>
-        <dia:enum val="0"/>
-      </dia:attribute>
-      <dia:attribute name="orth_autoroute">
-        <dia:boolean val="true"/>
-      </dia:attribute>
-      <dia:attribute name="text_colour">
-        <dia:color val="#000000ff"/>
-      </dia:attribute>
-      <dia:attribute name="line_colour">
-        <dia:color val="#000000ff"/>
-      </dia:attribute>
-      <dia:attribute name="trigger">
-        <dia:string>##</dia:string>
-      </dia:attribute>
-      <dia:attribute name="action">
-        <dia:string>##</dia:string>
-      </dia:attribute>
-      <dia:attribute name="guard">
-        <dia:string>##</dia:string>
-      </dia:attribute>
-      <dia:attribute name="trigger_text_pos">
-        <dia:point val="26.9355,127.363"/>
-      </dia:attribute>
-      <dia:attribute name="guard_text_pos">
-        <dia:point val="26.9355,128.363"/>
-      </dia:attribute>
-      <dia:attribute name="direction_inverted">
-        <dia:boolean val="false"/>
-      </dia:attribute>
-    </dia:object>
-    <dia:object type="UML - Transition" version="2" id="O122">
-      <dia:attribute name="obj_pos">
         <dia:point val="19.6511,131.651"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
@@ -5300,10 +5256,10 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:boolean val="false"/>
       </dia:attribute>
       <dia:connections>
-        <dia:connection handle="1" to="O124" connection="16"/>
+        <dia:connection handle="1" to="O123" connection="16"/>
       </dia:connections>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O123">
+    <dia:object type="Standard - Text" version="1" id="O122">
       <dia:attribute name="obj_pos">
         <dia:point val="24.1704,128.292"/>
       </dia:attribute>
@@ -5336,7 +5292,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="UML - Lifeline" version="0" id="O124">
+    <dia:object type="UML - Lifeline" version="0" id="O123">
       <dia:attribute name="obj_pos">
         <dia:point val="35.589,125.633"/>
       </dia:attribute>
@@ -5381,7 +5337,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:int val="13"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="UML - Transition" version="2" id="O125">
+    <dia:object type="UML - Transition" version="2" id="O124">
       <dia:attribute name="obj_pos">
         <dia:point val="35.6816,133.832"/>
       </dia:attribute>
@@ -5430,12 +5386,12 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:boolean val="false"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O126">
+    <dia:object type="Standard - Text" version="1" id="O125">
       <dia:attribute name="obj_pos">
         <dia:point val="36.9838,132.872"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="36.9838,132.278;50.6738,133.023"/>
+        <dia:rectangle val="36.9838,132.259;50.6924,133.06"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -5463,7 +5419,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Arc" version="0" id="O127">
+    <dia:object type="Standard - Arc" version="0" id="O126">
       <dia:attribute name="obj_pos">
         <dia:point val="51.433,133.744"/>
       </dia:attribute>
@@ -5487,17 +5443,17 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:real val="0.5"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O128">
+    <dia:object type="Standard - Text" version="1" id="O127">
       <dia:attribute name="obj_pos">
         <dia:point val="53.8322,134.78"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="53.8322,134.186;57.4197,134.931"/>
+        <dia:rectangle val="53.8322,134.167;61.7108,134.968"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#vérification#</dia:string>
+            <dia:string>#vérification des données#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -5520,7 +5476,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Line" version="0" id="O129">
+    <dia:object type="Standard - Line" version="0" id="O128">
       <dia:attribute name="obj_pos">
         <dia:point val="18.2271,137.343"/>
       </dia:attribute>
@@ -5550,7 +5506,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:real val="0.5"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="UML - Note" version="0" id="O130">
+    <dia:object type="UML - Note" version="0" id="O129">
       <dia:attribute name="obj_pos">
         <dia:point val="18.4452,137.493"/>
       </dia:attribute>
@@ -5601,7 +5557,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:color val="#ffffffff"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Line" version="0" id="O131">
+    <dia:object type="Standard - Line" version="0" id="O130">
       <dia:attribute name="obj_pos">
         <dia:point val="18.4057,147.521"/>
       </dia:attribute>
@@ -5631,10 +5587,10 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:real val="0.5"/>
       </dia:attribute>
       <dia:connections>
-        <dia:connection handle="1" to="O142" connection="0"/>
+        <dia:connection handle="1" to="O141" connection="0"/>
       </dia:connections>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O132">
+    <dia:object type="Standard - Text" version="1" id="O131">
       <dia:attribute name="obj_pos">
         <dia:point val="30.2772,138.583"/>
       </dia:attribute>
@@ -5667,7 +5623,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="UML - Dependency" version="1" id="O133">
+    <dia:object type="UML - Dependency" version="1" id="O132">
       <dia:attribute name="obj_pos">
         <dia:point val="51.1604,139.946"/>
       </dia:attribute>
@@ -5716,7 +5672,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:color val="#000000ff"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="UML - Lifeline" version="0" id="O134">
+    <dia:object type="UML - Lifeline" version="0" id="O133">
       <dia:attribute name="obj_pos">
         <dia:point val="35.4541,139.759"/>
       </dia:attribute>
@@ -5761,7 +5717,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:int val="7"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="UML - Dependency" version="1" id="O135">
+    <dia:object type="UML - Dependency" version="1" id="O134">
       <dia:attribute name="obj_pos">
         <dia:point val="35.4541,145.259"/>
       </dia:attribute>
@@ -5810,10 +5766,10 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:color val="#000000ff"/>
       </dia:attribute>
       <dia:connections>
-        <dia:connection handle="0" to="O134" connection="6"/>
+        <dia:connection handle="0" to="O133" connection="6"/>
       </dia:connections>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O136">
+    <dia:object type="Standard - Text" version="1" id="O135">
       <dia:attribute name="obj_pos">
         <dia:point val="20.2445,144.581"/>
       </dia:attribute>
@@ -5846,7 +5802,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O137">
+    <dia:object type="Standard - Text" version="1" id="O136">
       <dia:attribute name="obj_pos">
         <dia:point val="29.6338,148.712"/>
       </dia:attribute>
@@ -5879,7 +5835,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O138">
+    <dia:object type="Standard - Text" version="1" id="O137">
       <dia:attribute name="obj_pos">
         <dia:point val="39.4622,149.889"/>
       </dia:attribute>
@@ -5912,7 +5868,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="UML - Dependency" version="1" id="O139">
+    <dia:object type="UML - Dependency" version="1" id="O138">
       <dia:attribute name="obj_pos">
         <dia:point val="51.1851,150.216"/>
       </dia:attribute>
@@ -5961,7 +5917,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:color val="#000000ff"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="UML - Lifeline" version="0" id="O140">
+    <dia:object type="UML - Lifeline" version="0" id="O139">
       <dia:attribute name="obj_pos">
         <dia:point val="35.3773,148.265"/>
       </dia:attribute>
@@ -6006,7 +5962,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:int val="7"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="UML - Dependency" version="1" id="O141">
+    <dia:object type="UML - Dependency" version="1" id="O140">
       <dia:attribute name="obj_pos">
         <dia:point val="35.7273,155.633"/>
       </dia:attribute>
@@ -6055,10 +6011,10 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:color val="#000000ff"/>
       </dia:attribute>
       <dia:connections>
-        <dia:connection handle="0" to="O140" connection="5"/>
+        <dia:connection handle="0" to="O139" connection="5"/>
       </dia:connections>
     </dia:object>
-    <dia:object type="Standard - Line" version="0" id="O142">
+    <dia:object type="Standard - Line" version="0" id="O141">
       <dia:attribute name="obj_pos">
         <dia:point val="55.3564,157.802"/>
       </dia:attribute>
@@ -6088,17 +6044,17 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:real val="0.5"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O143">
+    <dia:object type="Standard - Text" version="1" id="O142">
       <dia:attribute name="obj_pos">
         <dia:point val="22.092,130.512"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="22.092,129.918;32.7795,131.463"/>
+        <dia:rectangle val="22.092,129.899;32.2881,131.5"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string># sélectionne une partie de la liste
+            <dia:string>#remplir l'identifiant de la partie 
  et ênvoyer la demande#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
@@ -6122,7 +6078,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Line" version="0" id="O144">
+    <dia:object type="Standard - Line" version="0" id="O143">
       <dia:attribute name="obj_pos">
         <dia:point val="55.2434,157.762"/>
       </dia:attribute>
@@ -6152,7 +6108,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:real val="0.5"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O145">
+    <dia:object type="Standard - Text" version="1" id="O144">
       <dia:attribute name="obj_pos">
         <dia:point val="21.3287,125.837"/>
       </dia:attribute>
@@ -6185,41 +6141,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O146">
-      <dia:attribute name="obj_pos">
-        <dia:point val="21.9284,127.473"/>
-      </dia:attribute>
-      <dia:attribute name="obj_bb">
-        <dia:rectangle val="21.9284,126.879;34.2759,128.424"/>
-      </dia:attribute>
-      <dia:attribute name="text">
-        <dia:composite type="text">
-          <dia:attribute name="string">
-            <dia:string>#affiche une liste de parties disponibles
- (non commencées et non complètes)#</dia:string>
-          </dia:attribute>
-          <dia:attribute name="font">
-            <dia:font family="sans" style="0" name="Helvetica"/>
-          </dia:attribute>
-          <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
-          </dia:attribute>
-          <dia:attribute name="pos">
-            <dia:point val="21.9284,127.473"/>
-          </dia:attribute>
-          <dia:attribute name="color">
-            <dia:color val="#000000ff"/>
-          </dia:attribute>
-          <dia:attribute name="alignment">
-            <dia:enum val="0"/>
-          </dia:attribute>
-        </dia:composite>
-      </dia:attribute>
-      <dia:attribute name="valign">
-        <dia:enum val="3"/>
-      </dia:attribute>
-    </dia:object>
-    <dia:object type="Standard - Line" version="0" id="O147">
+    <dia:object type="Standard - Line" version="0" id="O145">
       <dia:attribute name="obj_pos">
         <dia:point val="18.1092,157.965"/>
       </dia:attribute>
@@ -6249,7 +6171,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:real val="0.5"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Line" version="0" id="O148">
+    <dia:object type="Standard - Line" version="0" id="O146">
       <dia:attribute name="obj_pos">
         <dia:point val="17.9631,157.881"/>
       </dia:attribute>
@@ -6279,7 +6201,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:real val="0.5"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Arc" version="0" id="O149">
+    <dia:object type="Standard - Arc" version="0" id="O147">
       <dia:attribute name="obj_pos">
         <dia:point val="51.6511,139.806"/>
       </dia:attribute>
@@ -6303,7 +6225,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:real val="0.5"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O150">
+    <dia:object type="Standard - Text" version="1" id="O148">
       <dia:attribute name="obj_pos">
         <dia:point val="51.7538,142.14"/>
       </dia:attribute>
@@ -6337,7 +6259,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O151">
+    <dia:object type="Standard - Text" version="1" id="O149">
       <dia:attribute name="obj_pos">
         <dia:point val="41.1759,140.45"/>
       </dia:attribute>
@@ -6370,7 +6292,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O152">
+    <dia:object type="Standard - Text" version="1" id="O150">
       <dia:attribute name="obj_pos">
         <dia:point val="40.6306,140.831"/>
       </dia:attribute>
@@ -6403,18 +6325,19 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O153">
+    <dia:object type="Standard - Text" version="1" id="O151">
       <dia:attribute name="obj_pos">
-        <dia:point val="20.6198,154.354"/>
+        <dia:point val="19.8698,153.604"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="20.6198,153.76;34.9598,155.305"/>
+        <dia:rectangle val="19.8698,153.01;37.4523,155.355"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#un message d'erreur au Joueu
-r indiquant que la partie n'est pas disponible#</dia:string>
+            <dia:string>#un message d'erreur au Joueur indiquant 
+qu'il ne peut rejoindre la partie mentionant la raison 
+( la partie a déja commencé, la partie n'existe pas .....)#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -6423,7 +6346,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="20.6198,154.354"/>
+            <dia:point val="19.8698,153.604"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -6437,7 +6360,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O154">
+    <dia:object type="Standard - Text" version="1" id="O152">
       <dia:attribute name="obj_pos">
         <dia:point val="21.6885,82.9691"/>
       </dia:attribute>
@@ -6470,7 +6393,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O155">
+    <dia:object type="Standard - Text" version="1" id="O153">
       <dia:attribute name="obj_pos">
         <dia:point val="19.6711,85.7499"/>
       </dia:attribute>
@@ -6503,7 +6426,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O156">
+    <dia:object type="Standard - Text" version="1" id="O154">
       <dia:attribute name="obj_pos">
         <dia:point val="23.815,87.8218"/>
       </dia:attribute>
@@ -6537,7 +6460,7 @@ et soumettre#</dia:string>
         <dia:enum val="3"/>
       </dia:attribute>
     </dia:object>
-    <dia:object type="Standard - Text" version="1" id="O157">
+    <dia:object type="Standard - Text" version="1" id="O155">
       <dia:attribute name="obj_pos">
         <dia:point val="36.0287,90.439"/>
       </dia:attribute>
@@ -6568,6 +6491,141 @@ et soumettre#</dia:string>
       </dia:attribute>
       <dia:attribute name="valign">
         <dia:enum val="3"/>
+      </dia:attribute>
+    </dia:object>
+    <dia:object type="Standard - Text" version="1" id="O156">
+      <dia:attribute name="obj_pos">
+        <dia:point val="21.8425,128.367"/>
+      </dia:attribute>
+      <dia:attribute name="obj_bb">
+        <dia:rectangle val="21.8425,127.772;34.725,129.317"/>
+      </dia:attribute>
+      <dia:attribute name="text">
+        <dia:composite type="text">
+          <dia:attribute name="string">
+            <dia:string>#affichage de menu qui contient un input
+ box pour  l'identifiant du jeu#</dia:string>
+          </dia:attribute>
+          <dia:attribute name="font">
+            <dia:font family="sans" style="0" name="Helvetica"/>
+          </dia:attribute>
+          <dia:attribute name="height">
+            <dia:real val="0.80000000000000004"/>
+          </dia:attribute>
+          <dia:attribute name="pos">
+            <dia:point val="21.8425,128.367"/>
+          </dia:attribute>
+          <dia:attribute name="color">
+            <dia:color val="#000000ff"/>
+          </dia:attribute>
+          <dia:attribute name="alignment">
+            <dia:enum val="0"/>
+          </dia:attribute>
+        </dia:composite>
+      </dia:attribute>
+      <dia:attribute name="valign">
+        <dia:enum val="3"/>
+      </dia:attribute>
+    </dia:object>
+    <dia:object type="UML - Transition" version="2" id="O157">
+      <dia:attribute name="obj_pos">
+        <dia:point val="35.0159,129.403"/>
+      </dia:attribute>
+      <dia:attribute name="obj_bb">
+        <dia:rectangle val="19.6988,127.281;35.0659,129.903"/>
+      </dia:attribute>
+      <dia:attribute name="meta">
+        <dia:composite type="dict"/>
+      </dia:attribute>
+      <dia:attribute name="orth_points">
+        <dia:point val="35.0159,129.403"/>
+        <dia:point val="27.3823,129.403"/>
+        <dia:point val="27.3823,129.348"/>
+        <dia:point val="19.7488,129.348"/>
+      </dia:attribute>
+      <dia:attribute name="orth_orient">
+        <dia:enum val="0"/>
+        <dia:enum val="1"/>
+        <dia:enum val="0"/>
+      </dia:attribute>
+      <dia:attribute name="orth_autoroute">
+        <dia:boolean val="true"/>
+      </dia:attribute>
+      <dia:attribute name="text_colour">
+        <dia:color val="#000000ff"/>
+      </dia:attribute>
+      <dia:attribute name="line_colour">
+        <dia:color val="#000000ff"/>
+      </dia:attribute>
+      <dia:attribute name="trigger">
+        <dia:string>##</dia:string>
+      </dia:attribute>
+      <dia:attribute name="action">
+        <dia:string>##</dia:string>
+      </dia:attribute>
+      <dia:attribute name="guard">
+        <dia:string>##</dia:string>
+      </dia:attribute>
+      <dia:attribute name="trigger_text_pos">
+        <dia:point val="26.8823,127.875"/>
+      </dia:attribute>
+      <dia:attribute name="guard_text_pos">
+        <dia:point val="26.8823,128.875"/>
+      </dia:attribute>
+      <dia:attribute name="direction_inverted">
+        <dia:boolean val="false"/>
+      </dia:attribute>
+    </dia:object>
+    <dia:object type="UML - Note" version="0" id="O158">
+      <dia:attribute name="obj_pos">
+        <dia:point val="4.85,80.3782"/>
+      </dia:attribute>
+      <dia:attribute name="obj_bb">
+        <dia:rectangle val="4.775,80.3032;16.22,82.9532"/>
+      </dia:attribute>
+      <dia:attribute name="meta">
+        <dia:composite type="dict"/>
+      </dia:attribute>
+      <dia:attribute name="elem_corner">
+        <dia:point val="4.85,80.3782"/>
+      </dia:attribute>
+      <dia:attribute name="elem_width">
+        <dia:real val="11.295"/>
+      </dia:attribute>
+      <dia:attribute name="elem_height">
+        <dia:real val="2.5"/>
+      </dia:attribute>
+      <dia:attribute name="text">
+        <dia:composite type="text">
+          <dia:attribute name="string">
+            <dia:string>#Le joueur est connecté 
+et il veut crée une partie #</dia:string>
+          </dia:attribute>
+          <dia:attribute name="font">
+            <dia:font family="monospace" style="0" name="Courier"/>
+          </dia:attribute>
+          <dia:attribute name="height">
+            <dia:real val="0.80000000000000004"/>
+          </dia:attribute>
+          <dia:attribute name="pos">
+            <dia:point val="5.225,81.6473"/>
+          </dia:attribute>
+          <dia:attribute name="color">
+            <dia:color val="#000000ff"/>
+          </dia:attribute>
+          <dia:attribute name="alignment">
+            <dia:enum val="0"/>
+          </dia:attribute>
+        </dia:composite>
+      </dia:attribute>
+      <dia:attribute name="line_width">
+        <dia:real val="0.15000000000000002"/>
+      </dia:attribute>
+      <dia:attribute name="line_colour">
+        <dia:color val="#000000ff"/>
+      </dia:attribute>
+      <dia:attribute name="fill_colour">
+        <dia:color val="#ffffffff"/>
       </dia:attribute>
     </dia:object>
   </dia:layer>
