@@ -46,7 +46,7 @@ export default function  FinJeuPage ({gameStatus, socket}) {
               sendVisibility={true}
               setActiveTab={setChatActiveTab}
               sendMessageFunc={(message) => {
-                handleMessage(message)
+                // handleMessage(message)
               }}
               />
         </View>

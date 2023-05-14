@@ -15,7 +15,7 @@ import {
 import { GLOBAL_STYLES } from '../styles.js';
 import { NAMING_FUNC } from '../helperFunctions';
 
-const socket = io(LINKS.backend+"/api/parties/:id");
+let socket = io(LINKS.backend+"/api/parties/:id");
 
 
 export default function GamePage (){
@@ -65,6 +65,8 @@ export default function GamePage (){
     // Clean up the event listener when the component unmounts
     return () => {
       socket.emit("leave-game");
+      socket = io(LINKS.backend+"/api/parties/:id");
+
     };
   }, [socket]);
 

@@ -38,7 +38,7 @@ const ROLE = {
 
 //TODO changes these value to production numbers
 const GAME_VALUES = {
-  hour_time_s : 1, //An hour in the game is equivalent 30 seconds
+  hour_time_s : 2, //An hour in the game is equivalent 30 seconds
   min_players : 1,
 }
 
