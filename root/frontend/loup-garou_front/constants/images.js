@@ -14,7 +14,6 @@ import avatar_icon from '../assets/images/avatar_icon.png'
 export default {
   background_camp_fire,
   background_lone_wolf,
-  background_tower,
   icon_wolf_head,
   villager_icon,
   wolf_game_icon,
