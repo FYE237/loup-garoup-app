@@ -51,7 +51,7 @@ const {partieContextHashTable} = require("./controllers/gameContext")
 nsp.on('connection', (socket) => {
     //Connexion réussie
     client++;
-    console.log('New Socket connection id : ' + socket.id)
+    //console.log('New Socket connection id : ' + socket.id)
 
     //le joueur emet l'evenement rejoindre la partie
      socket.on('newPlayerConnect',(data) => 
