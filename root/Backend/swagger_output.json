@@ -92,17 +92,13 @@
           {
             "name": "obj",
             "in": "body",
-            "description": "name,email,password ",
+            "description": "name,password ",
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
                   "type": "string",
                   "example": "John Doe"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "xxx@xx.xx"
                 },
                 "password": {
                   "type": "string",
@@ -111,7 +107,6 @@
               },
               "required": [
                 "name",
-                "email",
                 "password"
               ]
             }
@@ -170,7 +165,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "Verify credentials of user using email and password and return token",
+        "summary": "Verify credentials of user using name and password and return token",
         "description": "",
         "parameters": [
           {
@@ -253,43 +248,13 @@
             "type": "string"
           },
           {
-            "name": "obj",
+            "name": "body",
             "in": "body",
-            "description": "The player's username.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "object"
-                },
-                "properties": {
-                  "type": "object",
-                  "properties": {
-                    "id_joueur": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "string"
-                        },
-                        "description": {
-                          "type": "string",
-                          "example": "The username of the player to add to the game."
-                        }
-                      }
-                    }
-                  }
-                },
-                "required": {
-                  "type": "array",
-                  "example": [
-                    "id_joueur"
-                  ],
-                  "items": {
-                    "type": "string"
-                  }
+                "data": {
+                  "example": "any"
                 }
               }
             }

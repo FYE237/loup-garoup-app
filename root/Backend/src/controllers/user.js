@@ -65,7 +65,7 @@ module.exports = {
             let id = req.params.id;
     
             //On specifie les champs qu'on ne souhaite pas récupérer par le findOne
-            let data =  await User.findOne({name:id}).select({email:1})
+            let data =  await User.findOne({name:id}).select({name:1})
      
             if(data)
                 throw new CodeError('Duplicate user', status.NOT_FOUND)
@@ -94,16 +94,16 @@ module.exports = {
     async newUser(req, res){
         // #swagger.tags = ['Users']
         // #swagger.summary = 'New User'
-        // #swagger.parameters['obj'] = { in: 'body', description:'name,email,password ', schema: { $name: 'John Doe',$email:'xxx@xx.xx' , $password:'xxxx'}}
+        // #swagger.parameters['obj'] = { in: 'body', description:'name,password ', schema: { $name: 'John Doe' , $password:'xxxx'}}
         const tmp = JSON.parse(req.body.data)
-        if(!has(tmp, ['name', 'email' , 'password']))
-            throw  new CodeError('You must specify the name ,email and password', status.BAD_REQUEST)
+        if(!has(tmp, ['name',  'password']))
+            throw  new CodeError('You must specify the name ,and password', status.BAD_REQUEST)
 
-        let { name, email,password } = tmp;
+        let { name, password } = tmp;
         
         const user = new User({
             name,
-            email,
+            
             password: await bcrypt.hash(password,2) 
         })
         
@@ -128,7 +128,7 @@ module.exports = {
         // #swagger.summary = 'Update the pseudo of a  User'
         // #swagger.parameters['obj'] = { in: 'body', description:'name:new value of the pseudo,prev:previous value ', schema: { $name: 'vador',$prev:'anakin' }}
         const data = JSON.parse(req.body.data)
-        if(!has(data ,['name','prev'/*, 'email'*/]))
+        if(!has(data ,['name','prev']))
             throw  new CodeError('You must specify the actual name and previous value ', status.BAD_REQUEST)
 
         let { prev, name} = data;
@@ -167,13 +167,13 @@ module.exports = {
      */
     async login(req,res){
         // #swagger.tags = ['Users']
-        // #swagger.summary = 'Verify credentials of user using email and password and return token'
+        // #swagger.summary = 'Verify credentials of user using name and password and return token'
         // #swagger.parameters['obj'] = { in: 'body', description: 'name , password' , schema: { $name: 'John Doe', $password: '12345'}}
         
         const data = JSON.parse(req.body.data)
-        if (!has(data, ['name', 'password'])) throw new CodeError('You must specify the email and password', status.BAD_REQUEST)
+        if (!has(data, ['name', 'password'])) throw new CodeError('You must specify the name and password', status.BAD_REQUEST)
         const { name, password } = data
-        const user = await User.findOne({ name }).select({_id:0,__v:0,email:0})
+        const user = await User.findOne({ name }).select({_id:0,__v:0,name:0})
         if (user) {
             if (await bcrypt.compare(password, user.password)) {
                 const token = jws.sign({ header: { alg: 'HS256' }, payload: name, secret: TOKENSECRET })
