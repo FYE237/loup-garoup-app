@@ -28,6 +28,7 @@ const WelcomePage = () => {
           <Text style={styles.tabText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          testID="registerTab"
           style={[
             styles.tab,
             activeTab === 'register' ? styles.activeTab : null
