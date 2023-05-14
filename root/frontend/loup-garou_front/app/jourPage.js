@@ -166,8 +166,8 @@ export default function  JourPage ({gameStatus, socket}) {
   useEffect(() => {
     const handlePlayerInfo = (data) => {
       setPlayerInfo(data)
-      console.log("------------------------Jour-------------------------------");
-      console.log("player info " + JSON.stringify(data));
+      // console.log("--------Jour----------");
+      // console.log("player info " + JSON.stringify(data));
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
       setGameRoom(data.roomId);
       setPlayerRole(data.playerRole);
@@ -184,7 +184,6 @@ export default function  JourPage ({gameStatus, socket}) {
           dead.push(player);
         }
       });
-      console.log("alive jour " + alive);
       const updatedAlivePlayers = alive.map(player => ({
         ...player,
         votes: 0
@@ -194,7 +193,7 @@ export default function  JourPage ({gameStatus, socket}) {
     }; 
 
     socket.on('notif-vote', function(data) {
-      console.log('Received voting information:', data);
+      // console.log('Received voting information:', data);
       incrementVotes(data.candidat)
     });
 
@@ -207,7 +206,6 @@ export default function  JourPage ({gameStatus, socket}) {
           // console.log(updatedChats)
           return chat.chatroom === data.chat_room}
           );
-        console.log("chat Index" + chatIndex);
         if (chatIndex !== -1) {
           if (!updatedChats[chatIndex].messages) {
             updatedChats[chatIndex].messages = [];

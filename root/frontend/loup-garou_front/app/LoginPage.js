@@ -63,7 +63,7 @@ const LoginPage = () => {
         autoCapitalize="none"
       />
 
-      <CallToActionBtn title="Login" onPress={handleLogin} />
+      <CallToActionBtn title="Login" testID="loginbutton" onPress={handleLogin} />
     </View>
   )
 }

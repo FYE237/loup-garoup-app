@@ -51,7 +51,7 @@ const {partieContextHashTable} = require("./controllers/gameContext")
 nsp.on('connection', (socket) => {
     //Connexion réussie
     client++;
-    console.log('New Socket connection id : ' + socket.id)
+    //console.log('New Socket connection id : ' + socket.id)
 
     //le joueur emet l'evenement rejoindre la partie
      socket.on('newPlayerConnect',(data) => 
@@ -95,10 +95,9 @@ nsp.on('connection', (socket) => {
         } 
     })
 
-    socket.on("disconnect", async () => {
-        debug("[server] Player Disconnect " +socket.id);
+    async function disonnectHandler(socket){
         const res = await Joueur_partie_role.findOne(
-            {socket_id : socket.id}).select({id_partie: 1, id_joueur : 1})
+        {socket_id : socket.id}).select({id_partie: 1, id_joueur : 1})
         try{
             let partie = partieContextHashTable.get(res.id_partie.toString());
             if (partie){partie.requestDisconnect(nsp, res.id_joueur, socket.id);}
@@ -108,9 +107,20 @@ nsp.on('connection', (socket) => {
         }
         catch(err){
             debug("socket has not been saved correctly or the player is not in a game"+ 
-                        " error = " + err);
-        }
+                " error = " + err);
+            }
+    }
+                
+    socket.on("disconnect", async () => {
+        debug("[server] Player Disconnect " +socket.id);
+        await disonnectHandler(socket);
     })
+
+    socket.on("leave-game", async () => {
+        debug("[server] Player left the game " +socket.id);
+        await disonnectHandler(socket);
+    })
+
 
     socket.on("send-message-game", (message, roomId, pseudo, id_partie) => {
         debug("Message request received");

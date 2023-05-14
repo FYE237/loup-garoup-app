@@ -1,61 +1,106 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native';
 import io from 'socket.io-client';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import EnAttentePage from './EnAttentePage.js'
 import JourPage from './jourPage.js'
 import NuitPage from './nuitPage.js'
 import FinJeuPage from './finJeuPage.js'
-
 import { Stack, useRouter } from 'expo-router'
 import { COLORS, images, LINKS, GAME_STATUS, ROLE, SPECIAL_POWERS } from '../constants'
 import {
-  ScreenHeader
+  ScreenHeader,
+  ConfirmationModal
 } from '../components'
+import { GLOBAL_STYLES } from '../styles.js';
 import { NAMING_FUNC } from '../helperFunctions';
 
-const socket = io(LINKS.backend+"/api/parties/:id");
+let socket = io(LINKS.backend+"/api/parties/:id");
 
 
 export default function GamePage (){
+  const router = useRouter();
   const [gameState, setGameState] = useState(null);
+  const [exitModal, setExitModal] = useState(false);
+  const [title, setTitle] = useState("Chargement de la page .....");
 
-  useEffect(async () => {
-    console.log("trying to join the game socket : " +
-         await AsyncStorage.getItem('userPseudo'))
-    socket.emit('rejoindre-jeu', 
-      {pseudo : await AsyncStorage.getItem('userPseudo'),
-      id_partie : await AsyncStorage.getItem('currentGameId') 
+  const handleConfirm = () => {
+    setExitModal(false);
+    router.replace('/home');
+  };
+
+  const handleCancel = () => {
+    setExitModal(false);
+  };
+
+  useEffect(() => {
+    if (gameState != null){
+      setTitle(NAMING_FUNC.gameNameFunc(gameState.status))
+    }else {
+      setTitle("Chargement de la page .....");
+    }
+    return;
+  }, [gameState]);
+
+
+  useEffect(() => {
+    AsyncStorage.getItem('userPseudo')
+      .then(async (pseudo) => {
+        console.log("trying to join the game socket : " + pseudo);
+        socket.emit('rejoindre-jeu', {
+          pseudo,
+          id_partie: await AsyncStorage.getItem('currentGameId')
         });
-
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  
     // Listen for gamestatus events from the server
     socket.on('status-game', (data) => {
       console.log(data);
       setGameState(data);
     });
-
+  
     // Clean up the event listener when the component unmounts
     return () => {
-      socket.disconnect();
+      socket.emit("leave-game");
+      socket = io(LINKS.backend+"/api/parties/:id");
+
     };
   }, [socket]);
 
+
+
+  let StackPage = (
+    <>
+      <Stack.Screen
+      options={{
+        headerStyle: { backgroundColor: COLORS.lightMarineBlue },
+        headerShadowViSeaRescuesible: false,
+        headerRight: () => (
+          <ScreenHeader
+            imageurl={images.icon_wolf_head}
+            dimension="60%"
+            handlePress={() => {
+              setExitModal(true);
+            }}
+          />
+        ),
+        headerTitle: title,
+        headerTintColor: COLORS.richBrown
+      }}
+    />
+    <ConfirmationModal
+    visible={exitModal}
+    message="Voulez vous vraiement quitter?"
+    onConfirm={handleConfirm}
+    onCancel={handleCancel}
+  />
+  </>
+  )
+
   if (gameState){
-    let StackPage = 
-        <Stack.Screen
-        options={{
-          headerStyle: { backgroundColor: COLORS.lightMarineBlue },
-          headerShadowViSeaRescuesible: false,
-          headerRight: () => (
-            <ScreenHeader
-              imageurl={images.icon_wolf_head}
-              dimension="60%"
-            />
-          ),
-          headerTitle: NAMING_FUNC.gameNameFunc(gameState.status),
-          headerTintColor: COLORS.richBrown
-        }}
-      />
     if (gameState.status === GAME_STATUS.enAttente) {
       return (
       <>
@@ -97,9 +142,63 @@ export default function GamePage (){
   else{
     return (
       <>
-      <p> Loading ...</p>
-      </>
-      );
+      {StackPage}
+      <View style={[styles.container, styles.shadow]}>
+      <Text style={GLOBAL_STYLES.gameTextLarge}>
+          Chargement du jeu. Si cet écran persiste, appuyez sur le bouton 
+          en haut à droite pour revenir au menu d'accueil.
+      </Text>
+      </View>
+    </>)
   }
 };
+
+
+
+  // useEffect(async () => {
+  //   console.log("trying to join the game socket : " +
+  //        await AsyncStorage.getItem('userPseudo'))
+  //   socket.emit('rejoindre-jeu', 
+  //     {pseudo : await AsyncStorage.getItem('userPseudo'),
+  //     id_partie : await AsyncStorage.getItem('currentGameId') 
+  //       });
+
+  //   // Listen for gamestatus events from the server
+  //   socket.on('status-game', (data) => {
+  //     console.log(data);
+  //     setGameState(data);
+  //   });
+
+    // Clean up the event listener when the component unmounts
+    // return () => {
+    //   socket.disconnect();
+    // };
+  // }, [socket]);
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.lightMarineBlue,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: '#fff',
+  },
+});
+
 
