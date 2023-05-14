@@ -123,7 +123,7 @@ class NuitState extends GameState {
     this.context.nsp.to(socket_id).emit("VoteNuitEnregistré",{description:"Vote-Okay"})
 
     //On informe les autres loup-garous du joueur voté : 
-    this.context.nsp.to(this.context.roomLoupId).emit("notif-vote-nuit", {
+    this.context.nsp.to(this.context.roomLoupId).emit("notif-vote", {
                 message : pseudoVoteur + "has voted for : " + candidantVote,
                 voteur : pseudoVoteur, 
                 candidat : candidantVote
@@ -190,14 +190,14 @@ class NuitState extends GameState {
         
         // On indique aux reste des jours la decision des loups;
         this.context.nsp.to(this.context.roomId).emit("notif-vote-final",{
-          message : "un joueur a été tué" + maxKey,
+          message : "Un joueur a été tué : " + maxKey,
         })
     }
     //Les loups n'ont pas pu s'entendre pour tuer quelqu'un
     else {
         // On indique aux reste des jours la decision des loups;
         this.context.nsp.to(this.context.roomId).emit("notif-vote-final", {
-          message : "Aucun joueur n'a été tué",
+          message : "Aucun joueur a été tué",
         })
     }
   }

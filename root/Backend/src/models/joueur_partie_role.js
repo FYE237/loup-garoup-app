@@ -33,6 +33,6 @@ const joueur_partie_roleSchema = mongoose.Schema({
         type : String,
         default : 0
     }
-})
+}, { concurrency: 1 });
 
 module.exports = mongoose.model('joueur_partie_role',joueur_partie_roleSchema)

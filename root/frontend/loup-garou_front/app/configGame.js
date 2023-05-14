@@ -118,7 +118,7 @@ export default function ConfigGame() {
   const [nbParticipant, setNbParticipant] = useState(5);
   const [dureeJour, setDureeJour] = useState(12);
   const [dureeNuit, setDureeNuit] = useState(12);
-  const [dateDebut, setDateDebut] = useState(formatDateToString(getDateAfterSeconds(30)));
+  const [dateDebut, setDateDebut] = useState(formatDateToString(getDateAfterSeconds(20)));
   const [probaPouvoirSpecial, setProbaPouvoirSpecial] = useState(1);
   const [proportionLoup, setProportionLoup] = useState(0.3);
   const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
@@ -133,9 +133,7 @@ export default function ConfigGame() {
   const validate_value = (value ,min, max) => {
      if (!isNaN(parseFloat(value)) && isFinite(value)){
       const val = parseFloat(value);
-      console.log("val"+val);
       if (val <= max && val >= min ){
-        console.log("val after "+val);
         return true;  
       }
      }
@@ -143,6 +141,7 @@ export default function ConfigGame() {
   } 
   
   const enterIntoGame = () => {
+    navigation.popToTop();
     router.replace('/GamePage');
   }
 

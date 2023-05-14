@@ -33,6 +33,25 @@ const GLOBAL_STYLES = StyleSheet.create({
         color: COLORS.gray, 
         textAlign: 'center'
     },
+    gameTextMid: {
+        fontFamily: FONT.ItalicFont, 
+        fontSize: SIZES.large,
+        marginBottom: 10,
+        color: COLORS.richBrown, 
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
+    gameTextBox: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#666666',
+    },
+    gameTextLarge: {
+        fontFamily: FONT.ItalicFont, 
+        fontSize: SIZES.CenterTextSize,
+        color: COLORS.richBrown, 
+        paddingLeft: 10, 
+    },
     background: {
         borderRadius: 10,
         overflow : "hidden",

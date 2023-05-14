@@ -4,11 +4,14 @@ import Logout from "./home/logout/Logout";
 import CenterButton from "./home/centerButton/centerButton";
 import InputModal from "./commun/inputmodal/inputModal";
 import ScreenHeader from "./commun/screenheader/screenheader"
-import Chat from "./commun/chat/chat"
+import Chat from "./game/chat/chat"
 import CallToActionBtn from "./commun/CallToActionButton/CallToActionBtn"
 import ActionModal from "./game/ActionButton/actionModal"
 import TabBar from "./game/tabBar/tabBar"
 import InfoModal from "./commun/infoModal/infoModal"
+import DisplayInfo from "./game/displayInfo/displayInfo"
+import CustomTabBar from "./game/customTabBar/customTabBar"
+import ChatTabs from "./game/chatTabs/ChatTabs"
 
 export {
   Pseudo,
@@ -20,5 +23,8 @@ export {
   CallToActionBtn,
   ActionModal,
   TabBar,
-  InfoModal
+  InfoModal,
+  DisplayInfo,
+  CustomTabBar,
+  ChatTabs
 };

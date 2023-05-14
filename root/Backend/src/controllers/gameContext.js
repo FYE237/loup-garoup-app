@@ -20,6 +20,7 @@ class StateContext {
     //but they can make the server much faster 
     this.nb_actif_players = 0;
     this.pseudoList = [];
+    this.pseudoListDisconnect = [];
     // table used to determine the players that have used their power
     //this table is reset everytime we enter the night state 
     this.usedPower = []; 
@@ -97,8 +98,6 @@ class StateContext {
   requestRejoindreUnJeu(pseudoVoteur, candidantVote, id_partie, socket) {
     return this.state.handleRejoindreJeu(pseudoVoteur, candidantVote, id_partie, socket);
   }
-
-
 
   requestVote(pseudoVoteur, candidantVote, socket_id) {
     return this.state.handleVote(pseudoVoteur, candidantVote, socket_id);
