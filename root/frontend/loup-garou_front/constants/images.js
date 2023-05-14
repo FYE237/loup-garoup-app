@@ -7,14 +7,13 @@ import dead_player_icon from '../assets/images/dead_player_icon.png'
 import voting_icon from '../assets/images/voting_icon.png'
 import spiritisme_icon from "../assets/images/spiritisme_icon.png"
 import voyance_icon from "../assets/images/voyance_icon.png"
-import Insomnie_icon from "../assets/images/Insomnie_icon.png"
+import insomnie_icon from "../assets/images/insomnie_icon.png"
 import contamination_icon from "../assets/images/contamination_icon.png"
 import avatar_icon from "../assets/images/avatar_icon.png"
 
 export default {
   background_camp_fire,
   background_lone_wolf,
-  background_tower,
   icon_wolf_head,
   villager_icon,
   wolf_game_icon,
@@ -22,7 +21,7 @@ export default {
   voting_icon,
   spiritisme_icon,
   voyance_icon,
-  Insomnie_icon,
+  insomnie_icon,
   contamination_icon,
   avatar_icon
 }
