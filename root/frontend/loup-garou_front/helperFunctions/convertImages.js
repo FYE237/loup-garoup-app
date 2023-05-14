@@ -19,7 +19,7 @@ const getPowerImage = (power) => {
     case SPECIAL_POWERS.spiritismeHumain:
       return images.spiritisme_icon
     case SPECIAL_POWERS.insomnie:
-      return images.Insomnie_icon
+      return images.insomnie_icon
     case SPECIAL_POWERS.contamination:
       return images.contamination_icon
     default:
