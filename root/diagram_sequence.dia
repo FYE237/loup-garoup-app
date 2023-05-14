@@ -13,16 +13,16 @@
           <dia:string>#A4#</dia:string>
         </dia:attribute>
         <dia:attribute name="tmargin">
-          <dia:real val="2.8222"/>
+          <dia:real val="2.8222000598907471"/>
         </dia:attribute>
         <dia:attribute name="bmargin">
-          <dia:real val="2.8222"/>
+          <dia:real val="2.8222000598907471"/>
         </dia:attribute>
         <dia:attribute name="lmargin">
-          <dia:real val="2.8222"/>
+          <dia:real val="2.8222000598907471"/>
         </dia:attribute>
         <dia:attribute name="rmargin">
-          <dia:real val="2.8222"/>
+          <dia:real val="2.8222000598907471"/>
         </dia:attribute>
         <dia:attribute name="is_portrait">
           <dia:boolean val="true"/>
@@ -58,9 +58,11 @@
     <dia:attribute name="color">
       <dia:color val="#d8e5e5ff"/>
     </dia:attribute>
-    <dia:attribute name="guides"/>
-    <dia:attribute name="guide_color">
-      <dia:color val="#00ff00ff"/>
+    <dia:attribute name="guides">
+      <dia:composite type="guides">
+        <dia:attribute name="hguides"/>
+        <dia:attribute name="vguides"/>
+      </dia:composite>
     </dia:attribute>
     <dia:attribute name="display">
       <dia:composite type="display">
@@ -70,16 +72,10 @@
         <dia:attribute name="snap-to-grid">
           <dia:boolean val="false"/>
         </dia:attribute>
-        <dia:attribute name="snap-to-guides">
-          <dia:boolean val="true"/>
-        </dia:attribute>
         <dia:attribute name="snap-to-object">
           <dia:boolean val="true"/>
         </dia:attribute>
         <dia:attribute name="show-grid">
-          <dia:boolean val="true"/>
-        </dia:attribute>
-        <dia:attribute name="show-guides">
           <dia:boolean val="true"/>
         </dia:attribute>
         <dia:attribute name="show-connection-points">
@@ -94,7 +90,7 @@
         <dia:point val="16.1269,-1.74975"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="16.0769,-1.79975;20.1769,0.100248"/>
+        <dia:rectangle val="16.0769,-1.79975;20.1769,0.10025"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -129,7 +125,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="18.1269,-0.654752"/>
+            <dia:point val="18.1269,-0.655687"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -154,7 +150,7 @@
         <dia:point val="5.05828,-5.94821"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="5.00828,-5.99821;16.7883,-4.19821"/>
+        <dia:rectangle val="4.98328,-6.02321;16.8133,-4.17321"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -180,7 +176,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="5.40828,-4.61321"/>
+            <dia:point val="5.40828,-4.70415"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -205,7 +201,7 @@
         <dia:point val="31.7757,-1.96785"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="31.7257,-2.01785;35.8257,-0.117853"/>
+        <dia:rectangle val="31.7257,-2.01785;35.8257,-0.11785"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -240,7 +236,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="33.7757,-0.872853"/>
+            <dia:point val="33.7757,-0.873788"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -265,7 +261,7 @@
         <dia:point val="46.6611,-1.74975"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="46.6111,-1.79975;52.8286,0.100248"/>
+        <dia:rectangle val="46.6111,-1.79975;52.8461,0.10025"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -274,7 +270,7 @@
         <dia:point val="46.6611,-1.74975"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="6.1174999999999997"/>
+        <dia:real val="6.1349999999999998"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.8"/>
@@ -300,7 +296,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="49.7199,-0.654752"/>
+            <dia:point val="49.7286,-0.655687"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -371,17 +367,17 @@
     </dia:object>
     <dia:object type="UML - Transition" version="2" id="O5">
       <dia:attribute name="obj_pos">
-        <dia:point val="49.7199,0.0502481"/>
+        <dia:point val="49.7286,0.05025"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="49.0218,0.000248145;50.3236,33.8644"/>
+        <dia:rectangle val="49.0262,0.00025;50.3236,33.8644"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="49.7199,0.0502481"/>
-        <dia:point val="49.7199,16.9323"/>
+        <dia:point val="49.7286,0.05025"/>
+        <dia:point val="49.7286,16.9323"/>
         <dia:point val="49.8236,16.9323"/>
         <dia:point val="49.8236,33.8144"/>
       </dia:attribute>
@@ -409,10 +405,10 @@
         <dia:string>##</dia:string>
       </dia:attribute>
       <dia:attribute name="trigger_text_pos">
-        <dia:point val="49.2718,15.4323"/>
+        <dia:point val="49.2762,15.4323"/>
       </dia:attribute>
       <dia:attribute name="guard_text_pos">
-        <dia:point val="49.2718,16.4323"/>
+        <dia:point val="49.2762,16.4323"/>
       </dia:attribute>
       <dia:attribute name="direction_inverted">
         <dia:boolean val="false"/>
@@ -434,8 +430,8 @@
       <dia:attribute name="orth_points">
         <dia:point val="33.7212,-0.276904"/>
         <dia:point val="33.7212,16.7123"/>
-        <dia:point val="33.89,16.7123"/>
-        <dia:point val="33.89,33.7014"/>
+        <dia:point val="33.8899,16.7123"/>
+        <dia:point val="33.8899,33.7015"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
         <dia:enum val="1"/>
@@ -478,7 +474,7 @@
         <dia:point val="18.1989,2.12155"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.1489,0.0215508;33.8432,2.62155"/>
+        <dia:rectangle val="18.1489,0.027508;33.8432,2.62155"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -527,7 +523,7 @@
         <dia:point val="18.3143,4.82678"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.2643,2.72678;33.9586,5.32678"/>
+        <dia:rectangle val="18.2643,2.73274;33.9586,5.32678"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -576,7 +572,7 @@
         <dia:point val="18.0962,7.444"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.0462,5.344;33.7405,7.944"/>
+        <dia:rectangle val="18.0462,5.34996;33.7405,7.944"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -625,12 +621,12 @@
         <dia:point val="24.6874,1.52177"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="24.6874,0.926771;26.8599,1.67427"/>
+        <dia:rectangle val="24.6874,0.909083;29.461,1.70996"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#visiter #</dia:string>
+            <dia:string>#visiter la page #</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -658,7 +654,7 @@
         <dia:point val="22.6155,4.08446"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="22.6155,3.48946;30.8655,4.23696"/>
+        <dia:rectangle val="22.6155,3.4904;30.883,4.2354"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -691,7 +687,7 @@
         <dia:point val="22.3428,6.75621"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="22.3428,6.16121;29.8503,6.90871"/>
+        <dia:rectangle val="22.3428,6.16215;29.8628,6.90715"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -769,7 +765,7 @@
         <dia:point val="34.1267,9.62502"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="34.0767,7.52502;49.7709,10.125"/>
+        <dia:rectangle val="34.0767,7.53098;49.7709,10.125"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -818,7 +814,7 @@
         <dia:point val="37.0102,8.82817"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="37.0102,8.23317;46.5877,8.98067"/>
+        <dia:rectangle val="37.0102,8.23411;46.6102,8.97911"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -875,7 +871,7 @@
         <dia:point val="52.2773,10.573"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="52.2773,9.9593;60.461,10.7629"/>
+        <dia:rectangle val="52.2773,9.97894;60.4598,10.7239"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -938,7 +934,7 @@
         <dia:point val="26.9775,14.049"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="26.9775,13.454;40.4325,14.2015"/>
+        <dia:rectangle val="26.9775,13.4549;40.4575,14.1999"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -997,7 +993,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="17.2653,14.6456"/>
+            <dia:point val="17.2653,14.5547"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -1022,7 +1018,7 @@
         <dia:point val="16.8508,23.3143"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="16.6831,22.9421;51.3314,23.6848"/>
+        <dia:rectangle val="16.6831,22.942;51.3314,23.6847"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="16.8508,23.3143"/>
@@ -1052,7 +1048,7 @@
         <dia:point val="37.828,16.9388"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="37.828,16.3438;46.313,17.0913"/>
+        <dia:rectangle val="37.828,16.3447;46.3305,17.0897"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1085,7 +1081,7 @@
         <dia:point val="49.6055,15.7393"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="33.1796,15.2893;49.6555,17.3393"/>
+        <dia:rectangle val="33.1796,14.9943;49.6555,16.5943"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -1179,7 +1175,7 @@
         <dia:point val="33.8992,21.0516"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="17.3919,20.5975;33.9492,22.6495"/>
+        <dia:rectangle val="17.3919,20.3045;33.9492,21.9046"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -1231,7 +1227,7 @@
         <dia:point val="20.8706,20.3194"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="20.8706,19.7244;31.4731,20.4719"/>
+        <dia:rectangle val="20.8706,19.7253;31.4831,20.4703"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1264,7 +1260,7 @@
         <dia:point val="27.4246,24.2323"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="27.4246,23.6373;41.6396,24.3848"/>
+        <dia:rectangle val="27.4246,23.6382;41.6646,24.3832"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1297,7 +1293,7 @@
         <dia:point val="37.7982,25.6821"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="37.7982,25.0684;45.6194,25.872"/>
+        <dia:rectangle val="37.7982,25.088;45.6182,25.833"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1330,7 +1326,7 @@
         <dia:point val="49.6302,26.0093"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="33.2043,25.5593;49.6802,27.6093"/>
+        <dia:rectangle val="33.2043,25.2643;49.6802,26.8643"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -1424,7 +1420,7 @@
         <dia:point val="34.1724,31.4262"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="17.7191,30.958;34.2224,33.0171"/>
+        <dia:rectangle val="17.7191,30.6721;34.2224,32.2721"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -1476,7 +1472,7 @@
         <dia:point val="21.1978,30.6799"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="21.1978,30.0662;31.1065,30.8698"/>
+        <dia:rectangle val="21.1978,30.0858;31.1153,30.8308"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1572,7 +1568,7 @@
         <dia:point val="16.6872,33.7287"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="16.5195,33.3564;51.1679,34.0991"/>
+        <dia:rectangle val="16.5195,33.3564;51.1678,34.0991"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="16.6872,33.7287"/>
@@ -1628,7 +1624,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="5.93038,36.9611"/>
+            <dia:point val="5.93038,36.8702"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -1688,7 +1684,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="16.0068,40.4583"/>
+            <dia:point val="16.0068,40.4574"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -1748,7 +1744,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="31.6556,39.5859"/>
+            <dia:point val="31.6556,39.585"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -1773,7 +1769,7 @@
         <dia:point val="44.541,38.709"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="44.491,38.659;50.7085,40.559"/>
+        <dia:rectangle val="44.491,38.659;50.726,40.559"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -1782,7 +1778,7 @@
         <dia:point val="44.541,38.709"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="6.1174999999999997"/>
+        <dia:real val="6.1349999999999998"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.8"/>
@@ -1808,7 +1804,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="47.5998,39.804"/>
+            <dia:point val="47.6085,39.8031"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -1879,17 +1875,17 @@
     </dia:object>
     <dia:object type="UML - Transition" version="2" id="O41">
       <dia:attribute name="obj_pos">
-        <dia:point val="47.5998,40.509"/>
+        <dia:point val="47.6085,40.509"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="46.9016,40.459;48.2035,74.3232"/>
+        <dia:rectangle val="46.9059,40.459;48.2035,74.3232"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="47.5998,40.509"/>
-        <dia:point val="47.5998,57.3911"/>
+        <dia:point val="47.6085,40.509"/>
+        <dia:point val="47.6085,57.3911"/>
         <dia:point val="47.7035,57.3911"/>
         <dia:point val="47.7035,74.2732"/>
       </dia:attribute>
@@ -1917,10 +1913,10 @@
         <dia:string>##</dia:string>
       </dia:attribute>
       <dia:attribute name="trigger_text_pos">
-        <dia:point val="47.1516,55.8911"/>
+        <dia:point val="47.1559,55.8911"/>
       </dia:attribute>
       <dia:attribute name="guard_text_pos">
-        <dia:point val="47.1516,56.8911"/>
+        <dia:point val="47.1559,56.8911"/>
       </dia:attribute>
       <dia:attribute name="direction_inverted">
         <dia:boolean val="false"/>
@@ -1987,7 +1983,7 @@
         <dia:point val="16.0788,42.5803"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="16.0288,40.4803;31.723,43.0803"/>
+        <dia:rectangle val="16.0288,40.4863;31.723,43.0803"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2036,7 +2032,7 @@
         <dia:point val="16.1942,45.2855"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="16.1442,43.1855;31.8385,45.7855"/>
+        <dia:rectangle val="16.1442,43.1915;31.8385,45.7855"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2085,7 +2081,7 @@
         <dia:point val="15.9761,47.9028"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="15.9261,45.7939;31.614,48.4028"/>
+        <dia:rectangle val="15.9261,45.7999;31.614,48.4028"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2137,7 +2133,7 @@
         <dia:point val="20.2227,42.0351"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="20.2227,41.4401;28.9927,42.1876"/>
+        <dia:rectangle val="20.2227,41.441;29.0077,42.186"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2170,7 +2166,7 @@
         <dia:point val="20.4953,44.5432"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="20.4767,43.9295;20.4953,44.7331"/>
+        <dia:rectangle val="20.4953,43.9491;20.4953,44.6941"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2203,7 +2199,7 @@
         <dia:point val="19.7865,44.6523"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.7865,44.0386;27.1052,44.8422"/>
+        <dia:rectangle val="19.7865,44.0582;27.104,44.8032"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2281,7 +2277,7 @@
         <dia:point val="32.0066,50.0838"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="31.9566,47.9838;47.6508,50.5838"/>
+        <dia:rectangle val="31.9566,47.9898;47.6508,50.5838"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2330,7 +2326,7 @@
         <dia:point val="34.89,49.2869"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="34.89,48.6733;41.7487,49.4768"/>
+        <dia:rectangle val="34.89,48.6928;41.75,49.4378"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2387,7 +2383,7 @@
         <dia:point val="50.1572,51.0318"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="50.1572,50.4181;53.7583,51.2216"/>
+        <dia:rectangle val="50.1572,50.4377;53.7447,51.1827"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2420,7 +2416,7 @@
         <dia:point val="14.5521,53.5944"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="14.3844,53.2218;51.9162,53.9645"/>
+        <dia:rectangle val="14.3844,53.2218;51.9163,53.9645"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="14.5521,53.5944"/>
@@ -2450,7 +2446,7 @@
         <dia:point val="30.528,64.813"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="30.528,64.218;32.9505,64.9655"/>
+        <dia:rectangle val="30.528,64.2189;32.958,64.9639"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2509,7 +2505,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="15.1452,55.1044"/>
+            <dia:point val="15.1452,55.0135"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -2567,7 +2563,7 @@
         <dia:point val="35.7079,57.3976"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35.7079,56.7839;39.3991,57.5875"/>
+        <dia:rectangle val="35.7079,56.8035;39.3879,57.5485"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2600,7 +2596,7 @@
         <dia:point val="47.4854,56.198"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="31.0595,55.748;47.5354,57.798"/>
+        <dia:rectangle val="31.0595,55.453;47.5354,57.053"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2694,7 +2690,7 @@
         <dia:point val="31.7791,61.5104"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="15.2718,61.0562;31.8291,63.1083"/>
+        <dia:rectangle val="15.2718,60.7633;31.8291,62.3633"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2746,7 +2742,7 @@
         <dia:point val="18.7505,60.7782"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.7505,60.1645;21.2892,60.968"/>
+        <dia:rectangle val="18.7505,60.1841;21.273,60.9291"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2779,7 +2775,7 @@
         <dia:point val="30.0482,54.6584"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="30.0482,54.0634;33.0532,54.8109"/>
+        <dia:rectangle val="30.0482,54.0643;33.0607,54.8093"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2812,7 +2808,7 @@
         <dia:point val="35.7326,66.1409"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35.7326,65.5272;39.4338,66.3308"/>
+        <dia:rectangle val="35.7326,65.5468;39.4251,66.2918"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2845,7 +2841,7 @@
         <dia:point val="47.5101,66.4681"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="31.0842,66.0181;47.5601,68.0681"/>
+        <dia:rectangle val="31.0842,65.7231;47.5601,67.3231"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2939,7 +2935,7 @@
         <dia:point val="32.0523,71.885"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="15.599,71.4167;32.1023,73.4759"/>
+        <dia:rectangle val="15.599,71.1308;32.1023,72.7308"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2991,7 +2987,7 @@
         <dia:point val="18.9686,70.5934"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.9686,69.9984;29.1861,71.5459"/>
+        <dia:rectangle val="18.9686,69.9993;29.2036,71.5443"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -3088,7 +3084,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="14.5671,74.1874"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="14.3994,73.8114;49.2995,74.5541"/>
+        <dia:rectangle val="14.3994,73.8114;49.2994,74.554"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="14.5671,74.1874"/>
@@ -3118,7 +3114,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="20.5435,47.3095"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="20.5435,46.7145;27.1335,47.462"/>
+        <dia:rectangle val="20.5435,46.7154;27.1535,47.4604"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -3151,7 +3147,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="51.5139,73.8497"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="48.7656,73.4902;51.6816,74.2327"/>
+        <dia:rectangle val="48.7657,73.4902;51.6816,74.2327"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="51.5139,73.8497"/>
@@ -3205,7 +3201,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="48.2424,68.2336"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="48.2424,67.6386;55.9924,68.3861"/>
+        <dia:rectangle val="48.2424,67.6395;56.0124,68.3845"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -3264,7 +3260,7 @@ r le compte est bien créé#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="9.3591,78.9992"/>
+            <dia:point val="9.3591,78.9083"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -3324,7 +3320,7 @@ r le compte est bien créé#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="19.3329,81.4478"/>
+            <dia:point val="19.3329,81.4469"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -3384,7 +3380,7 @@ r le compte est bien créé#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="34.9817,80.5754"/>
+            <dia:point val="34.9817,80.5745"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -3409,7 +3405,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="47.8671,79.6985"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="47.8171,79.6485;54.0346,81.5485"/>
+        <dia:rectangle val="47.8171,79.6485;54.0521,81.5485"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -3418,7 +3414,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="47.8671,79.6985"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="6.1174999999999997"/>
+        <dia:real val="6.1349999999999998"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.8"/>
@@ -3444,7 +3440,7 @@ r le compte est bien créé#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="50.9258,80.7935"/>
+            <dia:point val="50.9346,80.7926"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -3476,8 +3472,8 @@ r le compte est bien créé#</dia:string>
       </dia:attribute>
       <dia:attribute name="orth_points">
         <dia:point val="19.3329,82.1528"/>
-        <dia:point val="19.3329,98.6396"/>
-        <dia:point val="19.2958,98.6396"/>
+        <dia:point val="19.3329,98.6394"/>
+        <dia:point val="19.2958,98.6394"/>
         <dia:point val="19.2958,115.126"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
@@ -3504,10 +3500,10 @@ r le compte est bien créé#</dia:string>
         <dia:string>##</dia:string>
       </dia:attribute>
       <dia:attribute name="trigger_text_pos">
-        <dia:point val="18.8143,97.1396"/>
+        <dia:point val="18.8143,97.1394"/>
       </dia:attribute>
       <dia:attribute name="guard_text_pos">
-        <dia:point val="18.8143,98.1396"/>
+        <dia:point val="18.8143,98.1394"/>
       </dia:attribute>
       <dia:attribute name="direction_inverted">
         <dia:boolean val="false"/>
@@ -3518,18 +3514,18 @@ r le compte est bien créé#</dia:string>
     </dia:object>
     <dia:object type="UML - Transition" version="2" id="O81">
       <dia:attribute name="obj_pos">
-        <dia:point val="50.9258,81.4985"/>
+        <dia:point val="50.9346,81.4985"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="50.2277,81.4485;51.5296,115.313"/>
+        <dia:rectangle val="50.2321,81.4485;51.5296,115.313"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="50.9258,81.4985"/>
-        <dia:point val="50.9258,98.3806"/>
-        <dia:point val="51.0296,98.3806"/>
+        <dia:point val="50.9346,81.4985"/>
+        <dia:point val="50.9346,98.3808"/>
+        <dia:point val="51.0296,98.3808"/>
         <dia:point val="51.0296,115.263"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
@@ -3556,10 +3552,10 @@ r le compte est bien créé#</dia:string>
         <dia:string>##</dia:string>
       </dia:attribute>
       <dia:attribute name="trigger_text_pos">
-        <dia:point val="50.4777,96.8806"/>
+        <dia:point val="50.4821,96.8808"/>
       </dia:attribute>
       <dia:attribute name="guard_text_pos">
-        <dia:point val="50.4777,97.8806"/>
+        <dia:point val="50.4821,97.8808"/>
       </dia:attribute>
       <dia:attribute name="direction_inverted">
         <dia:boolean val="false"/>
@@ -3580,8 +3576,8 @@ r le compte est bien créé#</dia:string>
       </dia:attribute>
       <dia:attribute name="orth_points">
         <dia:point val="34.9817,81.2804"/>
-        <dia:point val="34.9817,98.1578"/>
-        <dia:point val="35.2215,98.1578"/>
+        <dia:point val="34.9817,98.1577"/>
+        <dia:point val="35.2215,98.1577"/>
         <dia:point val="35.2215,115.035"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
@@ -3608,10 +3604,10 @@ r le compte est bien créé#</dia:string>
         <dia:string>##</dia:string>
       </dia:attribute>
       <dia:attribute name="trigger_text_pos">
-        <dia:point val="35.9341,96.8188"/>
+        <dia:point val="35.9341,96.8187"/>
       </dia:attribute>
       <dia:attribute name="guard_text_pos">
-        <dia:point val="34.6016,97.6578"/>
+        <dia:point val="34.6016,97.6577"/>
       </dia:attribute>
       <dia:attribute name="direction_inverted">
         <dia:boolean val="false"/>
@@ -3625,7 +3621,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="19.4048,83.5698"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.3548,81.4698;35.0491,84.0698"/>
+        <dia:rectangle val="19.3548,81.4758;35.0491,84.0698"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -3674,7 +3670,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="34.7201,86.1315"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.403,84.0043;34.7701,86.6315"/>
+        <dia:rectangle val="19.403,84.0103;34.7701,86.6315"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -3723,7 +3719,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="19.3022,88.8922"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.2522,86.7834;34.94,89.3922"/>
+        <dia:rectangle val="19.2522,86.7894;34.94,89.3922"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -3775,7 +3771,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="23.8214,85.5327"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="23.8214,84.9377;23.8214,85.6852"/>
+        <dia:rectangle val="23.8214,84.9386;23.8214,85.6836"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -3853,7 +3849,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="35.3326,91.0732"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35.2826,88.9732;50.9769,91.5732"/>
+        <dia:rectangle val="35.2826,88.9792;50.9769,91.5732"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -3902,7 +3898,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="51.0841,90.9852"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="51.0341,90.5983;52.9879,93.2321"/>
+        <dia:rectangle val="51.0341,90.5982;52.988,93.2321"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="51.0841,90.9852"/>
@@ -3926,7 +3922,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="53.4832,92.0212"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="53.4832,91.4262;57.0657,92.1737"/>
+        <dia:rectangle val="53.4832,91.4271;57.0707,92.1721"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4015,7 +4011,7 @@ r le compte est bien créé#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="18.4712,96.0939"/>
+            <dia:point val="18.4712,96.003"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -4040,7 +4036,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="18.0567,104.763"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="17.889,104.391;55.137,105.134"/>
+        <dia:rectangle val="17.889,104.392;55.137,105.134"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="18.0567,104.763"/>
@@ -4073,7 +4069,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="29.9282,95.8244"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="29.9282,95.2294;43.8182,95.9769"/>
+        <dia:rectangle val="29.9282,95.2303;43.8507,95.9753"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4106,7 +4102,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="50.8115,97.1875"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="34.3855,96.7375;50.8615,98.7875"/>
+        <dia:rectangle val="34.3855,96.4425;50.8615,98.0425"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -4200,7 +4196,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="35.1051,102.5"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.5979,102.046;35.1551,104.098"/>
+        <dia:rectangle val="18.5979,101.753;35.1551,103.353"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -4252,7 +4248,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="19.8956,101.822"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.8956,101.227;34.7606,101.975"/>
+        <dia:rectangle val="19.8956,101.228;34.7806,101.973"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4285,7 +4281,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="29.2848,105.953"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="29.2848,105.358;42.6673,106.106"/>
+        <dia:rectangle val="29.2848,105.359;42.6923,106.104"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4318,7 +4314,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="39.1132,107.13"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="39.1132,106.517;44.8544,107.32"/>
+        <dia:rectangle val="39.1132,106.536;44.8532,107.281"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4351,7 +4347,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="50.8362,107.458"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="34.4102,107.008;50.8862,109.058"/>
+        <dia:rectangle val="34.4102,106.713;50.8862,108.313"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -4445,7 +4441,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="35.3783,112.874"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.925,112.406;35.4283,114.465"/>
+        <dia:rectangle val="18.925,112.12;35.4283,113.72"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -4497,7 +4493,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="55.0074,115.044"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="54.6391,94.4122;55.3818,115.211"/>
+        <dia:rectangle val="54.6391,94.4121;55.3818,115.212"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="55.0074,115.044"/>
@@ -4617,7 +4613,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="51.3022,97.0474"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="51.2522,96.6604;53.206,99.2943"/>
+        <dia:rectangle val="51.2522,96.6604;53.2061,99.2943"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="51.3022,97.0474"/>
@@ -4641,7 +4637,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="51.4049,99.3812"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="51.4049,98.7862;60.5974,100.334"/>
+        <dia:rectangle val="51.4049,98.7871;60.6174,100.332"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4675,7 +4671,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="40.8269,97.6909"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="40.8269,97.0959;40.8269,97.8434"/>
+        <dia:rectangle val="40.8269,97.0968;40.8269,97.8418"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4708,7 +4704,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="40.2817,98.0726"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="40.2817,97.4589;44.6229,98.2625"/>
+        <dia:rectangle val="40.2817,97.4785;44.6142,98.2235"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4741,7 +4737,7 @@ r le compte est bien créé#</dia:string>
         <dia:point val="20.2709,111.595"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="20.2709,111;34.5809,112.547"/>
+        <dia:rectangle val="20.2709,111.001;34.6109,112.546"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4801,7 +4797,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="11.0494,119.43"/>
+            <dia:point val="11.0494,119.339"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -4861,7 +4857,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="19.6818,124.207"/>
+            <dia:point val="19.6818,124.206"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -4921,7 +4917,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="35.3306,123.334"/>
+            <dia:point val="35.3306,123.333"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -4946,7 +4942,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="48.216,122.457"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="48.166,122.407;54.3835,124.307"/>
+        <dia:rectangle val="48.166,122.407;54.401,124.307"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -4955,7 +4951,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="48.216,122.457"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="6.1174999999999997"/>
+        <dia:real val="6.1349999999999998"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.8"/>
@@ -4981,7 +4977,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="51.2748,123.552"/>
+            <dia:point val="51.2835,123.551"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -5055,17 +5051,17 @@ r indiquant que la partie n'est pas disponible#</dia:string>
     </dia:object>
     <dia:object type="UML - Transition" version="2" id="O118">
       <dia:attribute name="obj_pos">
-        <dia:point val="51.2748,124.257"/>
+        <dia:point val="51.2835,124.257"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="50.5767,124.207;51.8785,158.071"/>
+        <dia:rectangle val="50.5811,124.207;51.8785,158.071"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="51.2748,124.257"/>
-        <dia:point val="51.2748,141.139"/>
+        <dia:point val="51.2835,124.257"/>
+        <dia:point val="51.2835,141.139"/>
         <dia:point val="51.3785,141.139"/>
         <dia:point val="51.3785,158.021"/>
       </dia:attribute>
@@ -5093,10 +5089,10 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:string>##</dia:string>
       </dia:attribute>
       <dia:attribute name="trigger_text_pos">
-        <dia:point val="50.8267,139.639"/>
+        <dia:point val="50.8311,139.639"/>
       </dia:attribute>
       <dia:attribute name="guard_text_pos">
-        <dia:point val="50.8267,140.639"/>
+        <dia:point val="50.8311,140.639"/>
       </dia:attribute>
       <dia:attribute name="direction_inverted">
         <dia:boolean val="false"/>
@@ -5162,7 +5158,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="19.7538,126.329"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.7038,124.229;35.3981,126.829"/>
+        <dia:rectangle val="19.7038,124.235;35.3981,126.829"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -5211,7 +5207,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="35.0691,128.89"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.7519,126.763;35.1191,129.39"/>
+        <dia:rectangle val="19.7519,126.769;35.1191,129.39"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -5260,15 +5256,15 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="19.6511,131.651"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.6011,129.542;35.289,132.151"/>
+        <dia:rectangle val="19.6011,129.548;35.289,132.151"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
         <dia:point val="19.6511,131.651"/>
-        <dia:point val="27.4451,131.651"/>
-        <dia:point val="27.4451,131.633"/>
+        <dia:point val="27.445,131.651"/>
+        <dia:point val="27.445,131.633"/>
         <dia:point val="35.239,131.633"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
@@ -5295,10 +5291,10 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:string>##</dia:string>
       </dia:attribute>
       <dia:attribute name="trigger_text_pos">
-        <dia:point val="26.9451,130.142"/>
+        <dia:point val="26.945,130.142"/>
       </dia:attribute>
       <dia:attribute name="guard_text_pos">
-        <dia:point val="26.9451,131.142"/>
+        <dia:point val="26.945,131.142"/>
       </dia:attribute>
       <dia:attribute name="direction_inverted">
         <dia:boolean val="false"/>
@@ -5312,7 +5308,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="24.1704,128.292"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="24.1704,127.697;24.1704,128.444"/>
+        <dia:rectangle val="24.1704,127.698;24.1704,128.443"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -5390,7 +5386,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="35.6816,133.832"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35.6316,131.732;51.3259,134.332"/>
+        <dia:rectangle val="35.6316,131.738;51.3259,134.332"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -5439,7 +5435,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="36.9838,132.872"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="36.9838,132.277;50.6438,133.024"/>
+        <dia:rectangle val="36.9838,132.278;50.6738,133.023"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -5496,7 +5492,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="53.8322,134.78"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="53.8322,134.185;57.4147,134.933"/>
+        <dia:rectangle val="53.8322,134.186;57.4197,134.931"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -5529,7 +5525,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="18.2271,137.343"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.0594,136.97;55.5912,137.713"/>
+        <dia:rectangle val="18.0594,136.97;55.5913,137.713"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="18.2271,137.343"/>
@@ -5585,7 +5581,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="18.8202,138.853"/>
+            <dia:point val="18.8202,138.762"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000ff"/>
@@ -5610,7 +5606,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="18.4057,147.521"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.238,147.15;55.4859,147.893"/>
+        <dia:rectangle val="18.238,147.15;55.4859,147.892"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="18.4057,147.521"/>
@@ -5643,7 +5639,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="30.2772,138.583"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="30.2772,137.988;44.1672,138.736"/>
+        <dia:rectangle val="30.2772,137.989;44.1997,138.734"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -5676,7 +5672,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="51.1604,139.946"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="34.7345,139.496;51.2104,141.546"/>
+        <dia:rectangle val="34.7345,139.201;51.2104,140.801"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -5770,7 +5766,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="35.4541,145.259"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.9468,144.805;35.5041,146.857"/>
+        <dia:rectangle val="18.9468,144.512;35.5041,146.112"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -5822,7 +5818,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="20.2445,144.581"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="20.2445,143.986;35.1095,144.733"/>
+        <dia:rectangle val="20.2445,143.987;35.1295,144.732"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -5855,7 +5851,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="29.6338,148.712"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="29.6338,148.117;43.0163,148.864"/>
+        <dia:rectangle val="29.6338,148.118;43.0413,148.863"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -5888,7 +5884,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="39.4622,149.889"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="39.4622,149.294;45.1847,150.042"/>
+        <dia:rectangle val="39.4622,149.295;45.2022,150.04"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -5921,7 +5917,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="51.1851,150.216"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="34.7592,149.766;51.2351,151.816"/>
+        <dia:rectangle val="34.7592,149.471;51.2351,151.071"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -6015,7 +6011,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="35.7273,155.633"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.274,155.165;35.7773,157.224"/>
+        <dia:rectangle val="19.274,154.879;35.7773,156.479"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -6097,7 +6093,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="22.092,130.512"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="22.092,129.917;32.757,131.465"/>
+        <dia:rectangle val="22.092,129.918;32.7795,131.463"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6161,7 +6157,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="21.3287,125.837"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="21.3287,125.242;34.8637,125.989"/>
+        <dia:rectangle val="21.3287,125.243;34.8887,125.988"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6194,7 +6190,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="21.9284,127.473"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="21.9284,126.878;34.2459,128.425"/>
+        <dia:rectangle val="21.9284,126.879;34.2759,128.424"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6312,7 +6308,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="51.7538,142.14"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="51.7538,141.545;60.9463,143.093"/>
+        <dia:rectangle val="51.7538,141.546;60.9663,143.091"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6346,7 +6342,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="41.1759,140.45"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="41.1759,139.855;41.1759,140.602"/>
+        <dia:rectangle val="41.1759,139.856;41.1759,140.601"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6379,7 +6375,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="40.6306,140.831"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="40.6306,140.236;44.9531,140.984"/>
+        <dia:rectangle val="40.6306,140.237;44.9631,140.982"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6412,7 +6408,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="20.6198,154.354"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="20.6198,153.759;34.9298,155.306"/>
+        <dia:rectangle val="20.6198,153.76;34.9598,155.305"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6446,7 +6442,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="21.6885,82.9691"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="21.6885,82.3741;33.961,83.1216"/>
+        <dia:rectangle val="21.6885,82.375;33.9835,83.12"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6479,7 +6475,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="19.6711,85.7499"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="19.6711,85.1549;34.4886,85.9024"/>
+        <dia:rectangle val="19.6711,85.1558;34.5161,85.9008"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6512,7 +6508,7 @@ r indiquant que la partie n'est pas disponible#</dia:string>
         <dia:point val="23.815,87.8218"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="23.815,87.2268;30.555,88.7743"/>
+        <dia:rectangle val="23.815,87.2277;30.565,88.7727"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6546,7 +6542,7 @@ et soumettre#</dia:string>
         <dia:point val="36.0287,90.439"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="36.0287,89.844;50.7187,90.5915"/>
+        <dia:rectangle val="36.0287,89.8449;50.7537,90.5899"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
