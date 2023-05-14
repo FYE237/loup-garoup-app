@@ -178,6 +178,7 @@ export default function Home() {
               onPressFunc={createGameFunc}
               styleArg={styles.button}
               extraMarginVertical={60}
+              testID="creationJeuButtonHome"
             />
           </View>
           <StatusBar style="auto" />

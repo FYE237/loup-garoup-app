@@ -365,7 +365,7 @@ export default function ConfigGame() {
             title = {"Proportion loup"}
           />
           <CenterButton
-            textButton = {"Créer un jeu"}
+            textButton = {"Créering un jeu"}
             onPressFunc = {createGameFunc}
             styleArg = {styles.button}
             TextSize = {37}
@@ -373,6 +373,7 @@ export default function ConfigGame() {
             boxColorArg={"#4caf50"}
             extraMarginVerticalB = {60}
             extraMarginVerticalT = {30}
+            testID="creationJeuButtonConfig"
           />
         </View>
         <StatusBar style="auto" />
