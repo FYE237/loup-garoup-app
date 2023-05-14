@@ -127,8 +127,8 @@ export default function  FinJeuPage ({gameStatus, socket}) {
 
   useEffect(() => {
     const handlePlayerInfo = (data) => {
-      console.log("------------------------FinJeu-------------------------------");
-      console.log("player info " + JSON.stringify(data));
+      // console.log("------FinJeu---------");
+      // console.log("player info " + JSON.stringify(data));
       setAllChats([]);
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
       setGameRoom(data.roomId);
@@ -163,7 +163,7 @@ export default function  FinJeuPage ({gameStatus, socket}) {
       setAlivePlayers(alive);
       setAliveHumans(updatedAliveHumans);
       setAliveWolfs(aliveWolf);
-      console.log("dead data " + JSON.stringify(dead));
+      // console.log("dead data " + JSON.stringify(dead));
       setDeadPlayers(dead);
     }; 
 
