@@ -7,14 +7,12 @@ import { Stack, useRouter } from 'expo-router'
 const RegisterPage = () => {
   const router = useRouter()
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
     try {
       let data = {
         name: name,
-        email: email,
         password: password,
       };
       console.log(LINKS.backend+'/api/users')
@@ -49,15 +47,6 @@ const RegisterPage = () => {
         value={name}
         onChangeText={setName}
         autoCapitalize="words"
-      />
-
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
       />
 
       <Text style={styles.label}>Password</Text>

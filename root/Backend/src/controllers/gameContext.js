@@ -16,10 +16,13 @@ class StateContext {
     this.stateNuit = new NuitState(this)
     //When the game is create it is place in the wait state
     this.state = this.stateEnAttente;
+
     //These values are not necessary 
-    //but they can make the server much faster 
+    //but they can make the server much faster since we don't have 
+    //to fetch data from the database constantly  
     this.nb_actif_players = 0;
     this.pseudoList = [];
+    this.pseudoListDisconnect = [];
     // table used to determine the players that have used their power
     //this table is reset everytime we enter the night state 
     this.usedPower = []; 
@@ -97,8 +100,6 @@ class StateContext {
   requestRejoindreUnJeu(pseudoVoteur, candidantVote, id_partie, socket) {
     return this.state.handleRejoindreJeu(pseudoVoteur, candidantVote, id_partie, socket);
   }
-
-
 
   requestVote(pseudoVoteur, candidantVote, socket_id) {
     return this.state.handleVote(pseudoVoteur, candidantVote, socket_id);

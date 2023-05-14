@@ -108,13 +108,19 @@ class JourState extends GameState {
         //On change son statut
         await Joueur_partie_role.updateOne({id_joueur:playerId, id_partie: this.context.partieId}, {statut:PLAYER_STATUS.mort});
         //On signale à tous les joueurs qui est mort
-        this.context.nsp.to(this.context.roomId).emit("finalVote",{
+        this.context.nsp.to(this.context.roomId).emit("notif-vote-final",{
           message : "Un joueur a été tué : " + maxKey,
         })
+        //We make the player join the wolf chat room since he can read their messages now
+        
+        const joueurPowerLink = await Joueur_partie_role
+        .findOne({id_joueur:playerId, id_partie:this.context.partieId})
+        let playerSocket = this.context.nsp.sockets.get(joueurPowerLink.socket_id);
+        playerSocket.join(this.context.loupChatRoom);
     }
     //Les joueurs n'ont pas pu s'entendre
     else{
-        this.context.nsp.to(this.context.roomId).emit("finalVote", {
+        this.context.nsp.to(this.context.roomId).emit("notif-vote-final", {
           message : "Aucun joueur a été tué",
         })
     }

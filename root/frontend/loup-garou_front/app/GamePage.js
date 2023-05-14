@@ -5,11 +5,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import EnAttentePage from './EnAttentePage.js'
 import JourPage from './jourPage.js'
 import NuitPage from './nuitPage.js'
+import FinJeuPage from './finJeuPage.js'
+
 import { Stack, useRouter } from 'expo-router'
 import { COLORS, images, LINKS, GAME_STATUS, ROLE, SPECIAL_POWERS } from '../constants'
 import {
   ScreenHeader
 } from '../components'
+import { NAMING_FUNC } from '../helperFunctions';
 
 const socket = io(LINKS.backend+"/api/parties/:id");
 
@@ -41,7 +44,7 @@ export default function GamePage (){
     let StackPage = 
         <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: COLORS.lightRed },
+          headerStyle: { backgroundColor: COLORS.lightMarineBlue },
           headerShadowViSeaRescuesible: false,
           headerRight: () => (
             <ScreenHeader
@@ -49,7 +52,8 @@ export default function GamePage (){
               dimension="60%"
             />
           ),
-          headerTitle: gameState.status
+          headerTitle: NAMING_FUNC.gameNameFunc(gameState.status),
+          headerTintColor: COLORS.richBrown
         }}
       />
     if (gameState.status === GAME_STATUS.enAttente) {
@@ -83,13 +87,19 @@ export default function GamePage (){
       return (
         <>
         {StackPage}
-        <p>The game is over!</p>
-        </>
-        );
+        <FinJeuPage
+            gameStatus={gameState}  
+            socket = {socket}
+          />
+        </>)
     }
   }
   else{
-      return <p>Loading game state...</p>;
+    return (
+      <>
+      <p> Loading ...</p>
+      </>
+      );
   }
 };
 

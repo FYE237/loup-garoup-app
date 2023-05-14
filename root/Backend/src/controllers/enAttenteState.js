@@ -58,7 +58,8 @@ class EnAttenteState extends GameState {
     }
     if (!this.addPlayerIntoContext(pseudo)) {
       //Player is in the game already
-      debug("Player is already in the game " + pseudo);
+      debug("Player is already in the game  " + pseudo);
+      debug("O" + pseudo);
       debug("Player table " + this.context.pseudoList);
       return;
     }
@@ -96,6 +97,9 @@ class EnAttenteState extends GameState {
 
   addPlayerIntoContext(pseudo) {
     //Players can only be added if the game is in the wait state
+    if (this.context.pseudoListDisconnect.includes(pseudo)){
+      return false;
+    }
     if (!this.context.pseudoList.includes(pseudo)) {
       this.context.nb_actif_players++;
       this.context.nbAlivePlayer++;
@@ -111,6 +115,7 @@ class EnAttenteState extends GameState {
     this.context.pseudoList = this.context.pseudoList.filter(
       (value) => value !== pseudo
     );
+    this.context.pseudoListDisconnect.push(pseudo);
   }
 
   async handleDisconnect(nsp, id_joueur, socket_id) {
@@ -125,6 +130,7 @@ class EnAttenteState extends GameState {
     await Joueur_partie_role.deleteOne({
       socket_id: socket_id,
       id_joueur: id_joueur,
+      id_partie : this.context.partieId
     });
     let data = {
       message: name + " has left the game",
@@ -188,12 +194,13 @@ class EnAttenteState extends GameState {
         return;
       }
       playerSocket.join(generalChatRoom);
-      if (player.role === ROLE.loupGarrou) {
+      if (player.role === ROLE.loupGarou) {
         playerSocket.join(loupChatRoom);
       }
-      if (player.statut === SPECIAL_POWERS.insomnie) {
+      if (player.pouvoir_speciaux === SPECIAL_POWERS.insomnie) {
         playerSocket.join(loupChatRoom);
-      } else if (player.role === ROLE.noRole) {
+      } 
+      if (player.role === ROLE.noRole) {
         //TODO REMOVE THE COMMENT FROM HERE WHEN WE PASS TO PRODUCTION
         // throw new Error("A player in the game does not have a role")
       }
@@ -301,24 +308,14 @@ class EnAttenteState extends GameState {
       playerRolesList[wolves.indice].role = ROLE.loupGarou;
       playerRolesList[wolves.indice].pouvoir_speciaux = wolves.role;
       // playerRolesList[wolves.indice].pouvoir_speciaux = "voyanteLoup";//TODO REMOVE THIS
-      playerRolesList[wolves.indice].save();
-      //   (err) => {
-      //   if (err) {
-      //     console.log(err);
-      //   }
-      // });
+      await playerRolesList[wolves.indice].save();
     }
 
     for (const human of assignedHumansRoles) {
       playerRolesList[human.indice].role = ROLE.humain;
       playerRolesList[human.indice].pouvoir_speciaux = human.role;
       // playerRolesList[human.indice].pouvoir_speciaux = "voyanteHumain";//TODO REMOVE THIS
-      playerRolesList[human.indice].save();
-      // (err) => {
-      // if (err) {
-      //   console.log(err);
-      // }
-      // });
+      await playerRolesList[human.indice].save();
     }
 
     this.createGamechat();

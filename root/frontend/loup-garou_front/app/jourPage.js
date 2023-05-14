@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Button } from 'react-native';
 import io from 'socket.io-client';
-import { COLORS, images, LINKS, PLAYER_STATUS, ROLE } from '../constants'
+import { COLORS, images, LINKS, SPECIAL_POWERS,PLAYER_STATUS, ROLE } from '../constants'
 import {
-  Chat, 
   ActionModal,
-  TabBar
+  TabBar,
+  DisplayInfo,
+  ChatTabs,
+  InfoModal
 } from '../components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
-
+import { NAMING_FUNC, IMAGE_FUNC } from '../helperFunctions';
+import { GLOBAL_STYLES } from '../styles';
 
 export default function  JourPage ({gameStatus, socket}) {
   const [playerInfo, setPlayerInfo] = useState(null);
@@ -23,6 +25,14 @@ export default function  JourPage ({gameStatus, socket}) {
   const [user, setUser] = useState('');
   const [playerStatus, setPlayerStatus] = useState("");
   const [gameId, setGameId] = useState('');  
+  const [activeChatTab, setChatActiveTab] = useState(0);
+
+  //Modals that displays inforamtion
+  const [infoModalActif, setIsModalActionVisible] = useState(false);
+  const [infoModalMessage, setInfoModalMessage] = useState("");
+  const [infoModalTitle, setInfoModalTitle] = useState("");
+
+
 
   const handleVote = async (playerName) => {
     socket.emit("vote-jour", 
@@ -30,6 +40,10 @@ export default function  JourPage ({gameStatus, socket}) {
         playerName,
         gameId
         )
+  };
+
+  const handleMessage = async (message) => {
+    socket.emit("send-message-game", message, allchats[activeChatTab].chatroom, user, gameId);
   };
 
   const incrementVotes = (playerName) => {
@@ -48,10 +62,16 @@ export default function  JourPage ({gameStatus, socket}) {
     if (allchats){
       return (
         <View>
-          <Text>Showing chats</Text>
-          {allchats.map((chat) => (
-            <Chat key={chat.chatname} chat={chat} />
-          ))}
+          <ChatTabs 
+              chats={allchats}
+              activeTab={activeChatTab}
+              username={user}
+              sendVisibility={true}
+              setActiveTab={setChatActiveTab}
+              sendMessageFunc={(message) => {
+                handleMessage(message)
+              }}
+              />
         </View>
       ); 
     }
@@ -60,19 +80,58 @@ export default function  JourPage ({gameStatus, socket}) {
     }
   };
 
+
   const gameinfo = () => {
+    let profileDetails;
+    if (playerStatus === PLAYER_STATUS.vivant){
+      profileDetails = [
+        { icon: images.avatar_icon, label: 'pseudo', value: user },
+        { icon: IMAGE_FUNC.roleImageFunc(playerRole), label: 'rôle', value: NAMING_FUNC.roleNameFunc(playerRole) },
+        { icon: IMAGE_FUNC.powerImageFunc(specialPower), label: 'pouvoir', value: NAMING_FUNC.powerNameFunc(specialPower) },
+      ];
+    }else {
+      profileDetails = [
+        { icon: images.dead_player_icon, label: 'pseudo', value: user },
+      ];
+    }
+
+    if (profileDetails === 'pasDePouvoir') {
+      userData.pop();
+    }
       return (
-    <View>
-      <Text>Pseudo {user}, Role: {playerRole}, Special Power : {specialPower}</Text>
-      <Text>Alive Players:</Text>
+    <ScrollView horizontal={true}>
+    <ScrollView>
+    <View style={styles.viewBackground}>
+      <Text style={GLOBAL_STYLES.gameTextLarge}>Profile </Text>
+      <DisplayInfo data={profileDetails} />
+      {actions()}
+      <Text style={GLOBAL_STYLES.gameTextLarge}>Joueur vivants:</Text>
       {alivePlayers.map(player => (
-        <Text key={player.playerName}>{player.playerName}; votes : {player.votes}</Text>
+        <DisplayInfo data={[
+          { icon: images.villager_icon, label: 'pseudo', value: player.playerName },
+          { icon: images.voting_icon, label: 'votes', value: player.votes },
+        ]} />
       ))}
-      <Text>Dead Players:</Text>
-      {deadPlayers.map(player => (
-        <Text key={player.playerName}>{player.playerName}</Text>
-      ))}
+    {deadPlayers.length > 0 &&
+      <View>
+        <Text style={GLOBAL_STYLES.gameTextLarge}>Joueur morts:</Text>
+        {deadPlayers.map(player => (
+          <DisplayInfo data={[
+            { icon: images.dead_player_icon, label: 'pseudo', value: player.playerName },
+          ]} />
+        ))}
+      </View>}
+      <InfoModal
+          visibleParam={infoModalActif}
+          visibleFunc={() => {
+            setIsModalActionVisible(false)
+          }}
+          title={infoModalTitle}
+          message={infoModalMessage}
+        />
     </View>
+    </ScrollView>
+    </ScrollView>
   );
   };
 
@@ -81,14 +140,16 @@ export default function  JourPage ({gameStatus, socket}) {
   if (playerStatus === PLAYER_STATUS.vivant){
       return (
         <View >
-      <Text>List of actions</Text>
-      <ActionModal textButton = {"Vote"} players={alivePlayers} handlePlayerClick={handleVote} />
+      <Text style={GLOBAL_STYLES.gameTextLarge}>Actions</Text>
+      <ActionModal imageLink={images.voting_icon} textButton = {"Vote"} players={alivePlayers} handlePlayerClick={handleVote} />
       </View>
     )}
   else{
     return (
       <View >
-      <Text>No actions can be applied when dead</Text>
+      <Text style={GLOBAL_STYLES.gameTextLarge}>
+          Aucune action ne peut être appliquée une fois mort
+        </Text>
       </View >
     )
   }
@@ -100,8 +161,6 @@ export default function  JourPage ({gameStatus, socket}) {
     content = gameinfo();
   } else if (activeTab === 2) {
     content = chats();
-  } else if (activeTab === 3){
-    content = actions();
   }
 
   useEffect(() => {
@@ -140,12 +199,35 @@ export default function  JourPage ({gameStatus, socket}) {
     });
 
     socket.on('new-message', function(data) {
-      console.log('Received new message:', data);
+      console.log('Received new message jour:', data);
+      setAllChats(prevChats => {
+        const updatedChats = [...prevChats];
+        const chatIndex = updatedChats.findIndex(chat => {
+          // console.log(data)
+          // console.log(updatedChats)
+          return chat.chatroom === data.chat_room}
+          );
+        console.log("chat Index" + chatIndex);
+        if (chatIndex !== -1) {
+          if (!updatedChats[chatIndex].messages) {
+            updatedChats[chatIndex].messages = [];
+          }
+          updatedChats[chatIndex].messages.push({ Sender: data.sender, messageValue: data.message });
+        }
+        return updatedChats;
+      });
+    });
+
+    socket.on("notif-vote-final", function(data) {
+      setInfoModalMessage(data.message);
+      setInfoModalTitle("Bilan vote");
+      setIsModalActionVisible(true);
     });
 
     socket.on('player-info', handlePlayerInfo);
 
     return () => {
+      socket.off('notif-vote-final', () => {});
       socket.off('player-info',  () => {});
       socket.off('new-message',() => {});
       socket.off('notif-vote',() => {});
@@ -161,3 +243,10 @@ export default function  JourPage ({gameStatus, socket}) {
 
 };
 
+const styles = StyleSheet.create({
+  viewBackground: {
+    flex: 1,
+    resizeMode: 'cover',
+    backgroundColor: COLORS.lightMarineBlue,
+  },
+})
