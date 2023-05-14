@@ -6,6 +6,21 @@ stages:                 # Les étapes associées au projet.
 
 #  Vérification de la qualité du code html et css
 
+
+TestBackend:
+  stage: test
+  tags:
+    - docker  # Comme on utilise une image pour isoler on doit utiliser un runner docker 
+  image: node 
+  script:
+    - cd root/Backend/src/
+    - npm i # Installe ce qui est décrit dans package.json
+    - npm run test # Lance les tests jest
+  only:
+      changes:
+        - "*.js"
+
+
 scalingo:
   stage: deploy
   tags:
