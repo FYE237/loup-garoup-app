@@ -21,7 +21,7 @@ async function getToken(){
   try {
     let value = await AsyncStorage.getItem('userToken').then(
       (value) => {
-          console.log("value = ", value);
+          // console.log("token value = ", value);
           return value;
       }
       )
@@ -45,10 +45,6 @@ export default function Home() {
     await AsyncStorage.removeItem('userToken');
     await AsyncStorage.removeItem('userPseudo');
     router.replace("/WelcomePage")
-  }
-
-  const submitJoinGame = () => {
-    console.log(joinGameId)
   }
 
   const createGameFunc = () => {
@@ -80,7 +76,6 @@ export default function Home() {
 
         if (response.status === 200) {
           const data = await response.json()
-          console.log(data);
           await AsyncStorage.setItem('currentGameId', gameid);
           return true;
         } else {
@@ -109,10 +104,10 @@ export default function Home() {
         const linkEndPoint = "/whoami"
         const response = await fetch(LINKS.backend+linkEndPoint, queryDetails);
         const data = await response.json();
-        console.log("Data recieved from request : "+JSON.stringify(data));
+        //console.log("Data recieved from request : "+JSON.stringify(data));
         await setPseudo(data.data)
         if (data.data){
-          console.log("setting pseudo");
+          //console.log("setting pseudo");
           await AsyncStorage.setItem('userPseudo', data.data);
         }
       } catch (error) {
@@ -138,7 +133,7 @@ export default function Home() {
               imageurl={images.icon_wolf_head}
               dimension="60%"
               handlePress={() => {
-                router.replace('/home')
+                router.replace('/home');
               }}
             />
           ),

@@ -1,5 +1,5 @@
 const GameState = require('./gameState');
-const debug = require('debug')('EndGame');
+const debug = require('debug')('FinJeuState');
 const {GAME_STATUS, CHAT_TYPE, ROLE, PLAYER_STATUS,
   GAME_VALUES, SPECIAL_POWERS} = require("./constants");
 const Partie = require('../models/partie');
@@ -39,6 +39,7 @@ class FinJeuState extends GameState {
     })
   }
   async setupCode(){    
+    debug("Setting up finJeu state");
     await this.updateGameStatusDataBase(GAME_STATUS.finJeu);
     await this.sendGameStatus();
     await this.sendPlayersInformation();

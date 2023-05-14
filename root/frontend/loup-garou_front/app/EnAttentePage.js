@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, StyleSheet} from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 import io from 'socket.io-client';
 import { COLORS, images, LINKS } from '../constants'
 import { GLOBAL_STYLES } from '../styles';
@@ -53,7 +53,7 @@ export default function EnAttentePage ({gameStatus, socket}) {
            <Text style={GLOBAL_STYLES.gameTextMid}>{`Nombre de joueur connecté: ${currentPlayers}`}</Text>
            <Text style={GLOBAL_STYLES.gameTextMid}>{`Nombre de joueur souhaité: ${requiredPlayers}`}</Text>
            <Text style={GLOBAL_STYLES.gameTextMid}>{`Le jeu va commencer dans: ${Math.floor(timer)}`}</Text>
-         </View>  
+            </View>  
           </View>
         </Modal>
       </View>
