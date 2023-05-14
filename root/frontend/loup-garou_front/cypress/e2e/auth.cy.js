@@ -11,8 +11,6 @@ describe('Log the user scenario', () => {
         }
       })
     })
-
-    mount(<LoginPage />)
   })
 
   it('test if the user gets connected', () => {
