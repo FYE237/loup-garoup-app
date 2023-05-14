@@ -5,7 +5,6 @@ const SIZES = {
   modalSize: 34,
   headerSize: 37,
   CenterTextSize: 45,
-  fontSize: 16,
   iconSize: 24,
   lineHeight: 1.5,
   borderRadius : 10,

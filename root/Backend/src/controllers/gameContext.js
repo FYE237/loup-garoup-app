@@ -22,6 +22,7 @@ class StateContext {
     //to fetch data from the database constantly  
     this.nb_actif_players = 0;
     this.pseudoList = [];
+    this.pseudoListDisconnect = [];
     // table used to determine the players that have used their power
     //this table is reset everytime we enter the night state 
     this.usedPower = []; 

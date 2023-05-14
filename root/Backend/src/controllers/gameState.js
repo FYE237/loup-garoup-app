@@ -4,7 +4,7 @@ const User = require('../models/user');
 const Joueur_partie_role = require('../models/joueur_partie_role')
 const {Chat, Message} = require('../models/chat')
 const debug = require('debug')('GameState');
-const {GAME_STATUS, CHAT_TYPE, ROLE, PLAYER_STATUS} = require("./constants")
+const {GAME_STATUS, CHAT_TYPE, ROLE, PLAYER_STATUS, SPECIAL_POWERS} = require("./constants")
 
 class GameState {
   constructor(context) {
@@ -13,7 +13,6 @@ class GameState {
     this.startTime = null;
     this.timeoutState = null;
   }
-//  # MONGO_URL = mongodb://localhost:27017/projet_web
 
   /**
    * Some of these functions will be redefined 
@@ -51,12 +50,15 @@ class GameState {
    */
   async handleMessage(nsp, socket, message, roomId, pseudo){
     debug("handleMessage called");
+    debug(nsp +  "socket"+ socket +  "message"+ message +  "roomId"+ roomId +  "pseudo"+ pseudo)
     const resPartie =  await Partie.findOne({_id:this.context.partieId}).select({statut:1})
+    console.log(resPartie)
+    console.log(resPartie.statut !== GAME_STATUS.jour);
     if (!resPartie){
       debug("Game was not found while sending message");
       return;
     }
-    if (resPartie.statut !== GAME_STATUS.jour || resPartie.statut !== GAME_STATUS.nuit){
+    if (resPartie.statut !== GAME_STATUS.jour && resPartie.statut !== GAME_STATUS.soir){
       debug("Game in not in a status that permit messages being sent");
       return;
     }
@@ -93,27 +95,23 @@ class GameState {
         this.saveAndEmitMessage(nsp, socket, resChat._id, message, playerId, pseudo, roomId, CHAT_TYPE.general_chat);
         break;
       case CHAT_TYPE.loup_chat:
-        if (resPartie.statut !== GAME_STATUS.nuit){
+        if (resPartie.statut !== GAME_STATUS.soir){
           debug("Game is not in the night state, message cannot be sent in the loup chat ");
           return;
         }
         //The following line will not allow  users that use speacial powers to send messages
         //because they are not loup garrous
-        if (playerStatus.statut !== PLAYER_STATUS.vivant && playerStatus.Role !== ROLE.loupGarrou){
+        if (playerStatus.statut !== PLAYER_STATUS.vivant || playerStatus.Role !== ROLE.loupGarrou){
           debug("Player is not alive or not a loup, message cannot be written into the loup chat");
           return;
         }
         this.saveAndEmitMessage(nsp, socket, resChat._id, message, playerId, pseudo, roomId, CHAT_TYPE.loup_chat);
         break;
       case CHAT_TYPE.custom_chat:
-        if (resPartie.statut !== GAME_STATUS.nuit){
+        if (resPartie.statut !== GAME_STATUS.soir){
           debug("Game is not in the night state, custom chats cannot be written into");
           return;
         }  
-        if (!resChat.players_id.includes(pseudo)){
-          debug("Player is not registered in this chat");
-          return; 
-        }
         this.saveAndEmitMessage(nsp, socket, resChat._id, message, playerId, pseudo, roomId, CHAT_TYPE.custom_chat);
         break;
       default:
@@ -135,7 +133,7 @@ class GameState {
       sender : pseudo
     }
     // socket.broadcast.to(roomId).emit('new-message', data);
-    socket.to(roomId).emit('new-message', data);
+    this.context.nsp.to(roomId).emit('new-message', data);
     debug("Message sent with success");
   }
 
@@ -248,10 +246,10 @@ class GameState {
   //and it will just change the status of a player to disconnected
   async handleDisconnect(nsp, id_joueur, socket_id) {
     //TODO decrement the active players and make the player dead instead of
-    debug("A player has left the game that has already started !!!")
+    debug("A player has left the game and the has already started !!!")
     this.context.nbAlivePlayer--;
     //disconnected
-    await User.updateOne({id_joueur: id_joueur},{statut : PLAYER_STATUS.mort});
+    await Joueur_partie_role.updateOne({id_joueur:id_joueur,id_partie:this.context.partieId},{statut:PLAYER_STATUS.mort});
     //A message could be sent to inform the others that a player disconnected but this will not be necessary
     //as when the game change, a message is emitted to inform the players of the current game status
     return;
@@ -297,6 +295,25 @@ class GameState {
     this.context.nsp.to(this.context.roomId).emit('status-game', data);
   }
 
+  async getChatMessages(chat_room_id, partie_id) {
+    try {
+      const chat = await Chat.findOne({ chat_room_id : chat_room_id, id_partie: partie_id });
+      if (!chat) {
+        throw new Error('Chat not found');
+      }
+      const messages = chat.messages || [];
+      const sortedMessages = messages.sort((a, b) => a.createdAt - b.createdAt);
+      const formattedMessages = sortedMessages.map(({ id_joueur, pseudo_joueur, text }) => ({
+        Sender: pseudo_joueur,
+        messageValue: text
+      }));
+      return formattedMessages;
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  }
+
   /**
    * This function is sent in a custom manner to every player
    * and with it we inform the player of all the special powers that he has
@@ -322,6 +339,9 @@ class GameState {
         playerRole: player.role
       });
     }));
+    const messagesGeneral = await this.getChatMessages(this.context.generalChatRoom, this.context.partieId);
+    const messagesLoup = await this.getChatMessages(this.context.loupChatRoom, this.context.partieId);
+
     await Promise.all(playerJoueurLink.map(async (player) =>{
       //Some information is redundant but it will allow for faster access time
       //and much easier use
@@ -343,16 +363,26 @@ class GameState {
           chatroom : this.context.generalChatRoom
         }
       }
-      if (player.role === ROLE.loupGarou
-        && this.context.state == this.context.stateNuit) {
+      if ((player.role === ROLE.loupGarou &&
+            this.context.state == this.context.stateNuit)
+        || (this.context.state == this.context.stateNuit &&
+            player.pouvoir_speciaux == SPECIAL_POWERS.insomnie)
+        || player.statut === PLAYER_STATUS.mort 
+        || this.context.state === this.context.stateFinJeu
+          ) {
         data.roomLoupId =  this.context.roomLoupId;
         chats.loupChat = {
           chatname : "Chat loup garrou ",
           chatroom :  this.context.loupChatRoom
         }
       }
+      if (player.statut === PLAYER_STATUS.mort ||
+        this.context.state === this.context.stateFinJeu){
+        chats.generalChat.messages = messagesGeneral;
+        if (chats.loupChat)
+            chats.loupChat.messages = messagesLoup;
+      }
       data.chats = chats;
-      console.log(data)
       if (player.socket_id != 0){
         debug("Sending Player info to  "+name);
         this.context.nsp.to(player.socket_id).emit("player-info", data);

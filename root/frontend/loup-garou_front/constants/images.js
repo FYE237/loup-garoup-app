@@ -9,7 +9,15 @@ import orange_wolf_icon from '../assets/images/orange_wolf_icon.png'
 import white_wolf_icon from '../assets/images/white_wolf_icon.png'
 import wolf_center_background from '../assets/images/wolf_center_background.png'
 import background_modal from '../assets/images/background_modal.png'
-// import wolf_howling from '../assets/images/wolf_howling.png'
+import villager_icon from '../assets/images/villager_icon.png'
+import wolf_game_icon from '../assets/images/wolf_game_icon.png'
+import dead_player_icon from '../assets/images/dead_player_icon.png'
+import voting_icon from '../assets/images/voting_icon.png'
+import spiritisme_icon from "../assets/images/spiritisme_icon.png"
+import voyance_icon from "../assets/images/voyance_icon.png"
+import Insomnie_icon from "../assets/images/Insomnie_icon.png"
+import contamination_icon from "../assets/images/contamination_icon.png"
+import avatar_icon from "../assets/images/avatar_icon.png"
 
 export default {
   background_camp_fire,
@@ -23,5 +31,13 @@ export default {
   white_wolf_icon,
   wolf_center_background,
   background_modal,
-  // wolf_howling
+  villager_icon,
+  wolf_game_icon,
+  dead_player_icon,
+  voting_icon,
+  spiritisme_icon,
+  voyance_icon,
+  Insomnie_icon,
+  contamination_icon,
+  avatar_icon
 }

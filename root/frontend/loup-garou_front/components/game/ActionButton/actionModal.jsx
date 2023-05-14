@@ -1,28 +1,48 @@
 import { useState} from 'react'
-import { Modal, Button, Text, View } from 'react-native'
-
-const ActionModal = ({ textButton, players, handlePlayerClick }) => {
+import { Modal, Button, Text, View,StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { images } from "../../../constants"
+import styles from './actionModal.style';
+import { GLOBAL_STYLES } from '../../../styles';
+const ActionModal = ({ textButton, players, handlePlayerClick, imageLink }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleButtonClick = playerName => {
     setModalVisible(false);
     handlePlayerClick(playerName);
   };
-  if (players){
-    return (
-      <View>
-        <Button title={textButton} onPress={() => setModalVisible(true)} />
-        <Modal animationType="slide" transparent={true} visible={modalVisible}>
-          <View style={{ marginTop: 100, backgroundColor: 'white', padding: 20 }}>
-            {players.map(player => (
-              <Button key={player.playerName} title={player.playerName} onPress={() => handleButtonClick(player.playerName)} />
-            ))}
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+
+  return (
+    <View style={styles.mainView}>
+      <View style={styles.infoBox} >
+          <View style={styles.iconContainer}>
+            <Image source={imageLink}  style={styles.icon} />
           </View>
-        </Modal>
+          <TouchableOpacity style={styles.textBox} onPress={() => setModalVisible(true)}>
+           <View style={{ ...styles.buttonContainer, backgroundColor: '#FDF2F0' }}>
+           <Text style={ GLOBAL_STYLES.gameTextBox}>{textButton}</Text>
+           </View>
+         </TouchableOpacity>
       </View>
-    );
-  }
+      <Modal transparent={true} visible={modalVisible} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalBox}>
+            <Text style={GLOBAL_STYLES.gameTextMid}>{textButton}</Text>
+            <ScrollView style={styles.modalScrollView}>
+              {players.map(player => (
+                <TouchableOpacity key={player.playerName} style={styles.modalButton} onPress={() => handleButtonClick(player.playerName)}>
+                  <Text style={GLOBAL_STYLES.textModal}>{player.playerName}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+            <TouchableOpacity style={styles.modalCancelButton} onPress={() => setModalVisible(false)}>
+              <Text style={styles.modalCancelButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
 };
+
 
 export default ActionModal;

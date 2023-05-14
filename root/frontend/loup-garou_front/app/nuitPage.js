@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,ScrollView, TouchableOpacity } from 'react-native';
 import io from 'socket.io-client';
 import { COLORS, images, LINKS, PLAYER_STATUS, ROLE, SPECIAL_POWERS } from '../constants'
 import {
   Chat, 
   ActionModal,
   TabBar,
-  InfoModal
+  InfoModal,
+  DisplayInfo,
+  ChatTabs
 } from '../components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { NAMING_FUNC, IMAGE_FUNC } from '../helperFunctions';
+import { GLOBAL_STYLES } from '../styles';
 
 
 
@@ -18,7 +22,8 @@ export default function  NuitPage ({gameStatus, socket}) {
   const [aliveHumans, setAliveHumans] = useState([]);
   const [aliveWolfs, setAliveWolfs] = useState([]);
   const [aliveBesidesCurrent, setAliveBesidesCurrent] = useState([]);
-  
+  const [activeChatTab, setChatActiveTab] = useState(0);
+
   const [deadPlayers, setDeadPlayers] = useState([]);
   const [gameRoom, setGameRoom] = useState("");
   const [allchats, setAllChats] = useState([]);
@@ -49,8 +54,8 @@ export default function  NuitPage ({gameStatus, socket}) {
     socket.emit("Pouvoir-Spiritisme", user, playerName, gameId)
   };
   
-  const handleMessage = async (playerName, message) => {
-    socket.emit("send-message-game", message, user, playerName, gameId);
+  const handleMessage = async (message) => {
+    socket.emit("send-message-game", message, allchats[activeChatTab].chatroom, user, gameId);
   };
   
   const incrementVotes = (playerName) => {
@@ -69,10 +74,16 @@ export default function  NuitPage ({gameStatus, socket}) {
     if (allchats){
       return (
         <View>
-          <Text>Showing chats</Text>
-          {allchats.map((chat) => (
-            <Chat key={chat.chatname} chat={chat} />
-          ))}
+          <ChatTabs 
+              chats={allchats}
+              activeTab={activeChatTab}
+              username={user}
+              sendVisibility={specialPower !== SPECIAL_POWERS.insomnie}
+              setActiveTab={setChatActiveTab}
+              sendMessageFunc={(message) => {
+                handleMessage(message)
+              }}
+              />
         </View>
       ); 
     }
@@ -82,39 +93,67 @@ export default function  NuitPage ({gameStatus, socket}) {
   };
 
   const gameinfo = () => {
+    let profileDetails;
+    if (playerStatus === PLAYER_STATUS.vivant){
+      profileDetails = [
+        { icon: images.avatar_icon, label: 'pseudo', value: user },
+        { icon: IMAGE_FUNC.roleImageFunc(playerRole), label: 'rôle', value: NAMING_FUNC.roleNameFunc(playerRole) },
+        { icon: IMAGE_FUNC.powerImageFunc(specialPower), label: 'pouvoir', value: NAMING_FUNC.powerNameFunc(specialPower) },
+      ];
+    }else {
+      profileDetails = [
+        { icon: images.dead_player_icon, label: 'pseudo', value: user },
+      ];
+    }
+    if (profileDetails === 'pasDePouvoir') {
+      userData.pop();
+    }
       return (
-    <View>
-      <Text>Pseudo {user}, Role: {playerRole}, Special Power : {specialPower}</Text>
+      <ScrollView horizontal={true}>
+      <ScrollView>    <View style={styles.viewBackground}>
+      <Text style={GLOBAL_STYLES.gameTextLarge}>Profile </Text>
+      <DisplayInfo data={profileDetails} />
+      {actions()}
       {playerRole === ROLE.loupGarou && (
         <>
-          <Text>Alive Wolfs:</Text>
+          <Text style={GLOBAL_STYLES.gameTextLarge}>loups vivants:</Text>
           {aliveWolfs.map(player => (
-            <Text key={player.playerName}>{player.playerName}</Text>
+            <DisplayInfo data={[
+              { icon: images.wolf_game_icon, label: 'pseudo', value: player.playerName },
+            ]} />
           ))}
-          <Text>Alive humans:</Text>
+          <Text style={GLOBAL_STYLES.gameTextLarge}>humains vivants:</Text>
           {aliveHumans.map(player => (
-            <Text key={player.playerName}>{player.playerName}; votes : {player.votes}</Text>
-          ))}
-          {/* <FlatList
-            data={displayWolfs}
-            renderItem={({ item }) => <Text key={item.key}>{item.name}</Text>}
-          /> */}
+          <DisplayInfo data={[
+            { icon: images.villager_icon, label: 'pseudo', value: player.playerName },
+            { icon: images.voting_icon, label: 'votes', value: player.votes },
+          ]} />
+      ))}
         </>
       )}
       {playerRole === ROLE.humain && (
         <>
-        <Text>Alive players:</Text>
+      <Text style={GLOBAL_STYLES.gameTextLarge}>Joueur vivants:</Text>
         {alivePlayers.map(player => (
-          <Text key={player.playerName}>{player.playerName}</Text>
-        ))}
+        <DisplayInfo data={[
+          { icon: images.villager_icon, label: 'pseudo', value: player.playerName },
+          { icon: images.voting_icon, label: 'votes', value: player.votes },
+        ]} />
+      ))}
         </>
       )}
-      <Text>Dead Players:</Text>
-      {deadPlayers.map(player => (
-        <Text key={player.playerName}>{player.playerName}</Text>
-      ))
-      }
+    {deadPlayers.length > 0 &&
+      <View>
+        <Text style={GLOBAL_STYLES.gameTextLarge}>Joueur morts:</Text>
+        {deadPlayers.map(player => (
+          <DisplayInfo data={[
+            { icon: images.dead_player_icon, label: 'pseudo', value: player.playerName },
+          ]} />
+        ))}
+      </View>}
     </View>
+    </ScrollView>
+    </ScrollView>
   );
   };
 
@@ -124,20 +163,26 @@ export default function  NuitPage ({gameStatus, socket}) {
     switch (specialPower) {
       case SPECIAL_POWERS.voyanteHumain:
       case SPECIAL_POWERS.voyanteLoup:
-        specialPowerButton = (
-          <ActionModal textButton = {"voyance"} players={aliveBesidesCurrent} handlePlayerClick={handleVoyance} />
-        );
+        if (aliveBesidesCurrent.length > 0){
+          specialPowerButton = (
+            <ActionModal imageLink={images.voyance_icon} textButton = {"voyance"} players={aliveBesidesCurrent} handlePlayerClick={handleVoyance} />
+          );
+        } 
         break;
       case SPECIAL_POWERS.contamination:
-        specialPowerButton = (
-          <ActionModal textButton = {"contamination"} players={aliveHumans} handlePlayerClick={handleContamination} />
-        );
+        if (aliveHumans.length>0){
+          specialPowerButton = (
+            <ActionModal imageLink={images.contamination_icon} textButton = {"contamination"} players={aliveHumans} handlePlayerClick={handleContamination} />
+          );
+        }
         break;
       case SPECIAL_POWERS.spiritismeHumain:
       case SPECIAL_POWERS.spiritismeLoup:
-        specialPowerButton = (
-          <ActionModal textButton = {"spiritisme"} players={deadPlayers} handlePlayerClick={handleSpiritisme} />
-        );
+        if (deadPlayers.length>0){
+          specialPowerButton = (
+            <ActionModal imageLink={images.spiritisme_icon} textButton = {"spiritisme"} players={deadPlayers} handlePlayerClick={handleSpiritisme} />
+          );
+        }
         break;  
       default:
         specialPowerButton = null;
@@ -146,11 +191,12 @@ export default function  NuitPage ({gameStatus, socket}) {
     if (playerStatus === PLAYER_STATUS.vivant){
       return (
         <View style={styles.container}>
-        <Text>List of actions</Text>
+        <Text style={GLOBAL_STYLES.gameTextLarge}>Actions</Text>
       <View style={styles.centerContainer}>
         {playerRole === ROLE.loupGarou ? 
             <ActionModal 
             textButton = {"Vote"} players={aliveHumans}
+            imageLink={images.voting_icon}
             handlePlayerClick={handleVote} /> : null}
         {specialPowerButton}
         <InfoModal
@@ -167,7 +213,9 @@ export default function  NuitPage ({gameStatus, socket}) {
   else{
     return (
       <View >
-      <Text>No actions can be applied when dead</Text>
+      <Text style={GLOBAL_STYLES.gameTextLarge}>
+        Aucune action ne peut être appliquée une fois mort
+      </Text>
       </View >
     )
   }
@@ -178,9 +226,7 @@ export default function  NuitPage ({gameStatus, socket}) {
     content = gameinfo();
   } else if (activeTab === 2) {
     content = chats();
-  } else if (activeTab === 3){
-    content = actions();
-  }
+  } 
 
   useEffect(() => {
     const handlePlayerInfo = (data) => {
@@ -235,13 +281,28 @@ export default function  NuitPage ({gameStatus, socket}) {
     });
 
     socket.on('new-message', function(data) {
-      console.log('Received new message:', data);
+      console.log('Received new message nuit:', data);
+      setAllChats(prevChats => {
+        const updatedChats = [...prevChats];
+        const chatIndex = updatedChats.findIndex(chat => {
+          console.log(data)
+          console.log(updatedChats)
+          return chat.chatroom === data.chat_room}
+          );
+        if (chatIndex !== -1) {
+          if (!updatedChats[chatIndex].messages) {
+            updatedChats[chatIndex].messages = [];
+          }
+          updatedChats[chatIndex].messages.push({ Sender: data.sender, messageValue: data.message });
+        }
+        return updatedChats;
+      });
     });
 
     socket.on('send-Player-Data-Voyante', function(data) {
       let pouvoirtest = "";
       if (data.ciblePowers !== ROLE.pasDePouvoir){
-        pouvoirtest = " et posséde le pouvoir "+data.ciblePowers
+        pouvoirtest = " et posséde le pouvoir "+ NAMING_FUNC.powerNameFunc(data.ciblePowers) 
       }else{
         pouvoirtest = " et ne posséde aucun pouvoir "
       }
@@ -254,14 +315,18 @@ export default function  NuitPage ({gameStatus, socket}) {
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
     });
 
-    socket.on('new-message', function(data) {
+    socket.on("notif-vote-final", function(data) {
+      setInfoModalMessage(data.message);
+      setInfoModalTitle("Bilan vote");
+      setIsModalActionVisible(true);
     });
+
 
     socket.on('player-info', handlePlayerInfo);
 
     return () => {
+      socket.off('notif-vote-final', () => {});
       socket.off('player-info',  () => {});
-      socket.off('new-message',() => {});
       socket.off('notif-vote',() => {});
       socket.off('new-message',() => {});
       socket.off('new-custom-chat',() => {});
@@ -288,8 +353,14 @@ const styles = StyleSheet.create({
   centerContainer: {
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: 20,
-    paddingTop: 50
+    paddingTop: 10
+  },
+  viewBackground: {
+    flex: 1,
+    resizeMode: 'cover',
+    backgroundColor: COLORS.lightMarineBlue,
   },
 })
+
+
 

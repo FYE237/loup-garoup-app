@@ -60,7 +60,8 @@ module.exports = {
         }
         #swagger.responses[400] = {
             schema: {
-                "message": "Invalid request parameters."
+                "message": "Invalid request parameters. A message will be sent 
+                with the response indicating the problem"
             }
         }
         #swagger.responses[500] = {
@@ -80,14 +81,28 @@ module.exports = {
                     'duree_nuit'
                 ])){
             debug("Game creation failed");
-            throw  new CodeError('Please provide heure_debut, nb_participant, hote_name,'+
+            throw  new CodeError('Please provide heure_debut, nb_participant,'+
                                  'proportion_loup, proba_pouvoir_speciaux, duree_jour, duree_nuit', status.BAD_REQUEST)
             }
 
         const {heure_debut, nb_participant, duree_jour,
              duree_nuit, proportion_loup, proba_pouvoir_speciaux} = tmp;
-        debug("Starting game in = " + heure_debut)
+        if (heure_debut<0){
+            throw  new CodeError('Heure de debut doit être positif', status.BAD_REQUEST)
+        }
+        if (nb_participant<1 || nb_participant>20){
+            throw  new CodeError('Le nombre de participant doit être entre 1 et 20', status.BAD_REQUEST)
+        }
+        if ((duree_jour + duree_nuit) != 24 || duree_jour>23 || duree_nuit>23 || duree_jour<1 || duree_nuit<1){
+            throw  new CodeError('La somme des nombres d"heures doit être entre égal à 24' 
+                                +'et duree jour et nuit doit être entre 1 et 23', status.BAD_REQUEST)
+        }
+        if (proba_pouvoir_speciaux<0 || proba_pouvoir_speciaux>1 
+            || proportion_loup<0 || proportion_loup>1){
+                throw  new CodeError('proba_pouvoir_speciaux et proportion_loup doit être en 0 et 1 ', status.BAD_REQUEST)
+        }
         let hote_name = req.login;
+        debug("Starting game in = " + heure_debut)
         //On retrouve l'id associé au pseudo dans le body à hote_name
         const {_id} = await User.findOne({name:hote_name}).select({_id:1,name:0,email:0,__v:0,password:0})
         //We create the game instance
@@ -130,14 +145,6 @@ module.exports = {
     },  
     //Middleware permettant de checker si un joueur a déjà rejoint la partie. Cela évite de dupliquer les joueurs dans une même partie
     async checkIfUserPresent(req,res,next){
-        // const data_json = (JSON.parse(req.body.data))
-        // if(!has(data_json , [
-        //     'id_joueur'
-        // ])){
-        //     debug("User was not given");
-        //     throw  new CodeError('Please provide user id  ', status.BAD_REQUEST)
-        // }
-        // const hote_name = (JSON.parse(req.body.data)).id_joueur
         const user_name = req.login;
         debug("Tying to fetch user details + tmp = " + user_name);
         //On retrouve l'id de l'user dont le pseudo est dans user_name
@@ -202,9 +209,6 @@ module.exports = {
         description: 'An error occurred while processing the request.' 
     }
     */
-    // const tmp = JSON.parse(req.body.data)
-    // if(!has(tmp , ['id_joueur']))
-    //     throw  new CodeError('Précisez id_joueur', status.BAD_REQUEST)
 
     const idpartie = req.params.id;
     const user_name = req.login;
