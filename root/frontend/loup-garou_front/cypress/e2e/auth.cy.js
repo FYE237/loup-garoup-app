@@ -1,5 +1,3 @@
-import LoginPage from '../../app/LoginPage'
-
 describe('Log the user scenario', () => {
   beforeEach(() => {
     // intercept the request to the API /login
