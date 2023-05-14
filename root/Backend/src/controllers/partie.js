@@ -60,7 +60,8 @@ module.exports = {
         }
         #swagger.responses[400] = {
             schema: {
-                "message": "Invalid request parameters."
+                "message": "Invalid request parameters. A message will be sent 
+                with the response indicating the problem"
             }
         }
         #swagger.responses[500] = {
@@ -144,14 +145,6 @@ module.exports = {
     },  
     //Middleware permettant de checker si un joueur a déjà rejoint la partie. Cela évite de dupliquer les joueurs dans une même partie
     async checkIfUserPresent(req,res,next){
-        // const data_json = (JSON.parse(req.body.data))
-        // if(!has(data_json , [
-        //     'id_joueur'
-        // ])){
-        //     debug("User was not given");
-        //     throw  new CodeError('Please provide user id  ', status.BAD_REQUEST)
-        // }
-        // const hote_name = (JSON.parse(req.body.data)).id_joueur
         const user_name = req.login;
         debug("Tying to fetch user details + tmp = " + user_name);
         //On retrouve l'id de l'user dont le pseudo est dans user_name
@@ -216,9 +209,6 @@ module.exports = {
         description: 'An error occurred while processing the request.' 
     }
     */
-    // const tmp = JSON.parse(req.body.data)
-    // if(!has(tmp , ['id_joueur']))
-    //     throw  new CodeError('Précisez id_joueur', status.BAD_REQUEST)
 
     const idpartie = req.params.id;
     const user_name = req.login;
