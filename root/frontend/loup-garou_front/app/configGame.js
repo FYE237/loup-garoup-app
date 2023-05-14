@@ -216,6 +216,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"joueurSouConfig"}
           />
           <InputModal 
             visibleParam = {nbParticipantModal}
@@ -233,6 +234,8 @@ export default function ConfigGame() {
             }}
             isImageBackground={false}
             title = {"Min joueurs"}
+            testID={"minJoueurInput"}
+            testIDValide={"minJoueurInputValideButton"}
           />
           <CenterButton
            textButton = {"durée jour ("+dureeJour+")"}
