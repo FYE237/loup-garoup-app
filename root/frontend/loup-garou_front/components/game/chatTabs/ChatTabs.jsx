@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import CustomTabBar from '../customTabBar/customTabBar';
 import Chat from '../chat/chat';
+import styles from './ChatTabs.style';
 
 const ChatTabs = ({ chats, username, activeTab, setActiveTab, sendMessageFunc, sendVisibility }) => {
   
@@ -29,18 +30,6 @@ const ChatTabs = ({ chats, username, activeTab, setActiveTab, sendMessageFunc, s
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  tabBar: {
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-  },
-  chat: {
-    flex: 1,
-  },
-});
+
 
 export default  ChatTabs

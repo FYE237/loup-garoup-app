@@ -12,6 +12,8 @@ import InfoModal from "./commun/infoModal/infoModal"
 import DisplayInfo from "./game/displayInfo/displayInfo"
 import CustomTabBar from "./game/customTabBar/customTabBar"
 import ChatTabs from "./game/chatTabs/ChatTabs"
+import ConfirmationModal from "./game/confirmationModal/confirmationModal"
+
 
 export {
   Pseudo,
@@ -26,5 +28,6 @@ export {
   InfoModal,
   DisplayInfo,
   CustomTabBar,
-  ChatTabs
+  ChatTabs,
+  ConfirmationModal
 };

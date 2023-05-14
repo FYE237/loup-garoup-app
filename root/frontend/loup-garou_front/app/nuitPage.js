@@ -231,8 +231,8 @@ export default function  NuitPage ({gameStatus, socket}) {
   useEffect(() => {
     const handlePlayerInfo = (data) => {
       setPlayerInfo(data)
-      console.log("------------------------Soir-------------------------------");
-      console.log("player info " + JSON.stringify(data));
+      // console.log("------------Soir--------------");
+      // console.log("player info " + JSON.stringify(data));
       setAllChats([]);
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
       setGameRoom(data.roomId);
@@ -243,7 +243,7 @@ export default function  NuitPage ({gameStatus, socket}) {
       setPlayerStatus(data.playerStatut);
       const alive = [];
       const aliveBesidesCurrentTmp = [];
-      const aliveHuman = [];
+      const aliveHuman = []; 
       const aliveWolf = [];
       const dead = [];  
       data.playersData.forEach(player => {
@@ -276,17 +276,17 @@ export default function  NuitPage ({gameStatus, socket}) {
     }; 
 
     socket.on('notif-vote', function(data) {
-      console.log('Received voting information:', data);
+      // console.log('Received voting information:', data);
       incrementVotes(data.candidat)
     });
 
     socket.on('new-message', function(data) {
-      console.log('Received new message nuit:', data);
+      //console.log('Received new message nuit:', data);
       setAllChats(prevChats => {
         const updatedChats = [...prevChats];
         const chatIndex = updatedChats.findIndex(chat => {
-          console.log(data)
-          console.log(updatedChats)
+          // console.log(data)
+          // console.log(updatedChats)
           return chat.chatroom === data.chat_room}
           );
         if (chatIndex !== -1) {
