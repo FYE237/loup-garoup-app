@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')
 const has = require('has-keys');
 const jws = require('jws')
 
+const debug = require('debug')('User');
+
 require('mandatoryenv').load([
     'TOKENSECRET'
 ]);
@@ -18,7 +20,6 @@ const CodeError = require("../util/CodeError")
 // function validPassword (password) {
 //     return /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(password)
 //   }
-
 
 /*
 *  Il s'agit des fonctions qui sont appélés lorsqu'on sollicite les endpoints
@@ -98,23 +99,28 @@ module.exports = {
         const tmp = JSON.parse(req.body.data)
         if(!has(tmp, ['name',  'password']))
             throw  new CodeError('You must specify the name ,and password', status.BAD_REQUEST)
-
-        let { name, password } = tmp;
         
+        debug("Trying a new account with the pseudo ", tmp.name);
+        let { name, password } = tmp
+        
+        let hashPass = await bcrypt.hash(password,2)
         const user = new User({
-            name,
-            
-            password: await bcrypt.hash(password,2) 
+            name: name,
+            password: hashPass 
         })
         
         user.save()
-        .then(() => res.json({status: true, message: 'User Added'}))
+        .then(() => {
+            debug("User created with success")
+            res.json({status: true, message: 'User Added'})
+        })
         ///.catch(() => {throw  new CodeError('Add failed', status.BAD_REQUEST)})
-        .catch(() => {
-          //TODO FIX THIS !!!!!!! RETURNS CODE 200 !!!!
-          res.status = status.INTERNAL_SERVER_ERROR;
-          res.json({status: false, message: 'Add failed'})})
-
+        .catch((err) => {
+            debug("Account creation failed" + err);
+            //TODO FIX THIS !!!!!!! RETURNS CODE 200 !!!!
+            res.status(status.INTERNAL_SERVER_ERROR);
+            res.json({status: false, message: 'Add failed'})
+          })
     },
 
 
@@ -173,6 +179,7 @@ module.exports = {
         const data = JSON.parse(req.body.data)
         if (!has(data, ['name', 'password'])) throw new CodeError('You must specify the name and password', status.BAD_REQUEST)
         const { name, password } = data
+        debug(name + "is trying to login")
         const user = await User.findOne({ name }).select({_id:0,__v:0,name:0})
         if (user) {
             if (await bcrypt.compare(password, user.password)) {
