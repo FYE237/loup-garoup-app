@@ -132,7 +132,7 @@ export default function Home() {
               }}
             />
           ),
-          headerTitle: 'Folie de Minuit'
+          headerTitle: 'Lunar'
         }}
       />
       <View style={styles.container}>

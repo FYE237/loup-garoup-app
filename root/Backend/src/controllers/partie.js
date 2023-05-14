@@ -80,11 +80,11 @@ module.exports = {
                     'duree_jour', 
                     'duree_nuit'
                 ])){
-            debug("Game creation failed");
-            throw  new CodeError('Please provide heure_debut, nb_participant,'+
-                                 'proportion_loup, proba_pouvoir_speciaux, duree_jour, duree_nuit', status.BAD_REQUEST)
-            }
-
+                    debug("Game creation failed");
+                    throw  new CodeError('Please provide heure_debut, nb_participant,'+
+                    'proportion_loup, proba_pouvoir_speciaux, duree_jour, duree_nuit', status.BAD_REQUEST)
+                }
+                
         const {heure_debut, nb_participant, duree_jour,
              duree_nuit, proportion_loup, proba_pouvoir_speciaux} = tmp;
         if (heure_debut<0){
@@ -93,9 +93,12 @@ module.exports = {
         if (nb_participant<1 || nb_participant>20){
             throw  new CodeError('Le nombre de participant doit être entre 1 et 20', status.BAD_REQUEST)
         }
-        if ((duree_jour + duree_nuit) != 24 || duree_jour>23 || duree_nuit>23 || duree_jour<1 || duree_nuit<1){
-            throw  new CodeError('La somme des nombres d"heures doit être entre égal à 24' 
-                                +'et duree jour et nuit doit être entre 1 et 23', status.BAD_REQUEST)
+        if (!(!isNaN(parseInt(duree_jour)) || !isNaN(parseInt(duree_nuit)))) {
+            throw  new CodeError('Les nombre d"heure doit être des entiers', status.BAD_REQUEST)
+        }
+        if ((parseInt(duree_jour) + parseInt(duree_nuit)) != 24 || duree_jour>23 || duree_nuit>23 || duree_jour<1 || duree_nuit<1){
+            throw  new CodeError("La somme des heures doit être égal à 24" 
+                                +"et duree jour et nuit doit être entre 1 et 23", status.BAD_REQUEST)
         }
         if (proba_pouvoir_speciaux<0 || proba_pouvoir_speciaux>1 
             || proportion_loup<0 || proportion_loup>1){
