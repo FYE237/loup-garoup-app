@@ -5,11 +5,11 @@ import villager_icon from '../assets/images/villager_icon.png'
 import wolf_game_icon from '../assets/images/wolf_game_icon.png'
 import dead_player_icon from '../assets/images/dead_player_icon.png'
 import voting_icon from '../assets/images/voting_icon.png'
-import spiritisme_icon from "../assets/images/spiritisme_icon.png"
-import voyance_icon from "../assets/images/voyance_icon.png"
-import Insomnie_icon from "../assets/images/Insomnie_icon.png"
-import contamination_icon from "../assets/images/contamination_icon.png"
-import avatar_icon from "../assets/images/avatar_icon.png"
+import spiritisme_icon from '../assets/images/spiritisme_icon.png'
+import voyance_icon from '../assets/images/voyance_icon.png'
+import insomnie_icon from '../assets/images/insomnie_icon.png'
+import contamination_icon from '../assets/images/contamination_icon.png'
+import avatar_icon from '../assets/images/avatar_icon.png'
 
 export default {
   background_camp_fire,
@@ -22,7 +22,7 @@ export default {
   voting_icon,
   spiritisme_icon,
   voyance_icon,
-  Insomnie_icon,
+  insomnie_icon,
   contamination_icon,
   avatar_icon
 }
