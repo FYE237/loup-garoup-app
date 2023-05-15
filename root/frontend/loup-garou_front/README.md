@@ -24,7 +24,9 @@ Voici une description des différentes pages présentes dans le dossier `app` :
 - `nuitPage.js` : la page qui s'affiche lorsque quand nous sommes dnas le état nuit.
 - `finJeuPage.js` : la page qui s'affiche lorsque la partie est terminée.
 
-Voici une proposition d'amélioration :
+## Associer a un backned le backend
+
+- `constants/links` : dans ce fichier on trouve l'attribut backend au quel on met le lien du backend souhaité. 
 
 ## Installation et exécution
 

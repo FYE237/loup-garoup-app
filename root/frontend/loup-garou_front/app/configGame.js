@@ -214,6 +214,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"joueurSouConfig"}
           />
           <InputModal 
             visibleParam = {nbParticipantModal}
@@ -230,7 +231,9 @@ export default function ConfigGame() {
               setErrorFunc("La valeur doit être entre 2 et 20");
             }}
             isImageBackground={false}
-            title = {"Joueur souhaité"}
+            title = {"Min joueurs"}
+            testID={"minJoueurInput"}
+            testIDValide={"minJoueurInputValideButton"}
           />
           <CenterButton
            textButton = {"durée jour ("+dureeJour+")"}
@@ -238,6 +241,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"dureeJourButton"}
           />
           <InputModal 
             visibleParam = {dureeJourModal}
@@ -256,6 +260,8 @@ export default function ConfigGame() {
           }}
             isImageBackground={false}
             title = {"Durée jour"}
+            testID={"dureeInput"}
+            testIDValide={"dureeValideButton"}
           />
           <CenterButton
            textButton = {"durée nuit ("+dureeNuit+")"}
@@ -263,6 +269,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"dureenuitButton"}
           />
           <InputModal 
             visibleParam = {dureeNuitModal}
@@ -283,6 +290,8 @@ export default function ConfigGame() {
               }
             isImageBackground={false}
             title = {"Durée nuit"}
+            testID={"dureenuitInput"}
+            testIDValide={"dureenuitValideButton"}
           />
           <CenterButton
            textButton = {"date debut ("+dateDebut+")"}
@@ -290,6 +299,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"dataButton"}
           />
           <InputModal 
             visibleParam = {dateDebutModal}
@@ -309,6 +319,8 @@ export default function ConfigGame() {
               }
             isImageBackground={false}
             title = {"Date de début"}
+            testID={"dateInput"}
+            testIDValide={"dateValideButton"}
           />
           <CenterButton
            textButton = {"%pouvoir spéciaux ("+probaPouvoirSpecial+")"}
@@ -316,6 +328,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {27} 
            boxColorArg={"#78909c"}
+           testID={"pouvoirButton"}
           />
           <InputModal 
             visibleParam = {probaPouvoirSpecialModal}
@@ -335,6 +348,8 @@ export default function ConfigGame() {
           }
             isImageBackground={false}
             title = {"Probabilité des pouvoir spéciaux"}
+            testID={"pouvoirInput"}
+            testIDValide={"pouvoirValideButton"}
           />
           <CenterButton
            textButton = {"Proportion loup ("+proportionLoup+")"}
@@ -342,6 +357,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"proportionButton"}
           />
           <InputModal 
             visibleParam = {proportionLoupModal}
@@ -361,9 +377,11 @@ export default function ConfigGame() {
             } 
             isImageBackground={false}
             title = {"Proportion loup"}
+            testID={"proportionInput"}
+            testIDValide={"proportionValideButton"}
           />
           <CenterButton
-            textButton = {"Créer un jeu"}
+            textButton = {"Créering un jeu"}
             onPressFunc = {createGameFunc}
             styleArg = {styles.button}
             TextSize = {37}
@@ -371,6 +389,7 @@ export default function ConfigGame() {
             boxColorArg={"#4caf50"}
             extraMarginVerticalB = {60}
             extraMarginVerticalT = {30}
+            testID="creationJeuButtonConfig"
           />
         </View>
         <StatusBar style="auto" />

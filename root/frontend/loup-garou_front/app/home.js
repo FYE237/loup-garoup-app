@@ -15,9 +15,9 @@ import { COLORS, images, LINKS } from '../constants'
 /**
  * This method tries to locate the token from the local storage
  * and the it saves so that we can use it later on
- * @returns 
+ * @returns
  */
-async function getToken(){
+async function getToken() {
   try {
     let value = await AsyncStorage.getItem('userToken').then(
       (value) => {
@@ -26,8 +26,8 @@ async function getToken(){
       )
     return value;
   } catch (error) {
-    console.log('Error: ',error);
-    return null;
+    console.log('Error: ', error)
+    return null
   }
 }
 
@@ -35,15 +35,15 @@ export default function Home() {
   const router = useRouter()
   const [joinModalVisible, setJoinModalVisible] = useState(false)
   const [joinGameId, setJoinGameId] = useState(false)
-  const [pseudo, setPseudo] = useState("pseudo");
-  const [failJoinMessage, setFailJoinMessage] = useState("");
-  const [loading, setIsLoading] = useState(false);
-  const [errorValue, setError] = useState(null);
-  
-  const  logoutFuntion = async () => {
-    await AsyncStorage.removeItem('userToken');
-    await AsyncStorage.removeItem('userPseudo');
-    router.replace("/WelcomePage")
+  const [pseudo, setPseudo] = useState('pseudo')
+  const [failJoinMessage, setFailJoinMessage] = useState('')
+  const [loading, setIsLoading] = useState(false)
+  const [errorValue, setError] = useState(null)
+
+  const logoutFuntion = async () => {
+    await AsyncStorage.removeItem('userToken')
+    await AsyncStorage.removeItem('userPseudo')
+    router.replace('/WelcomePage')
   }
 
   const createGameFunc = () => {
@@ -51,47 +51,45 @@ export default function Home() {
   }
 
   const enterIntoGame = () => {
-    router.replace('/GamePage');
+    router.replace('/GamePage')
   }
 
   const sendFormFunc = async (gameid) => {
-
     try {
-        let tokenVal =  await getToken();
-        let dataQeury = {
-          id_joueur: await AsyncStorage.getItem('userPseudo'),
-        }
-        const response = await fetch(
-          LINKS.backend + '/api/parties/'+gameid,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              "x-access-token": tokenVal
-            },
-            body: `data=${JSON.stringify(dataQeury)}`
-          }
-        )
-
-        if (response.status === 200) {
-          const data = await response.json()
-          await AsyncStorage.setItem('currentGameId', gameid);
-          return true;
-        } else {
-          const data = await response.json()
-          if (data){setFailJoinMessage(data.message);}
-          return false;
-        }
-      } catch (error) {
-        return false;
+      let tokenVal = await getToken()
+      let dataQeury = {
+        id_joueur: await AsyncStorage.getItem('userPseudo')
       }
+      const response = await fetch(LINKS.backend + '/api/parties/' + gameid, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'x-access-token': tokenVal
+        },
+        body: `data=${JSON.stringify(dataQeury)}`
+      })
+
+      if (response.status === 200) {
+        const data = await response.json()
+        await AsyncStorage.setItem('currentGameId', gameid)
+        return true
+      } else {
+        const data = await response.json()
+        if (data) {
+          setFailJoinMessage(data.message)
+        }
+        return false
+      }
+    } catch (error) {
+      return false
+    }
   }
 
   useEffect(() => {
-    async function fetchData(){
-      let tokenVal =  await getToken();
+    async function fetchData() {
+      let tokenVal = await getToken()
       const queryDetails = {
-        method: "GET",
+        method: 'GET',
         headers: {
         "x-access-token": tokenVal
         },
@@ -107,16 +105,15 @@ export default function Home() {
           await AsyncStorage.setItem('userPseudo', data.data);
         }
       } catch (error) {
-          console.log("Fetch ran into an error : "+error);
-          setIsLoading(false);
-          setError(error);
+        console.log('Fetch ran into an error : ' + error)
+        setIsLoading(false)
+        setError(error)
       } finally {
-          setIsLoading(false);
+        setIsLoading(false)
       }
     }
     fetchData()
-  }, []);
-
+  }, [])
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -129,7 +126,7 @@ export default function Home() {
               imageurl={images.icon_wolf_head}
               dimension="60%"
               handlePress={() => {
-                router.replace('/home');
+                router.replace('/home')
               }}
             />
           ),
@@ -141,8 +138,8 @@ export default function Home() {
           source={images.background_camp_fire}
           style={styles.background}
         >
-          <View style={styles.header}>
-            <Pseudo styleArg={styles.pseudoBox} pseudo={pseudo } />
+          <View testID="mainView" style={styles.header}>
+            <Pseudo styleArg={styles.pseudoBox} pseudo={pseudo} />
             <Logout styleArg={styles.logoutBox} logoutFuntion={logoutFuntion} />
           </View>
           <View style={styles.centerContainer}>
@@ -173,6 +170,7 @@ export default function Home() {
               onPressFunc={createGameFunc}
               styleArg={styles.button}
               extraMarginVertical={60}
+              testID="creationJeuButtonHome"
             />
           </View>
           <StatusBar style="auto" />
