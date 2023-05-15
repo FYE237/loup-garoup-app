@@ -4,7 +4,22 @@ stages:                 # Les étapes associées au projet.
   - test                # Test de l'application
   - deploy              # Deploiement
 
-#  Vérification de la qualité du code html et css
+
+lint-js-backend:      #Vérificaition de la qualité du code js du backend
+  stage: lint
+  tags:
+    - docker
+  image: node
+  script: 
+    - npm init @eslint/config 
+    - cd root/Backend/
+    - ./scripts/lintjs.sh  #Script qui éffectue les vérifications sur le backend
+  artifacts:
+    paths:  #Le rapport est diponible à la fin
+      - lintjs-report.out
+  only:
+    changes:
+      - "*.js"
 
 
 TestBackend:
