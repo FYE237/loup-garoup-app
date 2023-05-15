@@ -50,3 +50,12 @@ npm run start -- --tunnel
 ```
 
 l'utilisation de l'option `--tunnel` est recommandée pour accéder à l'application depuis l'application expo depuis votre télephone.
+
+### Lancement des tests
+
+Pour lancer les tests du frontend, vous devez d'abord vous assurer que Expo a été lancé avec la commande `npx expo start`. Ensuite, il faut appuyer sur la touche `w` pour lancer le site web correspondant. Vous pouvez aussi lancer la version web avec npx expo start --web
+
+Il est aussi important de vérifier que le backend, avec lequel l'application est connectée, fonctionne 
+correctement.
+
+Après, vous pouvez lancer les tests automatiques en exécutant la commande `npx cypress run`. Vous pouvez également ouvrir le menu Cypress avec la commande `npx cypress open`, qui vous permettra de lancer les tests individuellement.
