@@ -42,4 +42,26 @@ TOKENSECRET=BBBBBB
 http://localhost:3000/doc
 
 
-## FILE STRUCTURE 
+## FILE STRUCTURE
+
+The project follows a folder structure as outlined below:
+
+### `src/`
+
+This folder contains the main folders of this branch.
+
+### `src/models/`
+
+This folder contains the database schemas related to the project.
+
+### `src/controllers/`
+
+This folder contains the files that are responsible for the API connection, such as "partie," "token," and "user." The folder also contains files related to the game logic, such as "game context" and the different game states.
+
+### `src/server.js`
+
+This file launches the server, and the sockets are defined in this folder. When we receive a new request, we find which game it belongs to and propagate the request to the context that calls the method associated with the current state.
+
+### `src/routes/`
+
+This folder contains the API routes.
