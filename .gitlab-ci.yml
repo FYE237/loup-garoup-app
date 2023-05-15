@@ -18,8 +18,8 @@ lint-js-backend:      #Vérificaition de la qualité du code js du backend
     paths:  #Le rapport est diponible à la fin
       - root/Backend/lintjs-report.out
   only:
-    # changes:
-    #   - "*.js"
+    changes:
+      - "*.js"
 
 
 TestBackend:
@@ -31,7 +31,7 @@ TestBackend:
     - cd root/Backend
     - npm run setup # Installe ce qui est décrit dans package.json
     - npm run test # Lance les tests jest
-  # only:
-  #     changes:
-  #       - "*.js"
+  only:
+      changes:
+        - "*.js"
 
