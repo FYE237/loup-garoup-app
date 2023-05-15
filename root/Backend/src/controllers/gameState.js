@@ -53,7 +53,6 @@ class GameState {
    */
   async handleMessage(nsp, socket, message, roomId, pseudo){
     debug("handleMessage called");
-    debug(nsp +  "socket"+ socket +  "message"+ message +  "roomId"+ roomId +  "pseudo"+ pseudo)
     const resPartie =  await Partie.findOne({_id:this.context.partieId}).select({statut:1})
     if (!resPartie){
       debug("Game was not found while sending message");
@@ -341,7 +340,6 @@ class GameState {
     }));
     const messagesGeneral = await this.getChatMessages(this.context.generalChatRoom, this.context.partieId);
     const messagesLoup = await this.getChatMessages(this.context.loupChatRoom, this.context.partieId);
-
     await Promise.all(playerJoueurLink.map(async (player) =>{
       //Some information is redundant but it will allow for faster access time
       //and much easier use

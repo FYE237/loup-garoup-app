@@ -18,7 +18,9 @@ export default function InputModal({ visibleParam,
                                      imageUrl,
                                      styleArg,
                                      isImageBackground,
-                                     title
+                                     title,
+                                     testID,
+                                     testIDValide
                                   }) { 
   
     return (
@@ -41,7 +43,9 @@ export default function InputModal({ visibleParam,
             inputValueFunc = {inputValueFunc}
             imageUrl = {imageUrl}
             styleArg = {styleArg}
-            title = {title} />
+            title = {title}
+            testID={testID}
+            testIDValide={testIDValide}/>
           </ImageBackground>
           ) 
         :           
@@ -55,7 +59,9 @@ export default function InputModal({ visibleParam,
           inputValueFunc = {inputValueFunc}
           imageUrl = {imageUrl}
           styleArg = {styleArg}
-          title = {title} />
+          title = {title}
+          testID={testID}
+          testIDValide={testIDValide} />
         }
       </View>
     </Modal>
@@ -72,6 +78,8 @@ const ModalBody =  ({ visibleParam,
   inputValueFunc,
   styleArg,
   title,
+  testID,
+  testIDValide
   }) => {
     const [textValue, setTextValue] = useState('');
     const [errorText, setErrorText] = useState('');
@@ -88,9 +96,10 @@ const ModalBody =  ({ visibleParam,
       onChangeText={(text) => setTextValue(text)}
       placeholder={textInit}
       value = {textValue}
+      testID={testID}
     />
     <Text style = {GLOBAL_STYLES.textSmallWarn}> {errorText}</Text>
-    <TouchableOpacity style={styles.buttonSubmit} onPress={()=> submitFunc ? submitFunc(textValue, setErrorText) : submitFunc}>
+    <TouchableOpacity style={styles.buttonSubmit} onPress={()=> submitFunc ? submitFunc(textValue, setErrorText) : submitFunc}  testID={testIDValide}>
       <Text style={GLOBAL_STYLES.textModal}>{submitText}</Text>
     </TouchableOpacity>
   </View>)

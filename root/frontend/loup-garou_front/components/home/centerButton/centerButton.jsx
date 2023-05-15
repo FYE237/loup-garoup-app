@@ -11,7 +11,8 @@ export default function CenterButton({ textButton, onPressFunc,
                                         extraMarginVerticalB,
                                         extraMarginVerticalT,
                                         buttonDisabled,
-                                        boxColorArg}) { 
+                                        boxColorArg,
+                                        testID}) { 
     let num = 0;
     if (TextSize !== undefined){
       num = parseInt(TextSize);
@@ -26,11 +27,12 @@ export default function CenterButton({ textButton, onPressFunc,
     return (
       <View style={[styleArg, styles.container, {marginBottom : extraMarginVerticalB,
                                                   marginTop : extraMarginVerticalT,
-                                                   backgroundColor: boxColor,}]}>
+                                                   backgroundColor: boxColor}]}>
         <TouchableOpacity 
           onPress={onPressFunc}
           style = {styles.button}
           disabled={buttonDisabled}
+          testID={testID}
           >
             <Text style={ num ? [GLOBAL_STYLES.textCenterLarge, {fontSize : num}]: GLOBAL_STYLES.textCenterLarge}>{textButton}</Text>
           </TouchableOpacity>

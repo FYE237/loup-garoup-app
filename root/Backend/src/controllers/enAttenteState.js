@@ -67,7 +67,7 @@ class EnAttenteState extends GameState {
     //his id and made sure is registered to the game
     socket.join(this.context.roomId);
     let data = {
-      message: pseudo + " has joined the game",
+      message: pseudo + " a rejoint le jeu",
       partieId : this.context.partieId,
       status: GAME_STATUS.enAttente,
       nb_players_actuel: this.context.nb_actif_players,
@@ -77,7 +77,7 @@ class EnAttenteState extends GameState {
     debug(
       "[EnAttenteState] PLayer " +
         pseudo +
-        " has joined the game : " +
+        " a rejoint le jeu : " +
         this.context.partieId
     );
     nsp.to(this.context.roomId).emit("status-game", data);
@@ -132,7 +132,7 @@ class EnAttenteState extends GameState {
       id_partie : this.context.partieId
     });
     let data = {
-      message: name + " has left the game",
+      message: name + " a quitté la partie",
       partieId : this.context.partieId,
       status: GAME_STATUS.enAttente,
       nb_players_actuel: this.context.nb_actif_players,
@@ -221,7 +221,18 @@ class EnAttenteState extends GameState {
       return 0;
     }
     if (this.context.nb_actif_players < GAME_VALUES.min_players) {
-      debug("Game cannot get started that are very litle players");
+      debug("Game cannot get started that are very little players");
+      let data = {
+        message: "Le jeu ne peut pas commencer il y a très peu de joueurs",
+        partieId : this.context.partieId,
+        status: GAME_STATUS.enAttente,
+        nb_players_actuel: this.context.nb_actif_players,
+        nb_participant_souhaite: this.context.nbParticipantSouhaite,
+        temps_restant: this.remainingTime(),
+      };
+      if (this.context.nsp){
+        this.context.nsp.to(this.context.roomId).emit("status-game", data);
+      }
       return 0;
     }
     // computing of the number of wolves in the game

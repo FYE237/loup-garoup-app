@@ -30,7 +30,6 @@ async function getToken(){
   try {
     let value = await AsyncStorage.getItem('userToken').then(
       (value) => {
-          // console.log("value = ", value);
           return value;
       }
       )
@@ -174,7 +173,6 @@ export default function ConfigGame() {
         )
         if (response.status === 200) {
           const data = await response.json();
-          console.log(data)
           await AsyncStorage.setItem('currentGameId', data.data.game_id);
           Alert.alert('Sucess', 'Le jeu a été crée avec sucess')
           enterIntoGame();
@@ -199,6 +197,7 @@ export default function ConfigGame() {
                             handlePress={() => {
                               navigation.popToTop()
                             }}
+                            testID={"wolfHeadConfig"}
                         />
                     ),
                     headerTitle: "Configurez le jeu",
@@ -216,6 +215,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"joueurSouConfig"}
           />
           <InputModal 
             visibleParam = {nbParticipantModal}
@@ -224,15 +224,17 @@ export default function ConfigGame() {
             submitText = {"Valider"}
             inputValue = {nbParticipant}
             submitFunc = {(text, setErrorFunc) => {
-              if (validate_value(text, 3,20)){
+              if (validate_value(text, 2,20)){
                   setNbParticipant(parseInt(text))
                   setNbParticipantModal(false)
                   return;
               }
-              setErrorFunc("La valeur doit être entre 3 et 20 et inférieur au max");
+              setErrorFunc("La valeur doit être entre 2 et 20");
             }}
             isImageBackground={false}
-            title = {"Joueur souhaité"}
+            title = {"Min joueurs"}
+            testID={"minJoueurInput"}
+            testIDValide={"minJoueurInputValideButton"}
           />
           <CenterButton
            textButton = {"durée jour ("+dureeJour+")"}
@@ -240,6 +242,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"dureeJourButton"}
           />
           <InputModal 
             visibleParam = {dureeJourModal}
@@ -258,6 +261,8 @@ export default function ConfigGame() {
           }}
             isImageBackground={false}
             title = {"Durée jour"}
+            testID={"dureeInput"}
+            testIDValide={"dureeValideButton"}
           />
           <CenterButton
            textButton = {"durée nuit ("+dureeNuit+")"}
@@ -265,6 +270,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"dureenuitButton"}
           />
           <InputModal 
             visibleParam = {dureeNuitModal}
@@ -285,6 +291,8 @@ export default function ConfigGame() {
               }
             isImageBackground={false}
             title = {"Durée nuit"}
+            testID={"dureenuitInput"}
+            testIDValide={"dureenuitValideButton"}
           />
           <CenterButton
            textButton = {"date debut ("+dateDebut+")"}
@@ -292,6 +300,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"dataButton"}
           />
           <InputModal 
             visibleParam = {dateDebutModal}
@@ -311,6 +320,8 @@ export default function ConfigGame() {
               }
             isImageBackground={false}
             title = {"Date de début"}
+            testID={"dateInput"}
+            testIDValide={"dateValideButton"}
           />
           <CenterButton
            textButton = {"%pouvoir spéciaux ("+probaPouvoirSpecial+")"}
@@ -318,6 +329,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {27} 
            boxColorArg={"#78909c"}
+           testID={"pouvoirButton"}
           />
           <InputModal 
             visibleParam = {probaPouvoirSpecialModal}
@@ -337,6 +349,8 @@ export default function ConfigGame() {
           }
             isImageBackground={false}
             title = {"Probabilité des pouvoir spéciaux"}
+            testID={"pouvoirInput"}
+            testIDValide={"pouvoirValideButton"}
           />
           <CenterButton
            textButton = {"Proportion loup ("+proportionLoup+")"}
@@ -344,6 +358,7 @@ export default function ConfigGame() {
            styleArg = {styles.button}
            TextSize = {30} 
            boxColorArg={"#78909c"}
+           testID={"proportionButton"}
           />
           <InputModal 
             visibleParam = {proportionLoupModal}
@@ -363,9 +378,11 @@ export default function ConfigGame() {
             } 
             isImageBackground={false}
             title = {"Proportion loup"}
+            testID={"proportionInput"}
+            testIDValide={"proportionValideButton"}
           />
           <CenterButton
-            textButton = {"Créer un jeu"}
+            textButton = {"Crée le jeu"}
             onPressFunc = {createGameFunc}
             styleArg = {styles.button}
             TextSize = {37}
@@ -373,6 +390,7 @@ export default function ConfigGame() {
             boxColorArg={"#4caf50"}
             extraMarginVerticalB = {60}
             extraMarginVerticalT = {30}
+            testID="creationJeuButtonConfig"
           />
         </View>
         <StatusBar style="auto" />
