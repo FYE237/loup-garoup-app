@@ -20,6 +20,20 @@ TestBackend:
       changes:
         - "*.js"
 
+TestFrontendNet:
+  stage: test
+  tags:
+    - docker  # Comme on utilise une image pour isoler on doit utiliser un runner docker 
+  image: node 
+  script:
+    - cd root/frontend/loup-garou_front
+    - npm install #we install of the cypress related 
+    - expo start --web & 
+    - npx cypress run
+  only:
+      changes:
+        - "*.js"
+
 
 scalingo:
   stage: deploy
