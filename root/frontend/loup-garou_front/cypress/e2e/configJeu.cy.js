@@ -49,22 +49,24 @@ describe('test the fonctionnalities of configuration interface before creating a
       cy.get('[data-testid="dateValideButton"]').click();
 
     })
-    it('les restes et creer le jeu ', ()=>{
+    it('les restes et creer le jeu puis revenir dans la page initiale', ()=>{
       cy.get('[data-testid="pouvoirButton"]').click();
       cy.get('[data-testid="pouvoirInput"]').clear().type('0.5');
       cy.get('[data-testid="pouvoirValideButton"]').click();
-
+  
       cy.get('[data-testid="proportionButton"]').click();
       cy.get('[data-testid="proportionInput"]').clear().type('0.5');
       cy.get('[data-testid="proportionValideButton"]').click();
-
+  
       cy.get('[data-testid="creationJeuButtonConfig"]').click();
-      cy.wait(20000);
-
-    })
-    it('les contenues d un jeu', ()=>{
-
-
+      cy.wait(1000); //attendre pour entrer le page d'attende 
+      
+      //retourner le home page
+      cy.get('[data-testid="wolfHeadWaiting"]').click();
+  
+      cy.get('[data-testid="confirmWaiting"]').click();
+  
+      
     })
   })
 })

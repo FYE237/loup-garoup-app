@@ -85,6 +85,7 @@ export default function GamePage (){
             handlePress={() => {
               setExitModal(true);
             }}
+            testID={"wolfHeadWaiting"}
           />
         ),
         headerTitle: title,
@@ -96,6 +97,8 @@ export default function GamePage (){
     message="Voulez vous vraiment quitter?"
     onConfirm={handleConfirm}
     onCancel={handleCancel}
+    testIDConfirm={"confirmWaiting"}
+    testIDCancel={"cancelWaiting"}
   />
   </>
   )
