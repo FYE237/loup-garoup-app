@@ -147,6 +147,7 @@ export default function Home() {
               textButton={'Rejoindre un jeu'}
               onPressFunc={() => setJoinModalVisible(true)}
               styleArg={styles.button}
+              testID="rejoindreJeuButtonHome"
             />
             <InputModal
               visibleParam={joinModalVisible}
@@ -164,7 +165,9 @@ export default function Home() {
               inputValue={joinGameId}
               isImageBackground={false}
               title={'Identifiant du jeu'}
-            />
+              testID={"rejoindreJeuInput"}
+              testIDValide={"rejoindreJeuButtonFinal"}
+              />
             <CenterButton
               textButton={'Créer un jeu'}
               onPressFunc={createGameFunc}
