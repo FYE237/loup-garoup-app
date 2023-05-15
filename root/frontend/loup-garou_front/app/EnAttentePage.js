@@ -39,45 +39,36 @@ export default function EnAttentePage ({gameStatus, socket}) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.background}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <View style={styles.box}>
-           <Text style={GLOBAL_STYLES.gameTextMid}>{`Identifiant du jeu: ${gameId}`}</Text>
-           <Text style={GLOBAL_STYLES.gameTextMid}>{`Dernier message: ${latestMessage}`}</Text>
-           <Text style={GLOBAL_STYLES.gameTextMid}>{`Nombre de joueur connecté: ${currentPlayers}`}</Text>
-           <Text style={GLOBAL_STYLES.gameTextMid}>{`Nombre de joueur souhaité: ${requiredPlayers}`}</Text>
-           <Text style={GLOBAL_STYLES.gameTextMid}>{`Le jeu va commencer dans: ${Math.floor(timer)}`}</Text>
-            </View>  
-          </View>
-        </Modal>
+      <View style={styles.box}>
+        <Text style={GLOBAL_STYLES.gameTextMid}>{`Identifiant du jeu: ${gameId}`}</Text>
+        <Text style={GLOBAL_STYLES.gameTextMid}>{`Dernier message: ${latestMessage}`}</Text>
+        <Text style={GLOBAL_STYLES.gameTextMid}>{`Nombre de joueur connecté: ${currentPlayers}`}</Text>
+        <Text style={GLOBAL_STYLES.gameTextMid}>{`Nombre de joueur souhaité: ${requiredPlayers}`}</Text>
+        <Text style={GLOBAL_STYLES.gameTextMid}>{`Le jeu va commencer dans: ${Math.floor(timer)}`}</Text>
       </View>
     </View>
   );
-  };
+};
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    background: {
-      flex: 1,
-      resizeMode: 'cover',
-      justifyContent: 'center',
-    },
-    box: {
-      backgroundColor: '#fff',
-      padding: 20,
-      borderRadius: 10,
-      shadowColor: '#000',
-      shadowOpacity: 0.1,
-      shadowRadius: 10,
-      shadowOffset: { width: 0, height: 0 },
-      elevation: 2,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F0F0F0',
+  },
+  box: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 2,
+  },
+});

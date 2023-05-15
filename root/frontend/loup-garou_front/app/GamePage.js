@@ -46,7 +46,7 @@ export default function GamePage (){
   useEffect(() => {
     AsyncStorage.getItem('userPseudo')
       .then(async (pseudo) => {
-        console.log("trying to join the game socket : " + pseudo);
+        console.log("Trying to join the game socket : " + pseudo);
         socket.emit('rejoindre-jeu', {
           pseudo,
           id_partie: await AsyncStorage.getItem('currentGameId')
