@@ -2,14 +2,12 @@ describe('test the fonctionnalities of configuration interface before creating a
   beforeEach(()=>{
     cy.visit('http://localhost:19000/WelcomePage')
     //register un nouveau utilisateur 
-    cy.get('[data-testid="registerTab"]').click()
 
     cy.get('input').first().type('jia')
     cy.get('input').last().type('jia')
-    cy.get('')
 
 
-    cy.get('[data-testid="loginbutton"]').click();
+    cy.get('[data-testid="loginbutton"]').click();                                                              
     //create a game then go into the interface of configuration
     cy.get('[data-testid="creationJeuButtonHome"]').should('exist').click();
     
@@ -36,7 +34,7 @@ describe('test the fonctionnalities of configuration interface before creating a
     cy.get('[data-testid="dateValideButton"]').click();
 
   })
-  it('les restes et creer le jeu ', ()=>{
+  it('les restes et creer le jeu puis revenir dans la page initiale', ()=>{
     cy.get('[data-testid="pouvoirButton"]').click();
     cy.get('[data-testid="pouvoirInput"]').clear().type('0.5');
     cy.get('[data-testid="pouvoirValideButton"]').click();
@@ -46,12 +44,18 @@ describe('test the fonctionnalities of configuration interface before creating a
     cy.get('[data-testid="proportionValideButton"]').click();
 
     cy.get('[data-testid="creationJeuButtonConfig"]').click();
-    cy.wait(20000);
+    cy.wait(1000); //attendre pour entrer le page d'attende 
+    
+    //retourner le home page
+    cy.get('[data-testid="wolfHeadWaiting"]').click();
 
+    cy.get('[data-testid="confirmWaiting"]').click();
+
+    
   })
-  it('les contenues d un jeu', ()=>{
+  // it('les contenues d un jeu', ()=>{
+    
 
-
-  })
+  // })
 
 })

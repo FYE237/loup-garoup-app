@@ -197,6 +197,7 @@ export default function ConfigGame() {
                             handlePress={() => {
                               navigation.popToTop()
                             }}
+                            testID={"wolfHeadConfig"}
                         />
                     ),
                     headerTitle: "Configurez le jeu",
