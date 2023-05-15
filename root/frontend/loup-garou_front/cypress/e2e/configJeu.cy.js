@@ -1,9 +1,14 @@
 describe('test the fonctionnalities of configuration interface before creating a game', () => {
   beforeEach(()=>{
     cy.visit('http://localhost:19000/WelcomePage')
-    
+    //register un nouveau utilisateur 
+    cy.get('[data-testid="registerTab"]').click()
+
     cy.get('input').first().type('jia')
     cy.get('input').last().type('jia')
+    cy.get('')
+
+
     cy.get('[data-testid="loginbutton"]').click();
     //create a game then go into the interface of configuration
     cy.get('[data-testid="creationJeuButtonHome"]').should('exist').click();
