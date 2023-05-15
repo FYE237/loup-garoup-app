@@ -38,7 +38,7 @@ const RegisterPage = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Name</Text>
+      <Text style={styles.label}>Pseudo</Text>
       <TextInput
         style={styles.input}
         value={name}
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5
   },
@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 15
-  }
+  },
 })
 
 export default RegisterPage

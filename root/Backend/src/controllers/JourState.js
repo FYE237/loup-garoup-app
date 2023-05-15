@@ -122,7 +122,7 @@ class JourState extends GameState {
     //Les joueurs n'ont pas pu s'entendre
     else{
         this.context.nsp.to(this.context.roomId).emit("notif-vote-final", {
-          message : "Aucun joueur a été tué",
+          message : "Aucun joueur n'a été tué",
         })
     }
   }

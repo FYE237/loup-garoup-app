@@ -19,6 +19,12 @@ const messageSchema = mongoose.Schema({
      ref: 'User',
      required: true
   },
+  //We don't need to store this
+  //but it will allow for fater acess time
+  pseudo_joueur: {
+    type: String,
+    required: false
+  },
   //Timestamp
   createdAt: {
     type: Date,

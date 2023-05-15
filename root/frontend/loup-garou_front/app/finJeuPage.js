@@ -46,6 +46,8 @@ export default function  FinJeuPage ({gameStatus, socket}) {
               sendVisibility={true}
               setActiveTab={setChatActiveTab}
               sendMessageFunc={(message) => {
+                //Messages cannot be sent 
+                //during the fin jeu state
                 // handleMessage(message)
               }}
               />
@@ -127,6 +129,7 @@ export default function  FinJeuPage ({gameStatus, socket}) {
 
   useEffect(() => {
     const handlePlayerInfo = (data) => {
+      console.log("player info = " + JSON.stringify(data));
       setAllChats([]);
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
       setGameRoom(data.roomId);
