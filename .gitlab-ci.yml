@@ -37,8 +37,8 @@ TestBackend:
 TestFrontendNet:
   stage: test
   tags:
-    - ubuntu  # Comme on utilise une image pour isoler on doit utiliser un runner docker 
-  image: node 
+    - docker  # Comme on utilise une image pour isoler on doit utiliser un runner docker 
+  image: cypress/base:16.18.1 
   script:
     - cd root/frontend/loup-garou_front
     - npm install #we install of the cypress related 
