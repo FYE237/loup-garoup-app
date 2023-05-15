@@ -117,8 +117,8 @@ export default function ConfigGame() {
   const [nbParticipant, setNbParticipant] = useState(5);
   const [dureeJour, setDureeJour] = useState(12);
   const [dureeNuit, setDureeNuit] = useState(12);
-  const [dateDebut, setDateDebut] = useState(formatDateToString(getDateAfterSeconds(20)));
-  const [probaPouvoirSpecial, setProbaPouvoirSpecial] = useState(1);
+  const [dateDebut, setDateDebut] = useState(formatDateToString(getTomorrowAt8AM()));
+  const [probaPouvoirSpecial, setProbaPouvoirSpecial] = useState(0);
   const [proportionLoup, setProportionLoup] = useState(0.3);
   const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
 
