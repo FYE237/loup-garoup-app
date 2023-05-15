@@ -43,5 +43,6 @@ TestFrontendNet:
     - cd root/frontend/loup-garou_front
     - npm install #we install of the cypress related 
     - npx expo start --web & 
+    - sleep 20
     - npx cypress run
 
