@@ -16,7 +16,7 @@ lint-js-backend:      #Vérificaition de la qualité du code js du backend
     - ./scripts/lintjs.sh  #Script qui éffectue les vérifications sur le backend
   artifacts:
     paths:  #Le rapport est diponible à la fin
-      - lintjs-report.out
+      - root/Backend/lintjs-report.out
   only:
     # changes:
     #   - "*.js"
@@ -28,8 +28,8 @@ TestBackend:
     - docker  # Comme on utilise une image pour isoler on doit utiliser un runner docker 
   image: node 
   script:
-    - cd root/Backend/src/
-    - npm i # Installe ce qui est décrit dans package.json
+    - cd root/Backend
+    - npm run setup # Installe ce qui est décrit dans package.json
     - npm run test # Lance les tests jest
   # only:
   #     changes:
