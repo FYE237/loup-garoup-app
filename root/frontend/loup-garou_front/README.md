@@ -26,16 +26,27 @@ Voici une description des différentes pages présentes dans le dossier `app` :
 - `nuitPage.js` : la page qui s'affiche lorsque quand nous sommes dnas le état nuit.
 - `finJeuPage.js` : la page qui s'affiche lorsque la partie est terminée.
 
-## 🚀 Comment utiliser
+Voici une proposition d'amélioration :
 
-Pour innstaller les differents fichiers il suffit de faire un 
+## Installation et exécution
+
+Pour installer les différents fichiers, il suffit d'exécuter la commande suivante :
 ```sh
 npm install
 ```
-Pour lancer l'application localement (utilisé principalement pour la version web), il faut faire :
+
+### Lancement de l'application en local
+
+Pour lancer l'application en local (utilisé principalement pour la version web), il faut exécuter la commande suivante :
 ```sh
-npm expo start 
+npm run start
 ```
-Pour lancer l'application sur le net (utilisé pour la version Android généralement), il faut faire :
+
+### Lancement de l'application sur le net
+
+Pour lancer l'application sur le net (utilisé pour la version Android généralement), il faut exécuter la commande suivante :
 ```sh
-npm expo start --tunnel```
+npm run start -- --tunnel
+```
+
+l'utilisation de l'option `--tunnel` est recommandée pour accéder à l'application depuis l'application expo depuis votre télephone.
