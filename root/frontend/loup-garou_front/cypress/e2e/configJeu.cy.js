@@ -1,7 +1,6 @@
 describe('test the fonctionnalities of configuration interface before creating a game', () => {
   beforeEach(()=>{
     cy.visit('http://localhost:19000/WelcomePage')
-    
     cy.get('input').first().type('jia')
     cy.get('input').last().type('jia')
     cy.get('[data-testid="loginbutton"]').click();
