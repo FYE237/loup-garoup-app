@@ -37,7 +37,7 @@ TestBackend:
 TestFrontendNet:
   stage: test
   tags:
-    - docker  # Comme on utilise une image pour isoler on doit utiliser un runner docker 
+    - ubuntu  # Comme on utilise une image pour isoler on doit utiliser un runner docker 
   image: node 
   script:
     - cd root/frontend/loup-garou_front
