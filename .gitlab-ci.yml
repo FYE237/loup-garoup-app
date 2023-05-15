@@ -11,8 +11,8 @@ lint-js-backend:      #Vérificaition de la qualité du code js du backend
     - docker
   image: node
   script: 
+    - cd root/Backend/ 
     - npm init @eslint/config 
-    - cd root/Backend/
     - ./scripts/lintjs.sh  #Script qui éffectue les vérifications sur le backend
   artifacts:
     paths:  #Le rapport est diponible à la fin
