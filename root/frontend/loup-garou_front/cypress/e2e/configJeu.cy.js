@@ -27,18 +27,18 @@ describe('test the fonctionnalities of configuration interface before creating a
       cy.get('[data-testid="creationJeuButtonHome"]').should('exist').click();
       
     })
-    it('joueur souhaite', () => {
+    it('Vérifie que l utilisateur peut définir le nombre minimum de joueurs', () => {
       cy.get('[data-testid="joueurSouConfig"]').click();
       cy.get('[data-testid="minJoueurInput"]').clear().type('5');
       cy.get('[data-testid="minJoueurInputValideButton"]').click();
     })
-    it('duree jour', ()=>{
+    it('Vérifie que l utilisateur peut définir la durée du jour', ()=>{
       cy.get('[data-testid="dureeJourButton"]').click();
       cy.get('[data-testid="dureeInput"]').clear().type('5');
       cy.get('[data-testid="dureeValideButton"]').click();
 
     })
-    it('duree nuit + date', ()=>{
+    it('Vérifie que l utilisateur peut définir la durée de la nuit et la date de début du jeu', ()=>{
 
       cy.get('[data-testid="dureenuitButton"]').click();
       cy.get('[data-testid="dureenuitInput"]').clear().type('15');
@@ -49,7 +49,7 @@ describe('test the fonctionnalities of configuration interface before creating a
       cy.get('[data-testid="dateValideButton"]').click();
 
     })
-    it('les restes et creer le jeu puis revenir dans la page initiale', ()=>{
+    it('érifie que l utilisateur peut définir le pouvoir des loups, la proportion des loups, créer le jeu et revenir à la page d accueil.', ()=>{
       cy.get('[data-testid="pouvoirButton"]').click();
       cy.get('[data-testid="pouvoirInput"]').clear().type('0.5');
       cy.get('[data-testid="pouvoirValideButton"]').click();
