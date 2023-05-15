@@ -4,7 +4,7 @@ stages:                 # Les étapes associées au projet.
   - test                # Test de l'application
   - deploy              # Deploiement 
 #We initially used Scalingo to deploy our backend, but our free trial has expired. 
-#Currently, our backend is deployed at "https://loup-garoup-app.onrender.com".
+#Currently, our backend is deployed at "https://projet-web-g3.onrender.com"
 
 lint-js-backend:      #Vérificaition de la qualité du code js du backend
   stage: lint
