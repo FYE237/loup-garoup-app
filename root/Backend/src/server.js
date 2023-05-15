@@ -53,23 +53,9 @@ nsp.on('connection', (socket) => {
     client++;
     //console.log('New Socket connection id : ' + socket.id)
 
-    //le joueur emet l'evenement rejoindre la partie
-     socket.on('newPlayerConnect',(data) => 
-         { 
-            //  description: client +  'Hey, welcome!'
-            debug( data + "connecté")
+    
 
-            //. On répond au joueur 
-            nsp.to(socket.id).emit("RejoindreJeu",{description:"Bienvenue "+data})
-            //On peut mettre ici une méthode POST pour ajouter la socket du joueur-partie
-            //dans la base de données
-         }
-
-     );
-
-
-     //Ce bloc a été commenté car n'étant pas complet il fait cracher le serveur
-
+     //SOcket event  : Un  joueur rejoint une partie
     socket.on("rejoindre-jeu", (data, callback) => {
         debug("[server] Joining game" + JSON.stringify(data));
         let pseudo  = data.pseudo;
@@ -121,7 +107,12 @@ nsp.on('connection', (socket) => {
         await disonnectHandler(socket);
     })
 
-
+    /**
+     * message à envoyer
+     * roomId : room dans laquelle envoyer le méssage
+     * pseudo : pseudo du joueur qui envoie le méssage
+     * id_partie : Id de la partie courante
+     */
     socket.on("send-message-game", (message, roomId, pseudo, id_partie) => {
         debug("Message request received");
         if (!roomId || !message || !pseudo || !id_partie){

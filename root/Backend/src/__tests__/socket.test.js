@@ -78,7 +78,7 @@ describe('POST /api/parties', () => {
     test('should passed: connect players to game socket', async()=>{
         
      
-
+      //We connect the user sockets to the game socket
       clientSocket.emit('rejoindre-jeu',
             {
               pseudo : 'admin' ,
