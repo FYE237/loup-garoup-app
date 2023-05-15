@@ -2,8 +2,9 @@ stages:                 # Les étapes associées au projet.
   - lint                # Pour la vérification statique du code 
   - build               # fabrication de l'application
   - test                # Test de l'application
-  - deploy              # Deploiement
-
+  - deploy              # Deploiement 
+#We initially used Scalingo to deploy our backend, but our free trial has expired. 
+#Currently, our backend is deployed at "https://loup-garoup-app.onrender.com".
 
 lint-js-backend:      #Vérificaition de la qualité du code js du backend
   stage: lint
@@ -31,9 +32,7 @@ TestBackend:
     - cd root/Backend
     - npm run setup # Installe ce qui est décrit dans package.json
     - npm run test # Lance les tests jest
-  only:
-      changes:
-        - "*.js"
+
 
 TestFrontendNet:
   stage: test
@@ -45,7 +44,4 @@ TestFrontendNet:
     - npm install #we install of the cypress related 
     - expo start --web & 
     - npx cypress run
-  only:
-      changes:
-        - "*.js"
 
