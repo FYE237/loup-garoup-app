@@ -2,7 +2,7 @@
 
 ## Setup
 
-1. Go to project folder
+1. Go to project folder(the folder at which the read me is written)
 
 > cd Backend
 
@@ -11,7 +11,8 @@
 > npm run setup
 
 3. Create .env with following content
-
+The mongo env is already pre buit but is you want to change the database you can do 
+by changing the mongo url 
 ````
 MONGO_URL=
 
@@ -24,7 +25,9 @@ TOKENSECRET=BBBBBB
 
 1. Start Server
 
-> npm start
+> npm start 
+
+> npm run startdev 
 
 2. Open in url or using an Endpoint tester (postman)
 
@@ -39,7 +42,4 @@ TOKENSECRET=BBBBBB
 http://localhost:3000/doc
 
 
-I try as much as possible to describe what object must be send by the frontend to the backend at each endpoint.
- So respect the JSON structure object please :)
-
-I also put a lot of comments in my code. It may be helpful if you have an issue with a request on an endpoint
+## FILE STRUCTURE 
