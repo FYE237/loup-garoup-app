@@ -98,7 +98,7 @@ module.exports = {
         }
         if ((parseInt(duree_jour) + parseInt(duree_nuit)) != 24 || duree_jour>23 || duree_nuit>23 || duree_jour<1 || duree_nuit<1){
             throw  new CodeError("La somme des heures doit être égal à 24" 
-                                +"et duree jour et nuit doit être entre 1 et 23", status.BAD_REQUEST)
+                                +" et duree jour et nuit doit être entre 1 et 23", status.BAD_REQUEST)
         }
         if (proba_pouvoir_speciaux<0 || proba_pouvoir_speciaux>1 
             || proportion_loup<0 || proportion_loup>1){

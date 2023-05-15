@@ -15,13 +15,13 @@ const {token,adminToken,PORT} = process.env
 
 const partie = {
     data:{
-        "heure_debut": "20",
-        "nb_participant": "5",
-        "hote_name": "admin",
-        "duree_jour": "10",
-        "duree_nuit": "15",
-        "proba_pouvoir_speciaux": "1",
-        "proportion_loup": "0.3"
+      "heure_debut": 20,
+      "nb_participant": 3,
+      "hote_name": "admin",
+      "duree_jour": 10,
+      "duree_nuit": 14,
+      "proba_pouvoir_speciaux": 1,
+      "proportion_loup": 0.3
     }
 }
 
@@ -101,7 +101,7 @@ describe('POST /api/parties', () => {
           expect(data.partieId).toEqual(id_partie);
           expect(data.status).toBeDefined();
           expect(data.nb_players_actuel).toBeDefined();
-          expect(data.nb_participant_souhaite).toEqual(5);
+          expect(data.nb_participant_souhaite).toEqual(3);
           expect(data.temps_restant).toBeDefined();
           resolve();
         });
@@ -114,7 +114,7 @@ describe('POST /api/parties', () => {
           expect(data2.partieId).toEqual(id_partie);
           expect(data2.status).toBeDefined();
           expect(data2.nb_players_actuel).toBeDefined();
-          expect(data2.nb_participant_souhaite).toEqual(5);
+          expect(data2.nb_participant_souhaite).toEqual(3);
           expect(data2.temps_restant).toBeDefined();
           resolve();
         });
