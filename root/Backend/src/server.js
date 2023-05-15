@@ -38,24 +38,18 @@ const io = socket(server,{
     }
 })
 
-let client = 0 , n =0
+
+
 
 var nsp = io.of("/api/parties/:id")
-
-
 const Joueur_partie_role = require('./models/joueur_partie_role')
 const {partieContextHashTable} = require("./controllers/gameContext")
 
 
 //Connexion  à la socket
 nsp.on('connection', (socket) => {
-    //Connexion réussie
-    client++;
-    //console.log('New Socket connection id : ' + socket.id)
 
-    
-
-     //SOcket event  : Un  joueur rejoint une partie
+    //Socket event  : Un  joueur rejoint une partie
     socket.on("rejoindre-jeu", (data, callback) => {
         debug("[server] Joining game" + JSON.stringify(data));
         let pseudo  = data.pseudo;
@@ -134,11 +128,11 @@ nsp.on('connection', (socket) => {
 
 
     //Vote de jour du village
-        /**
-         * L'id du joueur qui vote
-         * L'id du joueur pour qui on vote
-         * 
-         */
+    /**
+     * L'id du joueur qui vote
+     * L'id du joueur pour qui on vote
+     * 
+     */
     socket.on("vote-jour",async (pseudoVoteur, candidantVote, id_partie) => {
         if (!pseudoVoteur || !candidantVote || !id_partie ){
             debug("pseudoVoteur = "+pseudoVoteur+"candidantVote = "+candidantVote+"id_partie = "+id_partie)
@@ -159,12 +153,13 @@ nsp.on('connection', (socket) => {
     })
     
 
-    //Vote de nuit des loup-garous
-    /**
-         * L'id du joueur qui vote
-         * L'id du joueur pour qui on vote
-         * room : id de la room des loup-garous
-         */
+    //Vote night: 
+    /** 
+     * The handler will manage all of the votes that occur at night
+     * @param pseudoJoueur  pseudo of player that voted
+     * @param pseudoCible  pseudo of player that he vote for
+     * @param id_partie id of the game
+     */
     socket.on("vote-nuit",async(pseudoVoteur, candidantVote, id_partie)=>{
       if (!pseudoVoteur || !candidantVote || !id_partie ){
           debug("pseudoVoteur = "+pseudoVoteur+"candidantVote = "+candidantVote+"id_partie = "+id_partie)
@@ -190,8 +185,8 @@ nsp.on('connection', (socket) => {
      * and it will create a new chat that the targeted players can access and can send messages 
      * on during the night. The new chat will hold only two people and will only
      * be valid for one night but the user can recreate the chat with same user later on 
-     * @param pseudoJoueur  id of player that used the power
-     * @param pseudoCible  id of player that the power was used on 
+     * @param pseudoJoueur  pseudo of player that used the power
+     * @param pseudoCible  pseudo of player that the power was used on 
      * @param id_partie id of the game
      */
     socket.on("Pouvoir-Spiritisme", async(pseudoJoueur, pseudoCible, id_partie)=>{
@@ -215,8 +210,8 @@ nsp.on('connection', (socket) => {
     /** 
      * This special power can also be done during the night and it will allow the person 
      * using it to see the special powers of the targeted player
-     * @param pseudoJoueur id of player that used the power
-     * @param pseudoCible id of player that the power was used on 
+     * @param pseudoJoueur pseudo of player that used the power
+     * @param pseudoCible pseudo of player that the power was used on 
      * @param id_partie id of the game
      */
     socket.on("request-Voyance", async(pseudoJoueur, pseudoCible, id_partie)=>{
@@ -240,8 +235,8 @@ nsp.on('connection', (socket) => {
     /** 
      * This special power can only be used during the night and it allow a loup 
      * garrou to transform a humain into a loup garrou 
-     * @param pseudoJoueur id of player that used the power
-     * @param pseudoCible id of player that the power was used on 
+     * @param pseudoJoueur pseudo of player that used the power
+     * @param pseudoCible pseudo of player that the power was used on 
      * @param id_partie id of the game
      */
     socket.on("request-Loup-alpha",async(pseudoJoueur, pseudoCible, id_partie)=>{

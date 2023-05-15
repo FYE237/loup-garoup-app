@@ -100,12 +100,12 @@ export default function  NuitPage ({gameStatus, socket}) {
         { icon: images.avatar_icon, label: 'pseudo', value: user },
         { icon: IMAGE_FUNC.roleImageFunc(playerRole), label: 'rôle', value: NAMING_FUNC.roleNameFunc(playerRole) },
       ];
-      }
       if (specialPower !== SPECIAL_POWERS.pasDePouvoir) {
         profileDetails.push(
           { icon: IMAGE_FUNC.powerImageFunc(specialPower), label: 'pouvoir', value: NAMING_FUNC.powerNameFunc(specialPower) },
-        );
-    }else {
+          );
+      }
+     }else {
       profileDetails = [
         { icon: images.dead_player_icon, label: 'pseudo', value: user },
       ];

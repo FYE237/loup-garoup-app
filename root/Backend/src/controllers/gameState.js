@@ -17,12 +17,15 @@ class GameState {
   /**
    * Some of these functions will be redefined 
    * by the functions that need them
-   * The list of action that will treated : 
+   * The list of all action that will treated: 
    * Login
    * Chat message
    * Pouvoir special
    * Vote
    * Disconnect
+   * This class will manage disconnectand chat message only
+   * it will also hold a lot of finctions that will be used 
+   * by the children classes
    */
   handleRejoindreJeu() {
     debug("A player is trying to join the game but it has already started!!")
@@ -243,7 +246,6 @@ class GameState {
   //This function will be executed in the day and night state 
   //and it will just change the status of a player to disconnected
   async handleDisconnect(nsp, id_joueur, socket_id) {
-    //TODO decrement the active players and make the player dead instead of
     debug("A player has left the game and the has already started !!!")
     this.context.nbAlivePlayer--;
     //disconnected
@@ -397,7 +399,6 @@ class GameState {
    * @returns true if the game can continue and false otherwise if the game cannot continue
    */
   async checkGameStatus(){
-    // return true; //TODO REMOVE THIS
     let nbAliveLoup = await this.getCountRole(ROLE.loupGarou, PLAYER_STATUS.vivant);
     let humainAlive = await this.getCountRole(ROLE.humain, PLAYER_STATUS.vivant);
     debug("Nombre de loup vivants : "+nbAliveLoup)

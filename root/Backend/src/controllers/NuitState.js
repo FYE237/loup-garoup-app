@@ -21,11 +21,10 @@ class NuitState extends GameState {
     this.nbAliveLoup = -1;
   }
 
-
   /**
-   * The list of action that will treated : 
-   * Pouvoir special
-   * Vote
+   * The list of action that will treated in this state are 
+   * all of the special powers
+   * Vote night
    */
 
   async setupCode(){    
@@ -143,7 +142,6 @@ class NuitState extends GameState {
     this.lockVotes = true;
     this.nbVoteNuit = 0
     this.context.votersList = [];
-
     debug("Finalise Voting Process")
     //variable who check if there is many person with the same number of votes
     let duplicate;
@@ -170,11 +168,6 @@ class NuitState extends GameState {
     }
     //Les loups ont pu s'entendre
     if(duplicate != true){
-        //Remarque : On n'a pas besoin de faire ca : 
-        //Est ce que je dois supprimer les joueurs morts de la liste des votes des joueurs
-        // this.currentPlayersVote.delete(maxKey)
-
-
         debug("Update of player statut after votes")
         //On décremente le nombre de joueurs vivants :
         this.context.nbAlivePlayer--;
@@ -184,10 +177,8 @@ class NuitState extends GameState {
         const playerId = await this.getPlayerId(maxKey); 
         //On change son statut
         await Joueur_partie_role.updateOne({id_joueur:playerId,id_partie:this.context.partieId},{statut:PLAYER_STATUS.mort});
-        
         //On change le state pour indiquer quel joueur a été tué pendant la nuit.
         this.deadPlayer=maxKey;
-        
         // On indique aux reste des jours la decision des loups;
         this.context.nsp.to(this.context.roomId).emit("notif-vote-final",{
           message : "Un joueur a été tué : " + maxKey,
@@ -262,11 +253,9 @@ class NuitState extends GameState {
       playerSocket.join(customChatroom);
     })
 
-
     debug("Custom chat room was created for the game  : "+ this.context.partieId);
     debug("custom chat room id  = " + customChatroom)
     //customChatroom or createCustomChatroom as seen previously
-    //return createCustomchat;
     return customChatroom;
   }
   
