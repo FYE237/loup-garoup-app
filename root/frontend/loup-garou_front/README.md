@@ -13,7 +13,7 @@ Voici une brève description des différents dossiers de ce projet :
 Voici une description des différentes pages présentes dans le dossier `app` :
 
 - `index.js` : la permier page qu'on visité par expo router page qui redirige vers la Welcome page.
-- `WelcomePage.js` : la page qui contientera deux sous fenétres pour se connecter et pour crée un compte .
+- `WelcomePage.js` : la page qui contient deux sous fenêtres pour se connecter et pour créer un compte .
 - `RegisterPage.js` : la page qui permet de créer un compte utilisateur.
 - `LoginPage.js` : la page qui permet de se connecter à un compte utilisateur.
 - `home.js` : la page principale qui s'affiche une fois que l'utilisateur est connecté. Cette page permet de rejoindre une partie existante ou de créer une nouvelle partie.
