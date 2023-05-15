@@ -232,7 +232,7 @@ export default function ConfigGame() {
               setErrorFunc("La valeur doit être entre 3 et 20 et inférieur au max");
             }}
             isImageBackground={false}
-            title = {"Min joueurs"}
+            title = {"Joueur souhaité"}
           />
           <CenterButton
            textButton = {"durée jour ("+dureeJour+")"}

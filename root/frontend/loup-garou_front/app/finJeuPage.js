@@ -127,8 +127,6 @@ export default function  FinJeuPage ({gameStatus, socket}) {
 
   useEffect(() => {
     const handlePlayerInfo = (data) => {
-      // console.log("------FinJeu---------");
-      // console.log("player info " + JSON.stringify(data));
       setAllChats([]);
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
       setGameRoom(data.roomId);
@@ -142,7 +140,6 @@ export default function  FinJeuPage ({gameStatus, socket}) {
       const aliveWolf = [];
       const dead = [];  
       data.playersData.forEach(player => {
-        // console.log(JSON.stringify(player))
         if (player.playerStatus === PLAYER_STATUS.vivant) {
           alive.push(player);
           if (player.playerRole === ROLE.humain){
@@ -155,7 +152,6 @@ export default function  FinJeuPage ({gameStatus, socket}) {
           dead.push(player);
         }
       });
-      // console.log("alive " + JSON.stringify(alive));
       const updatedAliveHumans = aliveHuman.map(player => ({
         ...player,
         votes: 0
@@ -163,7 +159,6 @@ export default function  FinJeuPage ({gameStatus, socket}) {
       setAlivePlayers(alive);
       setAliveHumans(updatedAliveHumans);
       setAliveWolfs(aliveWolf);
-      // console.log("dead data " + JSON.stringify(dead));
       setDeadPlayers(dead);
     }; 
 

@@ -22,6 +22,7 @@ const SPECIAL_POWERS = {
   voyanteHumain : "voyanteHumain", 
   spiritismeHumain : "spiritismeHumain", 
   insomnie : "insomnie",
+  pasDePouvoir: "pasDePouvoir",
 }
 
 const ROLE = {

@@ -307,7 +307,7 @@ class EnAttenteState extends GameState {
     for (const wolves of assignedWolvesRoles) {
       playerRolesList[wolves.indice].role = ROLE.loupGarou;
       playerRolesList[wolves.indice].pouvoir_speciaux = wolves.role;
-      // playerRolesList[wolves.indice].pouvoir_speciaux = "voyanteLoup";//TODO REMOVE THIS
+      playerRolesList[wolves.indice].pouvoir_speciaux = SPECIAL_POWERS.contamination;//TODO REMOVE THIS
       await playerRolesList[wolves.indice].save();
     }
 

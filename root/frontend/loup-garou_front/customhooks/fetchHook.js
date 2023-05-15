@@ -12,14 +12,12 @@ export async function getToken(){
   try {
     let value = await AsyncStorage.getItem('userToken').then(
       (value) => {
-          console.log("value = ", value);
           setToken(value)
           return value;
       }
       )
     return value;
   } catch (error) {
-    console.log('Error: ',error);
     return null;
   }
 }
@@ -52,13 +50,11 @@ const useFetchCustom = async ( linkEndPoint, query) => {
       "x-access-token": tokenVal
       },
     };
-    // console.log("query = " + JSON.stringify(queryDetails))
       
     setIsLoading(true);
     try{
       const response = await fetch(LINKS.backend+linkEndPoint, queryDetails);
       const data = await response.json();
-      console.log("Data recieved from request : "+data);
       setData(data);
     } catch (error) {
         console.log("Fetch ran into an error : "+error);

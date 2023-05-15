@@ -21,7 +21,6 @@ async function getToken(){
   try {
     let value = await AsyncStorage.getItem('userToken').then(
       (value) => {
-          // console.log("token value = ", value);
           return value;
       }
       )
@@ -97,17 +96,14 @@ export default function Home() {
         "x-access-token": tokenVal
         },
       };
-      // console.log("query = " + JSON.stringify(queryDetails))
         
       setIsLoading(true);
       try{
         const linkEndPoint = "/whoami"
         const response = await fetch(LINKS.backend+linkEndPoint, queryDetails);
         const data = await response.json();
-        //console.log("Data recieved from request : "+JSON.stringify(data));
         await setPseudo(data.data)
         if (data.data){
-          //console.log("setting pseudo");
           await AsyncStorage.setItem('userPseudo', data.data);
         }
       } catch (error) {
@@ -162,7 +158,6 @@ export default function Home() {
               submitText={'Rejoindre le jeu'}
               submitFunc = {async (text, setErrorFunc) => {
                 if (await sendFormFunc(text)){
-                    console.log("game is valid")
                     setJoinModalVisible(false);
                     enterIntoGame();
                     return;

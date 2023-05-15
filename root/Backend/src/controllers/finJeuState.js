@@ -56,9 +56,9 @@ class FinJeuState extends GameState {
   timerCooldown(){
     this.context.nsp.in(this.context.roomId).disconnectSockets(true, (error) => {
       if (error) {
-        console.error('Error disconnecting sockets:', error);
+        debug('Error disconnecting sockets:', error);
       } else {
-        console.log('All sockets disconnected from room:', roomName);
+        debug('All sockets disconnected from room:', roomName);
       }
     });
 

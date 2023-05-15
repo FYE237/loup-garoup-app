@@ -58,7 +58,6 @@ export default function GamePage (){
   
     // Listen for gamestatus events from the server
     socket.on('status-game', (data) => {
-      console.log(data);
       setGameState(data);
     });
   
@@ -93,7 +92,7 @@ export default function GamePage (){
     />
     <ConfirmationModal
     visible={exitModal}
-    message="Voulez vous vraiement quitter?"
+    message="Voulez vous vraiment quitter?"
     onConfirm={handleConfirm}
     onCancel={handleCancel}
   />
@@ -152,29 +151,6 @@ export default function GamePage (){
     </>)
   }
 };
-
-
-
-  // useEffect(async () => {
-  //   console.log("trying to join the game socket : " +
-  //        await AsyncStorage.getItem('userPseudo'))
-  //   socket.emit('rejoindre-jeu', 
-  //     {pseudo : await AsyncStorage.getItem('userPseudo'),
-  //     id_partie : await AsyncStorage.getItem('currentGameId') 
-  //       });
-
-  //   // Listen for gamestatus events from the server
-  //   socket.on('status-game', (data) => {
-  //     console.log(data);
-  //     setGameState(data);
-  //   });
-
-    // Clean up the event listener when the component unmounts
-    // return () => {
-    //   socket.disconnect();
-    // };
-  // }, [socket]);
-
 
 const styles = StyleSheet.create({
   container: {

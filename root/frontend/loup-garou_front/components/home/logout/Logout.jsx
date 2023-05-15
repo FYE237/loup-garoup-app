@@ -9,7 +9,7 @@ export default function Logout({logoutFuntion, styleArg}) {
       <View style={[styleArg, styles.container]}>
         <TouchableOpacity 
           onPress={logoutFuntion}>
-            <Text style={GLOBAL_STYLES.textHeaderLarge}>Logout</Text>
+            <Text style={GLOBAL_STYLES.textHeaderLarge}>déconnecter</Text>
           </TouchableOpacity>
       </View>
     );

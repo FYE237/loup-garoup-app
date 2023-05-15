@@ -52,8 +52,6 @@ class GameState {
     debug("handleMessage called");
     debug(nsp +  "socket"+ socket +  "message"+ message +  "roomId"+ roomId +  "pseudo"+ pseudo)
     const resPartie =  await Partie.findOne({_id:this.context.partieId}).select({statut:1})
-    console.log(resPartie)
-    console.log(resPartie.statut !== GAME_STATUS.jour);
     if (!resPartie){
       debug("Game was not found while sending message");
       return;
