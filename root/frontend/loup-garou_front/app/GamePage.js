@@ -70,7 +70,8 @@ export default function GamePage (){
   }, [socket]);
 
 
-
+  //Page header containes the button to leave the game 
+  //And informs of the current game status
   let StackPage = (
     <>
       <Stack.Screen
@@ -99,6 +100,10 @@ export default function GamePage (){
   </>
   )
 
+  /**
+   * Depending on the value of status in the gameState we will display
+   * the page that correspands to that particular status.
+   */
   if (gameState){
     if (gameState.status === GAME_STATUS.enAttente) {
       return (

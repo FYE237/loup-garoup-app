@@ -36,7 +36,7 @@ export default function EnAttentePage ({gameStatus, socket}) {
     };
   }, [timer]);
 
-
+  //We display the game related inforamtion
   return (
     <View style={styles.container}>
       <View style={styles.box}>
