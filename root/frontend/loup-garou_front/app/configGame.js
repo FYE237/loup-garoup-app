@@ -383,7 +383,7 @@ export default function ConfigGame() {
             testIDValide={"proportionValideButton"}
           />
           <CenterButton
-            textButton = {"Créering un jeu"}
+            textButton = {"Créer un jeu"}
             onPressFunc = {createGameFunc}
             styleArg = {styles.button}
             TextSize = {37}
