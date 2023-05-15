@@ -6,8 +6,8 @@ describe('test the fonctionnalities of configuration interface before creating a
     //mais il faut que le test soit independant de la db ainsi on essaye 
     //de le crée chaque fois
     try{
-      cy.get('input').first().type('jia')
-      cy.get('input').last().type('jia')
+      cy.get('input').first().type('hello')
+      cy.get('input').last().type('hello')
       cy.get('[data-testid="registerTab"]').click()
     }
     catch(error){
@@ -20,8 +20,8 @@ describe('test the fonctionnalities of configuration interface before creating a
     beforeEach(()=>{
       cy.visit('http://localhost:19000/WelcomePage')
       
-      cy.get('input').first().type('jia')
-      cy.get('input').last().type('jia')
+      cy.get('input').first().type('hello')
+      cy.get('input').last().type('hello')
       cy.get('[data-testid="loginbutton"]').click();
       //create a game then go into the interface of configuration
       cy.get('[data-testid="creationJeuButtonHome"]').should('exist').click();

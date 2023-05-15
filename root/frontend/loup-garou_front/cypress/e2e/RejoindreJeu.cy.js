@@ -25,8 +25,8 @@ describe('test the join game button', () => {
       })
 
       cy.visit('http://localhost:19000/WelcomePage')
-      cy.get('input').first().type('jia')
-      cy.get('input').last().type('jia')
+      cy.get('input').first().type('hello')
+      cy.get('input').last().type('hello')
       cy.get('[data-testid="loginbutton"]').click();
       //create a game then go into the interface of configuration
       cy.get('[data-testid="rejoindreJeuButtonHome"]').should('exist').click();
