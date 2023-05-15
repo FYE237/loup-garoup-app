@@ -222,12 +222,12 @@ export default function ConfigGame() {
             submitText = {"Valider"}
             inputValue = {nbParticipant}
             submitFunc = {(text, setErrorFunc) => {
-              if (validate_value(text, 3,20)){
+              if (validate_value(text, 2,20)){
                   setNbParticipant(parseInt(text))
                   setNbParticipantModal(false)
                   return;
               }
-              setErrorFunc("La valeur doit être entre 3 et 20 et inférieur au max");
+              setErrorFunc("La valeur doit être entre 2 et 20");
             }}
             isImageBackground={false}
             title = {"Joueur souhaité"}
