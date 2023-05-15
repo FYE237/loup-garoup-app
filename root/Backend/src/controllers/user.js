@@ -12,14 +12,8 @@ require('mandatoryenv').load([
 ]);
 
 const { TOKENSECRET } = process.env;
-
-
-
 const CodeError = require("../util/CodeError")
 
-// function validPassword (password) {
-//     return /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(password)
-//   }
 
 /*
 *  Il s'agit des fonctions qui sont appélés lorsqu'on sollicite les endpoints
@@ -83,10 +77,7 @@ module.exports = {
     async getUsers(req, res){
     // #swagger.users = ['Users']
     // #swagger.summary = 'get all Users'
-        
-
         let data = await User.find().select({_id:0,__v:0,password:0});
-
         res.json({status: true, message: 'Returning users', data});
     },
     
@@ -117,7 +108,6 @@ module.exports = {
         ///.catch(() => {throw  new CodeError('Add failed', status.BAD_REQUEST)})
         .catch((err) => {
             debug("Account creation failed" + err);
-            //TODO FIX THIS !!!!!!! RETURNS CODE 200 !!!!
             res.status(status.INTERNAL_SERVER_ERROR);
             res.json({status: false, message: 'Add failed'})
           })

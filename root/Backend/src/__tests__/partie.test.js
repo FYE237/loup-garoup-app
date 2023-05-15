@@ -28,9 +28,9 @@ let id_partie
  */
 describe('POST /api/parties', () => {
     /**
-     * We create a partie
+     * We create a game
      */
-    test('should Passed : Create a new partie', async () => {
+    test('should Passed : Create a new game', async () => {
   
       const response = await request(app)
       .post('/api/parties')
@@ -48,9 +48,9 @@ describe('POST /api/parties', () => {
  */
 describe('POST /api/parties', () => {
     /**
-     * We test the first middleware
+     * We add a player to the game
      */
-    test('should Passed : 01 players joins the partie', async () => {
+    test('should Passed : 01 players joins the game', async () => {
   
       const response = await request(app)
       .post(`/api/parties/${id_partie}`)

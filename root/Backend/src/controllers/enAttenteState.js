@@ -73,7 +73,6 @@ class EnAttenteState extends GameState {
       nb_players_actuel: this.context.nb_actif_players,
       nb_participant_souhaite: this.context.nbParticipantSouhaite,
       temps_restant: this.remainingTime(),
-      // room :  chat_id  //TODO delete this since it is used for debugging
     };
     debug(
       "[EnAttenteState] PLayer " +
@@ -201,7 +200,6 @@ class EnAttenteState extends GameState {
         playerSocket.join(loupChatRoom);
       } 
       if (player.role === ROLE.noRole) {
-        //TODO REMOVE THE COMMENT FROM HERE WHEN WE PASS TO PRODUCTION
         // throw new Error("A player in the game does not have a role")
       }
     });
@@ -210,12 +208,6 @@ class EnAttenteState extends GameState {
     );
     debug("general chat room id  = " + generalChatRoom);
     debug("loup chat room id  = " + loupChatRoom);
-    /**
-     * TODO : ADD A FUNCTION THAT ADD THE PLAYERS WITH THE INSOMIE POWER TO THE LOUP GARROU
-     * ROOM BUT ADD RESTRICTIONS SO THEY ARE NOT ABLE TO SEND MESSAGES AND CANNOT VIEW THE NAMES OF
-     * THE PEOPLE THAT SEND THE MESSAGES IN THE CHAT ROOM
-     */
-    // return generalChatRoom; TODO: REMOVE THIS ;; Used for debugging
   }
 
   /**
@@ -233,7 +225,6 @@ class EnAttenteState extends GameState {
       return 0;
     }
     // computing of the number of wolves in the game
-    // this.context.nb_actif_players = 3; //TODO REMOVE THIS
     const wolvesNumber = Math.ceil(
       this.context.nb_actif_players * this.context.proportionLoup
     );
@@ -307,14 +298,12 @@ class EnAttenteState extends GameState {
     for (const wolves of assignedWolvesRoles) {
       playerRolesList[wolves.indice].role = ROLE.loupGarou;
       playerRolesList[wolves.indice].pouvoir_speciaux = wolves.role;
-      // playerRolesList[wolves.indice].pouvoir_speciaux = "voyanteLoup";//TODO REMOVE THIS
       await playerRolesList[wolves.indice].save();
     }
 
     for (const human of assignedHumansRoles) {
       playerRolesList[human.indice].role = ROLE.humain;
       playerRolesList[human.indice].pouvoir_speciaux = human.role;
-      // playerRolesList[human.indice].pouvoir_speciaux = "voyanteHumain";//TODO REMOVE THIS
       await playerRolesList[human.indice].save();
     }
 

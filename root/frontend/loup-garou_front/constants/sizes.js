@@ -3,7 +3,7 @@ const SIZES = {
   medium: 15,
   large: 26,
   modalSize: 34,
-  headerSize: 37,
+  headerSize: 35,
   CenterTextSize: 45,
   iconSize: 24,
   lineHeight: 1.5,

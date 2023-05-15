@@ -13,9 +13,8 @@ const {
 
 
 const mongoose = require('mongoose');
-// console.log(MONGO_URL);
 
-
+//Database url depends if we are in test environnement or prod-environnement
 url =   process.env.NODE_ENV === 'test' ? TEST_DB : MONGO_URL;
 mongoose.connect(url,  { useNewUrlParser: true,
                              useUnifiedTopology: true })

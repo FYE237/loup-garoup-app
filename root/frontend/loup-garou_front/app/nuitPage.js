@@ -78,7 +78,8 @@ export default function  NuitPage ({gameStatus, socket}) {
               chats={allchats}
               activeTab={activeChatTab}
               username={user}
-              sendVisibility={specialPower !== SPECIAL_POWERS.insomnie}
+              sendVisibility={playerStatus === PLAYER_STATUS.mort 
+                              || specialPower !== SPECIAL_POWERS.insomnie}
               setActiveTab={setChatActiveTab}
               sendMessageFunc={(message) => {
                 handleMessage(message)
@@ -98,15 +99,16 @@ export default function  NuitPage ({gameStatus, socket}) {
       profileDetails = [
         { icon: images.avatar_icon, label: 'pseudo', value: user },
         { icon: IMAGE_FUNC.roleImageFunc(playerRole), label: 'rôle', value: NAMING_FUNC.roleNameFunc(playerRole) },
-        { icon: IMAGE_FUNC.powerImageFunc(specialPower), label: 'pouvoir', value: NAMING_FUNC.powerNameFunc(specialPower) },
       ];
-    }else {
+      if (specialPower !== SPECIAL_POWERS.pasDePouvoir) {
+        profileDetails.push(
+          { icon: IMAGE_FUNC.powerImageFunc(specialPower), label: 'pouvoir', value: NAMING_FUNC.powerNameFunc(specialPower) },
+          );
+      }
+     }else {
       profileDetails = [
         { icon: images.dead_player_icon, label: 'pseudo', value: user },
       ];
-    }
-    if (profileDetails === 'pasDePouvoir') {
-      userData.pop();
     }
       return (
       <ScrollView horizontal={true}>
@@ -231,8 +233,6 @@ export default function  NuitPage ({gameStatus, socket}) {
   useEffect(() => {
     const handlePlayerInfo = (data) => {
       setPlayerInfo(data)
-      // console.log("------------Soir--------------");
-      // console.log("player info " + JSON.stringify(data));
       setAllChats([]);
       setAllChats(prevChats => prevChats.concat(Object.values(data.chats)));
       setGameRoom(data.roomId);
@@ -247,7 +247,6 @@ export default function  NuitPage ({gameStatus, socket}) {
       const aliveWolf = [];
       const dead = [];  
       data.playersData.forEach(player => {
-        // console.log(JSON.stringify(player))
         if (player.playerStatus === PLAYER_STATUS.vivant) {
           alive.push(player);
           if (player.playerName !== data.playerPseudo){
@@ -263,7 +262,6 @@ export default function  NuitPage ({gameStatus, socket}) {
           dead.push(player);
         }
       });
-      // console.log("alive " + JSON.stringify(alive));
       const updatedAliveHumans = aliveHuman.map(player => ({
         ...player,
         votes: 0
@@ -276,17 +274,13 @@ export default function  NuitPage ({gameStatus, socket}) {
     }; 
 
     socket.on('notif-vote', function(data) {
-      // console.log('Received voting information:', data);
       incrementVotes(data.candidat)
     });
 
     socket.on('new-message', function(data) {
-      //console.log('Received new message nuit:', data);
       setAllChats(prevChats => {
         const updatedChats = [...prevChats];
         const chatIndex = updatedChats.findIndex(chat => {
-          // console.log(data)
-          // console.log(updatedChats)
           return chat.chatroom === data.chat_room}
           );
         if (chatIndex !== -1) {

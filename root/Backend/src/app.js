@@ -17,17 +17,6 @@ const helmet = require('helmet');
 
 const logger = require('./util/logger')
 
-// // Load .env Enviroment Variables to process.env
-
-// require('mandatoryenv').load([
-//     'MONGO_URL',
-//     'PORT',
-//     'SECRET'
-// ]);
-
-// const { PORT } = process.env;
-
-
 // Instantiate an Express Application
 const app = express();
 

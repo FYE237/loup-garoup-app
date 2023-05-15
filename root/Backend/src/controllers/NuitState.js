@@ -21,11 +21,10 @@ class NuitState extends GameState {
     this.nbAliveLoup = -1;
   }
 
-
   /**
-   * The list of action that will treated : 
-   * Pouvoir special
-   * Vote
+   * The list of action that will treated in this state are 
+   * all of the special powers
+   * Vote night
    */
 
   async setupCode(){    
@@ -103,8 +102,9 @@ class NuitState extends GameState {
     
   async handleVote(pseudoVoteur, candidantVote, socket_id) {
     debug("Handle vote for the night state was called");
-    if (!this.verifyThatVoteIsPossible(pseudoVoteur, candidantVote, ROLE.loupGarou)){
+    if (!(await this.verifyThatVoteIsPossible(pseudoVoteur, candidantVote))){  
       debug("Vote is not possible");
+      return;
     }
     debug(pseudoVoteur+" can vote and is voting for " + candidantVote);
     let voteCounter = this.context.currentPlayersVote.get(candidantVote)
@@ -115,7 +115,7 @@ class NuitState extends GameState {
     }
 
     this.context.currentPlayersVote.set(candidantVote, voteCounter+1)
-    this.context.VotersList.push(pseudoVoteur);
+    this.context.votersList.push(pseudoVoteur);
 
     this.nbVoteNuit++;
 
@@ -141,8 +141,7 @@ class NuitState extends GameState {
     //On remet le nombre de votes à 0
     this.lockVotes = true;
     this.nbVoteNuit = 0
-    this.context.VotersList = [];
-
+    this.context.votersList = [];
     debug("Finalise Voting Process")
     //variable who check if there is many person with the same number of votes
     let duplicate;
@@ -169,11 +168,6 @@ class NuitState extends GameState {
     }
     //Les loups ont pu s'entendre
     if(duplicate != true){
-        //Remarque : On n'a pas besoin de faire ca : 
-        //Est ce que je dois supprimer les joueurs morts de la liste des votes des joueurs
-        // this.currentPlayersVote.delete(maxKey)
-
-
         debug("Update of player statut after votes")
         //On décremente le nombre de joueurs vivants :
         this.context.nbAlivePlayer--;
@@ -183,21 +177,27 @@ class NuitState extends GameState {
         const playerId = await this.getPlayerId(maxKey); 
         //On change son statut
         await Joueur_partie_role.updateOne({id_joueur:playerId,id_partie:this.context.partieId},{statut:PLAYER_STATUS.mort});
-        
-        //Je ne comprend pas cela 
         //On change le state pour indiquer quel joueur a été tué pendant la nuit.
         this.deadPlayer=maxKey;
-        
         // On indique aux reste des jours la decision des loups;
         this.context.nsp.to(this.context.roomId).emit("notif-vote-final",{
           message : "Un joueur a été tué : " + maxKey,
         })
+
+        debug("Making dead player join wolf chat room socket after day vote");
+        const joueurPowerLink = await Joueur_partie_role
+        .findOne({id_joueur:playerId, id_partie:this.context.partieId})
+        if (joueurPowerLink){
+          let playerSocket = this.context.nsp.sockets.get(joueurPowerLink.socket_id);
+          playerSocket.join(this.context.loupChatRoom);
+          debug("Dead player joined socket");
+        }
     }
     //Les loups n'ont pas pu s'entendre pour tuer quelqu'un
     else {
         // On indique aux reste des jours la decision des loups;
         this.context.nsp.to(this.context.roomId).emit("notif-vote-final", {
-          message : "Aucun joueur a été tué",
+          message : "Aucun joueur n'a été tué"
         })
     }
   }
@@ -253,11 +253,9 @@ class NuitState extends GameState {
       playerSocket.join(customChatroom);
     })
 
-
     debug("Custom chat room was created for the game  : "+ this.context.partieId);
     debug("custom chat room id  = " + customChatroom)
     //customChatroom or createCustomChatroom as seen previously
-    //return createCustomchat;
     return customChatroom;
   }
   
@@ -314,7 +312,7 @@ class NuitState extends GameState {
     debug("Checking if "+ pseudoJoueur+" can use spiritisme on "+victimPseudo)
     if (!pseudoJoueur || !victimPseudo || !joueurData || !victimData){
       debug("Entry is not correct for checkIfFitSpiritisme!!")
-      throw new Error("entry to checkIfFitSpiritisme not specified")
+      return false;
     }
     if (this.context.usedPower.includes(pseudoJoueur)){
       debug(pseudoJoueur + " has already used his power");
@@ -400,7 +398,7 @@ class NuitState extends GameState {
     debug("Checking if "+ pseudoJoueur+" can use Voyance on "+victimPseudo)
     if (!pseudoJoueur || !victimPseudo || !joueurData || !victimData){
       debug("Entry is not correct for checkIfFitVoyance!!")
-      throw new Error("entry to checkIfFitVoyance not specified")
+      return false;
     }
     if (this.context.usedPower.includes(pseudoJoueur)){
       debug(pseudoJoueur + " has already used his power");
@@ -422,6 +420,7 @@ class NuitState extends GameState {
     }
     debug("All is valid voyance can be used in this case by "
           +pseudoJoueur+" on "+ victimPseudo);
+          this.context.usedPower.push(pseudoJoueur);
     return true;
   }
 
@@ -441,7 +440,6 @@ class NuitState extends GameState {
       debug("Leaving special power users were not found");
       return;
     }
-    debug("userIdTable : "+ usersIdTable)
     const [joueurPowerId, cibleId] = usersIdTable; 
     const usersData = await this.checkThatDataExists(joueurPowerId, cibleId);
     if (usersData == null){
@@ -449,7 +447,7 @@ class NuitState extends GameState {
       return;
     }
     const [joueurPowerLink, victimLink] = usersData;
-    if (!(await this.checkIfFitVoyance(pseudoJoueur, pseudoCible, joueurPowerLink, victimLink))){
+    if (!(this.checkIfFitVoyance(pseudoJoueur, pseudoCible, joueurPowerLink, victimLink))){
       debug("Cannot apply Voyance")
       return;
     }
@@ -482,7 +480,7 @@ class NuitState extends GameState {
     debug("Checking if "+ pseudoJoueur+" can use Contamination on "+victimPseudo)
     if (!pseudoJoueur || !victimPseudo || !joueurData || !victimData){
       debug("Entry is not correct for checkIfFitContamination!!")
-      throw new Error("entry to checkIfFitContamination not specified")
+      return false;
     }
     if (this.context.usedPower.includes(pseudoJoueur)){
       debug(pseudoJoueur + " has already used his power");
@@ -536,10 +534,10 @@ class NuitState extends GameState {
       return;
     }
     const [joueurPowerLink, victimLink] = usersData;
-    if (!this.checkIfFitContamination(pseudoJoueur, pseudoCible, joueurPowerLink, victimLink)){
-      debug("Cannot apply alpha loup super power")
-      return;
-    }
+      if (!this.checkIfFitContamination(pseudoJoueur, pseudoCible, joueurPowerLink, victimLink)){
+        debug("Cannot apply alpha loup super power")
+        return;
+      }
     let playerSocket = this.context.nsp.sockets.get(victimLink.socket_id);
     if (!playerSocket){
       debug("socket was not found, something went terribly wrong !!!, canceling action");
@@ -547,18 +545,17 @@ class NuitState extends GameState {
     }
     // We need to update in the database directly. There we just change the object but not the database values
     debug("Update player : " + pseudoCible + " status to loupgarou && special powers")
-    const updates = await joueur_partie_role.updateOne({id_joueur: cibleId, id_partie: this.context.partieId}, {role:ROLE.loupGarou, pouvoir_speciaux:ROLE.loupGarou})
+    const updates = await joueur_partie_role.updateOne({id_joueur: cibleId, id_partie: this.context.partieId}, {role:ROLE.loupGarou})
 
     victimLink.role = ROLE.loupGarou;
     //We completly remove special powers because some powers 
     if (victimLink.pouvoir_speciaux === SPECIAL_POWERS.insomnie){
       //This speacial power can only be used by humans so we need to reset it 
-      victimLink.pouvoir_speciaux = "";
-
-      // We need to update in the database directly. There we just change the object but not the database values
-      // const updates2 = await joueur_partie_role.updateOne({id_joueur: cibleId, id_partie: this.context.partieId}, {pouvoir_speciaux: ""})
-      //debug("Update player : " + pseudoCible + " special powers")
-      //In this case the player is already in the loup and chat we don't need to add him
+      const updates2 = await joueur_partie_role.updateOne({id_joueur: cibleId, id_partie: this.context.partieId}, 
+                                  {pouvoir_speciaux: SPECIAL_POWERS.pasDePouvoir})
+      debug("Update player : " + pseudoCible + " special powers")
+      //In this case the player is already in the loup chat because of this power 
+      //we don't need to add him
     }
     else{
       //We add player in the loup chat 
@@ -573,6 +570,7 @@ class NuitState extends GameState {
       pseudoJoueur : pseudoJoueur,
       ciblePseudo : pseudoCible,
     }
+    this.context.usedPower.push(pseudoJoueur);
     this.context.nsp.to(joueurPowerLink.socket_id).emit("send-Player-Data-Contamination",data);
     this.context.nsp.to(victimLink.socket_id).emit("send-Player-Data-Contamination",data);
   }

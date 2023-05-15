@@ -31,8 +31,9 @@ class JourState extends GameState {
    */
   async handleVote(pseudoVoteur, candidantVote, socket_id) {
     debug("Handle vote for the day state was called");
-    if (!this.verifyThatVoteIsPossible(pseudoVoteur, candidantVote)){
+    if (!(await this.verifyThatVoteIsPossible(pseudoVoteur, candidantVote))){
       debug("Vote is not possible");
+      return;
     }
     debug(pseudoVoteur+" can vote and is voting for  " + candidantVote);
     let voteCounter = this.context.currentPlayersVote.get(candidantVote)
@@ -43,7 +44,7 @@ class JourState extends GameState {
     }
     
     this.context.currentPlayersVote.set(candidantVote, voteCounter+1)
-    this.context.VotersList.push(pseudoVoteur);
+    this.context.votersList.push(pseudoVoteur);
 
     //We increment the number of votes that have occured in this game 
     this.nbVoteJour++;
@@ -68,7 +69,7 @@ class JourState extends GameState {
     //On remet le nombre de votes à 0
     this.lockVotes = true;
     this.nbVoteJour = 0;
-    this.context.VotersList = [];
+    this.context.votersList = [];
     //variable who check if there is there are many players with the
     //same number of votes
     let duplicate = true;
@@ -87,10 +88,6 @@ class JourState extends GameState {
     //We reset the hash map as it is no longer needed and to 
     //delete all of the old roles
     this.context.currentPlayersVote = new Map();
-    // if (maxValue <= 0){
-    //   debug("No vote was made");
-    //   return;
-    // }
     //Les joueurs ont pu s'entendre
     if(duplicate != true){
         //Remarque : On n'a pas besoin de faire ca : 
@@ -113,10 +110,14 @@ class JourState extends GameState {
         })
         //We make the player join the wolf chat room since he can read their messages now
         
+        debug("Making dead player join wolf chat room socket after night vote");
         const joueurPowerLink = await Joueur_partie_role
         .findOne({id_joueur:playerId, id_partie:this.context.partieId})
-        let playerSocket = this.context.nsp.sockets.get(joueurPowerLink.socket_id);
-        playerSocket.join(this.context.loupChatRoom);
+        if (joueurPowerLink){
+          let playerSocket = this.context.nsp.sockets.get(joueurPowerLink.socket_id);
+          playerSocket.join(this.context.loupChatRoom);
+          debug("Dead player joined socket ");
+        }
     }
     //Les joueurs n'ont pas pu s'entendre
     else{

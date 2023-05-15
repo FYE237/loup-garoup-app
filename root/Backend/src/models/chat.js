@@ -13,7 +13,7 @@ const messageSchema = mongoose.Schema({
      type: String,
      required: true 
   },
-  //If of the the player that sent the 
+  //Id of the the player that sent the message 
   id_joueur: {
      type: mongoose.Schema.Types.ObjectId,
      ref: 'User',

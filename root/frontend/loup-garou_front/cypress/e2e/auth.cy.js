@@ -1,3 +1,7 @@
+/**
+  Ce fichier de test permet de vérifier le fonctionnement de l'authentification : 
+  la création de compte et la connexion.
+*/
 describe('Log the user scenario', () => {
   beforeEach(() => {
     // intercept the request to the API /login

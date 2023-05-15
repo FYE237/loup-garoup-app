@@ -2,29 +2,31 @@ const { Schema } = require("mongoose")
 const mongoose = require("./database")
 //const uniqueValidator = require('mongoose-unique-validator')
 
-/** Schema permettant de créer une table qui contient les joueurs-role-idpartie dans la base de données */
+/** The schema holds the the link between the player and the game
+ * and the data that links them 
+ * @id_partie game id 
+ * @id_joueur the linked player id 
+ * @role The role of the player in this game
+ * @pouvoir_speciaux the special power of the player
+ * @statut indicates if a player is alive of dead 
+ * @socket_id the player socket id in this particular game
+ */
 const joueur_partie_roleSchema = mongoose.Schema({
-    //game Id
     id_partie:{
         type:Schema.Types.ObjectId,
         required:true
     },
-    //Player id
     id_joueur:{
         type:Schema.Types.ObjectId,
         required:true,
     },
-    //The role of the player in this game
     role:{
         type:String,
         required:true
     },
-    //A table that contains the speacial powers 
-    //that this player has in this game
     pouvoir_speciaux:{
         type: String,
     },
-    //Indicates if the player is alive
     statut:{
         type:String,
         required:true

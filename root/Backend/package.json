@@ -9,7 +9,7 @@
         "start": "node src/server.js && npm run doc",
         "startdev": "npm run doc && nodemon src/server.js",
         "debugdev": "export DEBUG=Partie,EnAttenteState,Server,GameState,JourState,GameContext,NuitState npm run doc && nodemon src/server.js",
-        "test": "NODE_ENV=test jest --outputFile=test_results.txt"
+        "test": "NODE_ENV=test jest "
     },
     "keywords": [
         "express",

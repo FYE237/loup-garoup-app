@@ -19,11 +19,12 @@ import { COLORS, images, LINKS } from '../constants'
  */
 async function getToken() {
   try {
-    let value = await AsyncStorage.getItem('userToken').then((value) => {
-      // console.log("token value = ", value);
-      return value
-    })
-    return value
+    let value = await AsyncStorage.getItem('userToken').then(
+      (value) => {
+          return value;
+      }
+      )
+    return value;
   } catch (error) {
     console.log('Error: ', error)
     return null
@@ -90,21 +91,18 @@ export default function Home() {
       const queryDetails = {
         method: 'GET',
         headers: {
-          'x-access-token': tokenVal
-        }
-      }
-      // console.log("query = " + JSON.stringify(queryDetails))
-
-      setIsLoading(true)
-      try {
-        const linkEndPoint = '/whoami'
-        const response = await fetch(LINKS.backend + linkEndPoint, queryDetails)
-        const data = await response.json()
-        //console.log("Data recieved from request : "+JSON.stringify(data));
+        "x-access-token": tokenVal
+        },
+      };
+        
+      setIsLoading(true);
+      try{
+        const linkEndPoint = "/whoami"
+        const response = await fetch(LINKS.backend+linkEndPoint, queryDetails);
+        const data = await response.json();
         await setPseudo(data.data)
-        if (data.data) {
-          //console.log("setting pseudo");
-          await AsyncStorage.setItem('userPseudo', data.data)
+        if (data.data){
+          await AsyncStorage.setItem('userPseudo', data.data);
         }
       } catch (error) {
         console.log('Fetch ran into an error : ' + error)
@@ -155,17 +153,13 @@ export default function Home() {
               textInit={'id du jeu'}
               visibleFunc={() => setJoinModalVisible(false)}
               submitText={'Rejoindre le jeu'}
-              submitFunc={async (text, setErrorFunc) => {
-                if (await sendFormFunc(text)) {
-                  console.log('game is valid')
-                  setJoinModalVisible(false)
-                  enterIntoGame()
-                  return
-                }
-                setErrorFunc(
-                  'cound not join the game, check if game id is valid; server error = ' +
-                    failJoinMessage
-                )
+              submitFunc = {async (text, setErrorFunc) => {
+                if (await sendFormFunc(text)){
+                    setJoinModalVisible(false);
+                    enterIntoGame();
+                    return;
+                  }
+                  setErrorFunc("cound not join the game, check if game id is valid; server error = " + failJoinMessage);
               }}
               inputValue={joinGameId}
               isImageBackground={false}

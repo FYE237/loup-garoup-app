@@ -9,7 +9,7 @@ describe('test the fonctionnalities of configuration interface before creating a
     cy.get('[data-testid="creationJeuButtonHome"]').should('exist').click();
     
   })
-  it('joueur souhait', () => {
+  it('joueur souhaite', () => {
     cy.get('[data-testid="joueurSouConfig"]').click();
     cy.get('[data-testid="minJoueurInput"]').clear().type('5');
     cy.get('[data-testid="minJoueurInputValideButton"]').click();

@@ -45,24 +45,9 @@ async function miseEnplace(event){
         await sendMessage();
     });
 
-    
-
-    
-
-    // document.querySelector("input[value='Envoyer']").addEventListener("click",EnvoyerMessage,false)
-    // document.querySelector("input[id='partie']").addEventListener("click",rejoindrePartie,false)
 }
 
 
-
-
-//On écoute les méssages sur la socket
-// socket.on("receive-message",message => {
-//     let tmp = document.querySelector("h1")
-//     console.log(tmp.textContent)
-//     tmp.textContent = message
-//     console.log("M2 : " + message)
-// })
 
 async function sendMessage(){
     
@@ -77,7 +62,6 @@ async function sendMessage(){
     
 
 
-    //socket.emit('send-message-game', message, roomValue, getValueTickBox(), inputValue);
 
     socket.emit("send-message",message,roomValue)
 
@@ -90,16 +74,6 @@ async function sendMessage(){
 
 async function rejoindrePartie(){
         
-    //Le joueur rejoint la partie    
-    // const  tmp = await fetch(`http://localhost:3000/api/parties/${id}`, {
-    //     method : 'POST',
-    //     headers: {
-    //         "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-    //         "x-access-token":"eyJhbGciOiJIUzI1NiJ9.c2FtdWVs.WFiakO3axo2D-NWbm-8RYA7ZTQwE0VonYlkR7cLf8lE"
-    //     },
-    //             body : "data="+JSON.stringify(objet)
-                
-    // })
     const myInput = document.getElementById('myInputGame');
     const inputValue = myInput.value;
 
@@ -149,38 +123,13 @@ async function rejoindrePartie(){
         // Handle the data received from the server
         console.log('Received a message:', data);
     });
-        // console.log("Hello") ; 
 
-    //On déclenche l'évenement rejoindre la partie
-    // socket.emit('newPlayerConnect',objet.id_joueur);
-
-    //Le serveur nous repond
-    // socket.on("RejoindreJeu",function(data){
-    //     let tmp = document.querySelector("h1")
-    //     tmp.textContent = data.description
-    //     console.log("Jeu OK")
-    //     console.log(socket.id)
-    // })
 
 }
 
    
 
-/* function EnvoyerMessage(event){
-    event.preventDefault()
-    // console.log("Hello")
-    const message1 = document.querySelector("input[id='fo']").value
-    console.log(message1)
 
-    const room = document.querySelector("input[id='room-text']").value
-
-    socket.emit("send-message",message1,room)
-
-
-    document.getElementById("fo").value=""
-
-
-} */
 
 
 window.addEventListener("load",miseEnplace,false)
